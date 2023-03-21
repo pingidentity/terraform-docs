@@ -7,27 +7,27 @@ The documentation aims to cover best practices and secure deployment guidance, w
 ## Resources
 
 <div class="banner" onclick="window.open('https://registry.terraform.io/namespaces/pingidentity','');">
-    <img class="assets" src="img/logos/tf-logo.svg"/>
+    <img class="assets" src="img/logos/tf-logo.svg" alt="Terraform logo" />
     <span class="caption">
-        <a class="assetlinks" href="https://registry.terraform.io/namespaces/pingidentity" target=”_blank”>Terraform Registry</a>
+        <a class="assetlinks" href="https://registry.terraform.io/namespaces/pingidentity" target=”_blank”>Registry</a>
     </span>
 </div>
 <div class="banner" onclick="window.open('https://developer.hashicorp.com/terraform/docs','');">
-    <img class="assets" src="img/logos/tf-logo.svg" />
+    <img class="assets" src="img/logos/tf-logo.svg" alt="Terraform logo" />
     <span class="caption">
-        <a class="assetlinks" href="https://developer.hashicorp.com/terraform/docs" target=”_blank”>Terraform Documentation</a>
+        <a class="assetlinks" href="https://developer.hashicorp.com/terraform/docs" target=”_blank”>Documentation</a>
     </span>
 </div>
 <div class="banner" onclick="window.open('https://github.com/pingidentity?q=terraform&type=all&language=&sort=','');">
-    <img class="assets" src="img/logos/github.png"/>
+    <img class="assets" src="img/logos/github.png" alt="Github logo" />
     <span class="caption">
         <a class="assetlinks" href="https://github.com/pingidentity?q=terraform&type=all&language=&sort=" target=”_blank”>Github Repos</a>
     </span>
 </div>
 <div class="banner" onclick="window.open('https://docs.pingidentity.com/','');">
-    <img class="assets" src="img/logos/ping.png"/>
+    <img class="assets" src="img/logos/ping.png" alt="Ping Identity logo" />
     <span class="caption">
-        <a class="assetlinks" href="https://docs.pingidentity.com/" target=”_blank”>Product Documentation</a>
+        <a class="assetlinks" href="https://docs.pingidentity.com/" target=”_blank”>Documentation</a>
     </span>
 </div>
 
