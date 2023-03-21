@@ -21,7 +21,13 @@ The documentation aims to cover best practices and secure deployment guidance, w
 <div class="banner" onclick="window.open('https://github.com/pingidentity?q=terraform&type=all&language=&sort=','');">
     <img class="assets" src="img/logos/github.png"/>
     <span class="caption">
-        <a class="assetlinks" href="https://github.com/pingidentity?q=terraform&type=all&language=&sort=" target=”_blank”>Ping Github Repos</a>
+        <a class="assetlinks" href="https://github.com/pingidentity?q=terraform&type=all&language=&sort=" target=”_blank”>Github Repos</a>
+    </span>
+</div>
+<div class="banner" onclick="window.open('https://docs.pingidentity.com/','');">
+    <img class="assets" src="img/logos/ping.png"/>
+    <span class="caption">
+        <a class="assetlinks" href="https://docs.pingidentity.com/" target=”_blank”>Product Documentation</a>
     </span>
 </div>
 
