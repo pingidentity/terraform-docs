@@ -1,0 +1,56 @@
+site_name: Ping Identity - Terraform
+repo_name: pingidentity/terraform-docs
+repo_url: https://github.com/pingidentity/terraform-docs
+site_url: https://terraform.pingidentity.cloud/
+copyright: © Copyright 2023 Ping Identity
+extra_css:
+  - mkdocs/overrides/stylesheets/extra.css
+
+theme:
+  name: material
+  custom_dir: docs/mkdocs/overrides
+  favicon: images/favicon.png
+
+  features:
+    - navigation.tabs
+    - instant
+    - navigation.top
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      accent: blue
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      accent: blue
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+edit_uri: ""
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji
+  - admonition
+  - codehilite
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - meta
+  - toc:
+      # insert a blank space before the character
+      permalink: " ¶"
+
+plugins:
+  - search:
+        separator: '[\s\-\.]+'
+
+nav:
+  - Welcome:
+      - Home: "index.md"
