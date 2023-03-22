@@ -15,6 +15,8 @@ theme:
     - navigation.tabs
     - instant
     - navigation.top
+    - content.code.copy
+    - content.code.select
 
   palette:
     - media: "(prefers-color-scheme: light)"
