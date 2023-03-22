@@ -73,8 +73,9 @@ The following shows an example of environment creation using the PingOne Terrafo
 * **Identity Data Admin**, scoped to individual environments (not scoped to the organization)
 * **Organization Admin**, scoped to the organization.
 
-``` terraform
-resource "pingone_environment" "my_environment" { # (1)
+``` terraform linenums="1"
+# (1)
+resource "pingone_environment" "my_environment" {
   name        = "DaVinci Enabled Environment"
   type        = "SANDBOX"
   license_id  = var.license_id
