@@ -1,1 +1,12 @@
+# Apple
 .DS_Store
+
+# Terraform
+.terraform/
+./*.tfstate
+*.backup
+terraform.tfplan
+terraform.tfstate
+.terraform.lock.hcl
+
+env*.sh

@@ -54,3 +54,5 @@ plugins:
 nav:
   - Welcome:
       - Home: "index.md"
+      - Getting Started:
+          - PingOne: "getting-started/pingone.md"
