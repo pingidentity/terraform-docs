@@ -73,7 +73,7 @@ The following shows an example of environment creation using the PingOne Terrafo
 * **Identity Data Admin**, scoped to individual environments (not scoped to the organization)
 * **Organization Admin**, scoped to the organization.
 
-``` terraform linenums="1"
+``` { .terraform .annotate }
 # (1)
 resource "pingone_environment" "my_environment" {
   name        = "DaVinci Enabled Environment"
