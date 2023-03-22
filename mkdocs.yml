@@ -15,6 +15,7 @@ theme:
     - navigation.tabs
     - instant
     - navigation.top
+    - content.code.annotate
     - content.code.copy
     - content.code.select
 
