@@ -20,17 +20,18 @@ The PingOne DaVinci service is not enabled by default in the PingOne Cloud Platf
 More information about PingOne solutions can be found [here](https://docs.pingidentity.com/r/en-us/pingone/pingone_p1solutions_main).
 
 You can check whether DaVinci is enabled through the PingOne Administration Console:
+
 1. First, log in to the PingOne Administration Console using your unique link.
 2. Once signed in, click "Add Environment".
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-admins-env.png"  alt="PingOne Administration Console, Add Environment Button"/>
+        <img src="../../img/getting-started/pingone-console-admins-env.png"  alt="PingOne Administration Console, Add Environment Button"/>
     </details>
 3. Click "Build your own solution".
 4. Check that "PingOne DaVinci" is in the list of available services.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-create-environment-davinci.png"  alt="PingOne Administration Console, Build your own solution"/>
+        <img src="../../img/getting-started/pingone-console-create-environment-davinci.png"  alt="PingOne Administration Console, Build your own solution"/>
     </details>
 
 ## Configure PingOne for Terraform access
@@ -42,32 +43,32 @@ The following steps describe how to connect Terraform to your PingOne instance:
 3. Navigate to the "Applications" link.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-environment-home-applications.png"  alt="PingOne Administration Console, Applications Link"/>
+        <img src="../../img/getting-started/pingone-console-environment-home-applications.png"  alt="PingOne Administration Console, Applications Link"/>
     </details>
 4. Add a new Application with the "+" icon.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-applications-home.png"  alt="PingOne Administration Console, Applications Home"/>
+        <img src="../../img/getting-started/pingone-console-applications-home.png"  alt="PingOne Administration Console, Applications Home"/>
     </details>
 5. Set a name and an optional description.  Ensure that **Worker** is selected as the application type.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-add-application.png"  alt="PingOne Administration Console, Add Application"/>
+        <img src="../../img/getting-started/pingone-console-add-application.png"  alt="PingOne Administration Console, Add Application"/>
     </details>
 6. Enable the application with the toggle switch.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-application-settings.png"  alt="PingOne Administration Console, Application Settings"/>
+        <img src="../../img/getting-started/pingone-console-application-settings.png"  alt="PingOne Administration Console, Application Settings"/>
     </details>
 7. Click on the "Roles" tab, and set administrative roles accordingly.  Example roles to be able to create and manage environments and their configurations are shown in the screenshot.  More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles).
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-application-roles.png"  alt="PingOne Administration Console, Application Roles"/>
+        <img src="../../img/getting-started/pingone-console-application-roles.png"  alt="PingOne Administration Console, Application Roles"/>
     </details>
 8. Click on the "Configuration" tab, expand the General section and extract the "Client ID", "Client Secret" and "Environment ID" values. These are used to authenticate the provider to the PingOne organisation.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-application-details.png"  alt="PingOne Administration Console, Application Details"/>
+        <img src="../../img/getting-started/pingone-console-application-details.png"  alt="PingOne Administration Console, Application Details"/>
     </details>
 9. Steps to configure the PingOne Terraform provider using these values can be found on the [Terraform Registry provider documentation](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs).
 
@@ -83,10 +84,10 @@ The license ID is required when creating an environment using the `pingone_envir
 2. Navigate to "Licenses".
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-admins-licenses.png"  alt="PingOne Administration Console, Licenses Link"/>
+        <img src="../../img/getting-started/pingone-console-admins-licenses.png"  alt="PingOne Administration Console, Licenses Link"/>
     </details>
 3. Look for the relevant license (that is not an Admin license) and use the copy link to copy the ID.  The organization name and organization ID are also shown and can be copied.
     <details>
       <summary>Expand Screenshot</summary>
-        <img src="../img/getting-started/pingone-console-admins-licenses-detail.png"  alt="PingOne Administration Console, Licenses Detail"/>
+        <img src="../../img/getting-started/pingone-console-admins-licenses-detail.png"  alt="PingOne Administration Console, Licenses Detail"/>
     </details>
