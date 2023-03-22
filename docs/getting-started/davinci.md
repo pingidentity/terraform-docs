@@ -74,7 +74,7 @@ The following shows an example of environment creation using the PingOne Terrafo
 * **Organization Admin**, scoped to the organization.
 
 ``` { .terraform .annotate }
-# (1)
+# Create the DaVinci enabled environment.
 resource "pingone_environment" "my_environment" {
   name        = "DaVinci Enabled Environment"
   type        = "SANDBOX"
@@ -91,37 +91,36 @@ resource "pingone_environment" "my_environment" {
   }
 }
 
-data "pingone_role" "identity_data_admin" { # (2)
+# Fetch the Identity Data Admin role so we can use it's ID in role assignment.
+data "pingone_role" "identity_data_admin" {
   name = "Identity Data Admin"
 }
 
-data "pingone_role" "environment_admin" { # (3)
+# Fetch the Environment Admin role so we can use it's ID in role assignment.
+data "pingone_role" "environment_admin" {
   name = "Environment Admin"
 }
 
-data "pingone_user" "dv_admin_user" { # (4)
+# Fetch the DaVinci administration user so we can use their ID in role assignment.
+data "pingone_user" "dv_admin_user" {
   environment_id = var.pingone_admin_environment_id
 
   username = var.pingone_dv_admin_username
 }
 
-resource "pingone_role_assignment_user" "admin_sso_identity_admin" { # (5)
+# Assign the Identity Data Admin role to the DaVinci administration user.
+resource "pingone_role_assignment_user" "admin_sso_identity_admin" {
   environment_id       = var.pingone_admin_environment_id
   user_id              = data.pingone_user.dv_admin_user.id
   role_id              = data.pingone_role.identity_data_admin.id
   scope_environment_id = pingone_environment.my_environment.id
 }
 
-resource "pingone_role_assignment_user" "admin_sso_environment_admin" { # (6)
+# Assign the Environment Admin role to the DaVinci administration user.
+resource "pingone_role_assignment_user" "admin_sso_environment_admin" {
   environment_id       = var.pingone_admin_environment_id
   user_id              = data.pingone_user.dv_admin_user.id
   role_id              = data.pingone_role.environment_admin.id
   scope_environment_id = pingone_environment.my_environment.id
 }
 ```
-1. Create the DaVinci enabled environment.
-2. Fetch the **Identity Data Admin** role so we can use it's ID in role assignment.
-3. Fetch the **Environment Admin** role so we can use it's ID in role assignment.
-4. Fetch the DaVinci administration user so we can use their ID in role assignment.
-5. Assign the **Identity Data Admin** role to the DaVinci administration user.
-6. Assign the **Environment Admin** role to the DaVinci administration user.
