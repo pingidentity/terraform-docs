@@ -10,30 +10,8 @@
 
 To get started using the PingOne Terraform provider, first you'll need an active PingOne cloud subscription. Get instant access with a [PingOne trial account](https://www.pingidentity.com/en/try-ping.html), or read more about Ping Identity at [pingidentity.com](https://www.pingidentity.com)
 
-### The PingOne DaVinci Service License
-
-The PingOne DaVinci service is not enabled by default in the PingOne Cloud Platform trial, or with licenses that do not explicitly include the DaVinci service.  When configuring environments using the PingOne provider, the DaVinci service will not be available unless the service has been enabled.
-
-!!! note "Enable the DaVinci service"
-    * If you have an existing Ping Identity license and would like to try PingOne DaVinci, please contact your Ping Identity account manager.
-    * If you have registered for a trial account and would like to try PingOne DaVinci, or have questions about Ping Identity solutions, please [contact sales](https://www.pingidentity.com/en/company/contact-sales.html).
-
-More information about PingOne solutions can be found [here](https://docs.pingidentity.com/r/en-us/pingone/pingone_p1solutions_main).
-
-You can check whether DaVinci is enabled through the PingOne Administration Console:
-
-1. First, log in to the **PingOne Administration** Console using your unique link.
-2. Once signed in, click **Add Environment**.
-    <details>
-      <summary>Expand Screenshot</summary>
-        <img src="../../img/getting-started/pingone-console-admins-env.png"  alt="PingOne Administration Console, Add Environment Button"/>
-    </details>
-3. Click **Build your own solution**.
-4. Check that **PingOne DaVinci** is in the list of available services.
-    <details>
-      <summary>Expand Screenshot</summary>
-        <img src="../../img/getting-started/pingone-console-create-environment-davinci.png"  alt="PingOne Administration Console, Build your own solution"/>
-    </details>
+!!! warning "PingOne DaVinci service license"
+    If you're looking to manage PingOne DaVinci deployments with Terraform, note that the PingOne DaVinci service is not enabled by default in the PingOne Cloud Platform trial, or with licenses that do not explicitly include the DaVinci service.  Instructions for how to check PingOne DaVinci is enabled, or how to request access, can be found [here](https://pingidentity.github.io/terraform-docs/getting-started/davinci/#the-pingone-davinci-service-license).
 
 ## Configure PingOne for Terraform access
 
