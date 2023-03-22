@@ -3,12 +3,12 @@ repo_name: pingidentity/terraform-docs
 repo_url: https://github.com/pingidentity/terraform-docs
 site_url: https://terraform.pingidentity.cloud/
 copyright: © Copyright 2023 Ping Identity
-extra_css:
-  - mkdocs/overrides/stylesheets/extra.css
+# extra_css:
+#   - mkdocs/overrides/stylesheets/extra.css
 
 theme:
   name: material
-  custom_dir: docs/mkdocs/overrides
+  # custom_dir: docs/mkdocs/overrides
   favicon: images/favicon.png
 
   features:
