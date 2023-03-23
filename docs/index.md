@@ -4,6 +4,21 @@ This is documentation for using Ping Identity's [Terraform](https://www.terrafor
 
 The documentation aims to cover best practices and secure deployment guidance, with examples of using multiple resources or providers to configure specific configurations and use cases.  This documentation assumes a good working knowledge and experience in writing Terraform HCL, and of using the Terraform CLI to plan, apply and destroy resources.
 
+## Getting Started
+
+<div class="banner" onclick="window.open('getting-started/pingone/','');">
+    <img class="assets" src="img/logos/pingone-logo.svg" alt="PingOne logo" />
+    <span class="caption">
+        <a class="assetlinks" href="getting-started/pingone/">PingOne</a>
+    </span>
+</div>
+<div class="banner" onclick="window.open('getting-started/davinci/','');">
+    <img class="assets" src="img/logos/davinci-logo.png" alt="Ping DaVinci logo" />
+    <span class="caption">
+        <a class="assetlinks" href="getting-started/davinci/">DaVinci</a>
+    </span>
+</div>
+
 ## Resources
 
 <div class="banner" onclick="window.open('https://registry.terraform.io/namespaces/pingidentity','');">
