@@ -161,7 +161,7 @@ resource "pingone_environment" "my_environment" {
 }
 ```
 
-We then fetch the required roles using the `pingone_role` data source<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/role" target="_blank">:octicons-link-external-16:</a>, so we can use their IDs in role assignment:
+We then fetch the required roles using the `pingone_role`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/role" target="_blank">:octicons-link-external-16:</a> data source, so we can use their IDs in role assignment:
 ``` terraform
 data "pingone_role" "identity_data_admin" {
   name = "Identity Data Admin"
