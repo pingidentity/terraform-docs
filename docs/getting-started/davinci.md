@@ -142,7 +142,7 @@ The following shows an example of environment creation using the PingOne Terrafo
 * **Identity Data Admin**, scoped to individual environments (not scoped to the organization)
 * **Organization Admin**, scoped to the organization.
 
-First, we define the environment with the [PingOne Terraform provider](https://pingidentity.github.io/terraform-docs/getting-started/pingone/), with the DaVinci service enabled:
+First, we define the environment with the [PingOne Terraform provider](https://pingidentity.github.io/terraform-docs/getting-started/pingone/) with the `pingone_environment`[:octicons-link-external-16:](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment) resource, with the DaVinci service enabled:
 ``` terraform
 resource "pingone_environment" "my_environment" {
   name        = "DaVinci Enabled Environment"
@@ -161,7 +161,7 @@ resource "pingone_environment" "my_environment" {
 }
 ```
 
-We then fetch the required roles, so we can use their IDs in role assignment:
+We then fetch the required roles using the `pingone_role` data source[:octicons-link-external-16:](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/role), so we can use their IDs in role assignment:
 ``` terraform
 data "pingone_role" "identity_data_admin" {
   name = "Identity Data Admin"
@@ -172,7 +172,7 @@ data "pingone_role" "environment_admin" {
 }
 ```
 
-We fetch the DaVinci administration user so we can use their ID in role assignment.
+We fetch the DaVinci administration user using the `pingone_user`[:octicons-link-external-16:](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/user) data source, so we can use their ID in role assignment.
 ``` terraform
 data "pingone_user" "dv_admin_user" {
   environment_id = var.pingone_admin_environment_id
@@ -181,7 +181,7 @@ data "pingone_user" "dv_admin_user" {
 }
 ```
 
-Lastly, we assign the roles to the DaVinci administration user.
+Lastly, we assign the roles to the DaVinci administration user with the `pingone_role_assignment_user`[:octicons-link-external-16:](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/role_assignment_user) resource.
 ``` terraform
 resource "pingone_role_assignment_user" "admin_sso_identity_admin" {
   environment_id       = var.pingone_admin_environment_id
@@ -197,3 +197,5 @@ resource "pingone_role_assignment_user" "admin_sso_environment_admin" {
   scope_environment_id = pingone_environment.my_environment.id
 }
 ```
+
+Once the roles are assigned, the DaVinci administration user is able to make administrative changes to the DaVinci configuration in the new environment.
