@@ -64,7 +64,7 @@ There are tenant specific, unique IDs and name values that are required for the 
 
 ### License ID, Organization ID and Organization Name
 
-The license ID is required when creating an environment using the `pingone_environment` ([registry documentation](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment)) resource.  The organization ID/organization name can be used with the `pingone_organization` data source ([registry documentaton](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/organization)).  These values can be found with the following steps:
+The license ID is required when creating an environment using the `pingone_environment`([:octicons-link-external-16:](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment)) resource.  The organization ID/organization name can be used with the `pingone_organization`([:octicons-link-external-16:](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/organization)) data source.  These values can be found with the following steps:
 
 1. Log in to the **PingOne Administrators Console** using your unique console link.
 2. Navigate to **Licenses**.
