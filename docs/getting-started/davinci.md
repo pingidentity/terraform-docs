@@ -38,23 +38,84 @@ The following steps describe how to connect Terraform to your PingOne instance:
 
 1. Log in to your **PingOne Administration Console**. On registration for a trial, a link will be sent to your provided email address.
 2. Create a new environment for DaVinci administration users by clicking the **Add Environment** button.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-admins-env.png"  alt="PingOne Administration Console, New Environment Link"/>
+    </details>
 3. Ensure **Build your own solution** is selected, and then select **PingOne SSO** and **PingOne DaVinci** services and click **Next**.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-org-home-new-environment-with-services.png"  alt="PingOne Administration Console, New Environment, Select Services"/>
+    </details>
 4. Proceed through to the new environment form.  Enter a name, an optional description, an environment type, region and license as shown.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-org-home-new-environment-form.png"  alt="PingOne Administration Console, New Environment Form"/>
+    </details>
 5. Open the newly created environment.
 6. Navigate to the **Users** link.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-users.png"  alt="PingOne Administration Console, Users Link"/>
+    </details>
 7. Add a new User with the **+** icon.
-8. Set a name, a username, email, population and a temporary password.  The email mailbox for the provided email should be accessible, as the email will need to be verified with a one time code.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-users-home.png"  alt="PingOne Administration Console, Users Home"/>
+    </details>
+8. Set a name, a username, email, population and a temporary password.  The email mailbox for the provided email should be accessible, as the email will need to be verified with a one time code.  The screenshot shows an optional "+terraform" notation in the email address, as supported by some email vendors.  This is not required for Terraform use.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-add-user-davinci.png"  alt="PingOne Administration Console, Add DaVinci user"/>
+    </details>
 9. Enable the user with the toggle switch.
-10. Click on the **Roles** tab, and set administrative roles accordingly.  Example roles to be able to manage configuration are shown in the below screenshot.  More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles).
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-add-user-settings.png"  alt="PingOne Administration Console, User Settings"/>
+    </details>
+10. Click on the **Roles** tab, and set administrative roles accordingly.  Example roles to be able to manage configuration are shown in the below screenshot.  More information about role permissions that are required for the DaVinci provider are described in the [Role Permissions for New Environments](#role-permissions-for-new-environments) section below.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-user-roles.png"  alt="PingOne Administration Console, User Roles"/>
+    </details>
 11. Navigate to the **Authentication Policies** page.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-sop.png"  alt="PingOne Administration Console, Authentication Policies Link"/>
+    </details>
 12. Ensure that the **Single_Factor** policy is set as the environment default.  This policy should have **Login** as the only policy action.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-sign-on-policy-single-factor.png"  alt="PingOne Administration Console, Single Factor SOP"/>
+    </details>
 13. Navigate to the **Environment Properties** page.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-environment.png"  alt="PingOne Administration Console, Environment Properties link"/>
+    </details>
 14. Save the **Environment ID** value.  The environment ID will be used to authenticate the DaVinci Terraform provider.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-properties-ids.png"  alt="PingOne Administration Console, Add DaVinci user"/>
+    </details>
 15. Open the **Self-Service URL** link in a private browser window.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-properties-self-service.png"  alt="PingOne Administration Console, Add DaVinci user"/>
+    </details>
 16. Enter the username and temporary password for the newly created user from step 8 and proceed to sign on.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-self-service-sign-on-form.png"  alt="PingOne Self Service, Sign on"/>
+    </details>
 17. When prompted, proceed to change the password to a strong password of choice.  This new password will be used to authenticate the DaVinci Terraform provider.
 18. After successfully authenticating, retrieve the verification code sent to the created user's email inbox, and enter the verification code in the prompt.
-19. Steps to configure the DaVinci Terraform provider using the created user's username and password values, along with the environment ID from step 14, can be found on the [Terraform Registry provider documentation](https://registry.terraform.io/providers/pingidentity/davinci/latest/docs).
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-self-service-verification.png"  alt="PingOne Self Service, Verification"/>
+    </details>
+19. On successful email verification, the account will be ready to use.  Close the Self-Service private browser window.
+20. Steps to configure the DaVinci Terraform provider using the created user's username and password values, along with the environment ID from step 14, can be found on the [Terraform Registry provider documentation](https://registry.terraform.io/providers/pingidentity/davinci/latest/docs).
 
 ## Role Permissions for New Environments
 
@@ -74,8 +135,8 @@ The following shows an example of environment creation using the PingOne Terrafo
 * **Identity Data Admin**, scoped to individual environments (not scoped to the organization)
 * **Organization Admin**, scoped to the organization.
 
-``` { .terraform .annotate }
-# Create the DaVinci enabled environment.
+First, we define the environment with the [PingOne Terraform provider](https://pingidentity.github.io/terraform-docs/getting-started/pingone/), with the DaVinci service enabled:
+``` terraform
 resource "pingone_environment" "my_environment" {
   name        = "DaVinci Enabled Environment"
   type        = "SANDBOX"
@@ -91,25 +152,30 @@ resource "pingone_environment" "my_environment" {
     type = "DaVinci"
   }
 }
+```
 
-# Fetch the Identity Data Admin role so we can use it's ID in role assignment.
+We then fetch the required roles, so we can use their IDs in role assignment:
+``` terraform
 data "pingone_role" "identity_data_admin" {
   name = "Identity Data Admin"
 }
 
-# Fetch the Environment Admin role so we can use it's ID in role assignment.
 data "pingone_role" "environment_admin" {
   name = "Environment Admin"
 }
+```
 
-# Fetch the DaVinci administration user so we can use their ID in role assignment.
+We fetch the DaVinci administration user so we can use their ID in role assignment.
+``` terraform
 data "pingone_user" "dv_admin_user" {
   environment_id = var.pingone_admin_environment_id
 
   username = var.pingone_dv_admin_username
 }
+```
 
-# Assign the Identity Data Admin role to the DaVinci administration user.
+Lastly, we assign the roles to the DaVinci administration user.
+``` terraform
 resource "pingone_role_assignment_user" "admin_sso_identity_admin" {
   environment_id       = var.pingone_admin_environment_id
   user_id              = data.pingone_user.dv_admin_user.id
@@ -117,7 +183,6 @@ resource "pingone_role_assignment_user" "admin_sso_identity_admin" {
   scope_environment_id = pingone_environment.my_environment.id
 }
 
-# Assign the Environment Admin role to the DaVinci administration user.
 resource "pingone_role_assignment_user" "admin_sso_environment_admin" {
   environment_id       = var.pingone_admin_environment_id
   user_id              = data.pingone_user.dv_admin_user.id
