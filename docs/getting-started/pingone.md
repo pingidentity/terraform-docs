@@ -1,5 +1,12 @@
 # Getting Started - PingOne
 
+<div class="banner" onclick="window.open('https://registry.terraform.io/providers/pingidentity/pingone/latest','');">
+    <img class="assets" src="../../img/logos/tf-logo.svg" alt="Terraform logo" />
+    <span class="caption">
+        <a class="assetlinks" href="https://registry.terraform.io/providers/pingidentity/pingone/latest" target=”_blank”>Registry</a>
+    </span>
+</div>
+
 ## Requirements
 
 * Terraform CLI 1.1+
