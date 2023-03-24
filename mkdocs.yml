@@ -62,7 +62,9 @@ nav:
       - Getting Started:
           - PingOne: "getting-started/pingone.md"
           - DaVinci: "getting-started/davinci.md"
-  # - Use Case Examples:
+  - Examples:
+      - PingOne:
+         - Role Permission Assignment: "examples/pingone.md"
   #     - Introduction: "use-case-examples/introduction.md"
   #     - Integrated Solutions:
   #         - PingOne/DaVinci Flow Integration: "use-case-examples/integrated-pingone-davinci-flow.md"
@@ -72,3 +74,6 @@ nav:
   #     - PingOne:
   #         - Protecting Data: "best-practices/pingone-protecting-data.md"
   #         - Customer / Workforce / Custom Environments: "best-practices/pingone-environment-management.md"
+  - FAQ:
+      - PingOne: "faq/pingone.md"
+      - DaVinci: "faq/davinci.md"
