@@ -20,7 +20,7 @@ Some roles can be scoped to individual environments, including the **Environment
     Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role, or that has the **Environment Admin** role scoped to the entire organization.
 
 !!! note "Assigning Environment Permissions with Terraform"
-    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment.md) for an example of assigning roles using the PingOne Terraform provider.
+    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
 
 !!! note "Read more about PingOne Roles"
     More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles)
@@ -38,7 +38,7 @@ These roles are scoped to individual environments.  The admin user will need the
     Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role.
 
 !!! note "Assigning Environment Permissions with Terraform"
-    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment.md) for an example of assigning roles using the PingOne Terraform provider.
+    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
 
 These roles may be scoped by environment, but can also be scoped to individual populations of users.  With **Identity Data Admin** as an example:
 

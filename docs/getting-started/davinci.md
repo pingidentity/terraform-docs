@@ -133,4 +133,4 @@ The DaVinci administration user must have the following roles:
 * **Environment Admin**, scoped to the organization (to capture all new created environments), or scoped to each new environment that the DaVinci Terraform provider should manage.
 * **Identity Data Admin**, scoped to each new environment that the DaVinci Terraform provider should manage.
 
-See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment.md) for an example of assigning roles using the PingOne Terraform provider.
+See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.

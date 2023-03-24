@@ -21,7 +21,7 @@ The **Identity Data Admin** role is scoped to individual environments, and optio
     Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role.
 
 !!! note "Assigning Environment Permissions with Terraform"
-    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment.md) for an example of assigning roles using the PingOne Terraform provider.
+    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
 
 !!! note "Read more about PingOne Roles"
     More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles)
