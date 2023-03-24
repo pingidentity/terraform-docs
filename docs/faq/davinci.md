@@ -6,7 +6,7 @@ Where the Terraform provider has successfully applied changes that include one o
 
 1. Check the value for the `environment_id`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow#environment_id" target="_blank">:octicons-link-external-16:</a> parameter in the `davinci_flow`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow" target="_blank">:octicons-link-external-16:</a> resource is the correct value, to ensure that that the flows are being configured against the correct environment.
 2. Refresh the DaVinci admin console to ensure that the latest configuration changes are picked up in the UI.
-3. Check the admin user's role permissions.  See [I've enabled DaVinci on my environment with Terraform, but the environment isn't listed in the DaVinci admin console](.) below.
+3. Check the admin user's role permissions.  See [I've enabled DaVinci on my environment with Terraform, but the environment isn't listed in the DaVinci admin console](#ive-enabled-davinci-on-my-environment-with-terraform-but-the-environment-isnt-listed-in-the-davinci-admin-console) below.
 
 ## I've enabled DaVinci on my environment with Terraform, but the environment isn't listed in the DaVinci admin console
 
