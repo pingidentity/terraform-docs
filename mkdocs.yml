@@ -60,8 +60,8 @@ nav:
   - Welcome:
       - Home: "index.md"
       - Getting Started:
-          - PingOne: "getting-started/pingone.md"
-          - DaVinci: "getting-started/davinci.md"
+          - PingOne Provider: "getting-started/pingone.md"
+          - DaVinci Provider: "getting-started/davinci.md"
   - Examples:
       - PingOne:
          - Role Permission Assignment: "examples/pingone/role-assignment.md"
@@ -75,5 +75,5 @@ nav:
   #         - Protecting Data: "best-practices/pingone-protecting-data.md"
   #         - Customer / Workforce / Custom Environments: "best-practices/pingone-environment-management.md"
   - FAQ:
-      - PingOne: "faq/pingone.md"
-      - DaVinci: "faq/davinci.md"
+      - PingOne Provider: "faq/pingone.md"
+      - DaVinci Provider: "faq/davinci.md"
