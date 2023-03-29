@@ -62,6 +62,7 @@ nav:
       - Getting Started:
           - PingOne Provider: "getting-started/pingone.md"
           - DaVinci Provider: "getting-started/davinci.md"
+          - PingDirectory Provider: "getting-started/pingdirectory.md"
   - Examples:
       - PingOne:
          - Role Permission Assignment: "examples/pingone/role-assignment.md"
@@ -77,3 +78,4 @@ nav:
   - FAQ:
       - PingOne Provider: "faq/pingone.md"
       - DaVinci Provider: "faq/davinci.md"
+      - PingDirectory Provider: "faq/pingdirectory.md"
