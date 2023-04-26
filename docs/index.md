@@ -10,7 +10,7 @@ The documentation aims to cover best practices and secure deployment guidance, w
     <img class="assets" src="img/logos/pingone-logo.svg" alt="PingOne logo" />
 </div>
 <div class="banner" onclick="window.open('getting-started/davinci/','');">
-    <img class="assets" src="img/logos/davinci-logo.png" alt="Ping DaVinci logo" />
+    <img class="assets" src="img/logos/davinci-logo.svg" alt="PingOne DaVinci logo" />
 </div>
 <div class="banner" onclick="window.open('getting-started/pingdirectory/','');">
     <img class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
