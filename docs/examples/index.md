@@ -12,6 +12,3 @@ The following provides a list of examples of how to use Terraform to integrate P
 
 * [Setting up SSO to PingDirectory from PingOne](https://github.com/pingidentity/terraform-docs/tree/main/examples/sso-to-pingdirectory-from-pingone)
 * [Configuring PingOne for Windows Passwordless Login](https://github.com/pingidentity/terraform-docs/tree/main/examples/pingone-workforce-windows-passwordless-login)
-
-* [Setting up SSO to PingDirectory from PingOne](https://github.com/pingidentity/terraform-docs/tree/main/examples/sso-to-pingdirectory-from-pingone)
-* [Configuring PingOne for Windows Passwordless Login](https://github.com/pingidentity/terraform-docs/tree/main/examples/pingone-workforce-windows-passwordless-login)
