@@ -64,6 +64,7 @@ nav:
           - DaVinci Provider: "getting-started/davinci.md"
           - PingDirectory Provider: "getting-started/pingdirectory.md"
   - Examples:
+      - Home: "index.md"
       - PingOne:
          - Role Permission Assignment: "examples/pingone/role-assignment.md"
   #     - Introduction: "use-case-examples/introduction.md"
