@@ -7,3 +7,7 @@ The following provides a list of examples of how to use Terraform to integrate P
 ### PingOne
 
 * [PingOne Role Permission Assignment](./pingone/role-assignment)
+
+## "Ready to run" Github Examples
+
+* [Configuring PingOne for Windows Passwordless Login](https://github.com/pingidentity/terraform-docs/tree/main/examples/pingone-workforce-windows-passwordless-login)

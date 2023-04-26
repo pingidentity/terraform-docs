@@ -8,5 +8,6 @@
 terraform.tfplan
 terraform.tfstate
 .terraform.lock.hcl
+infra.tfout
 
 env*.sh
