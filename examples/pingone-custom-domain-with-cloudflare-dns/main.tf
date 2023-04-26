@@ -27,14 +27,14 @@ data "cloudflare_zone" "domain" {
 resource "cloudflare_record" "cname_record" {
   zone_id = data.cloudflare_zone.domain.id
 
-  name    = var.custom_domain_cname
-  value   = pingone_custom_domain.my_custom_domain.canonical_name
-  type    = "CNAME"
-  ttl     = 3600
+  name  = var.custom_domain_cname
+  value = pingone_custom_domain.my_custom_domain.canonical_name
+  type  = "CNAME"
+  ttl   = 3600
 }
 
 resource "pingone_custom_domain_verify" "my_custom_domain" {
-  environment_id = pingone_environment.my_environment.id
+  environment_id   = pingone_environment.my_environment.id
   custom_domain_id = pingone_custom_domain.my_custom_domain.id
 
   depends_on = [
@@ -43,7 +43,7 @@ resource "pingone_custom_domain_verify" "my_custom_domain" {
 }
 
 resource "pingone_custom_domain_ssl" "my_custom_domain" {
-  environment_id = pingone_environment.my_environment.id
+  environment_id   = pingone_environment.my_environment.id
   custom_domain_id = pingone_custom_domain.my_custom_domain.id
 
   certificate_pem_file               = var.certificate_pem_file
