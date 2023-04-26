@@ -14,7 +14,6 @@ The documentation aims to cover best practices and secure deployment guidance, w
 </div>
 <div class="banner" onclick="window.open('getting-started/pingdirectory/','');">
     <img class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
-    PingDirectory
 </div>
 
 ## Resources
