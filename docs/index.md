@@ -13,7 +13,7 @@ The documentation aims to cover best practices and secure deployment guidance, w
     <img style="height: 30px; width: 90%;" class="assets" src="img/logos/davinci-logo.svg" alt="PingOne DaVinci logo" />
 </div>
 <div class="banner" onclick="window.open('getting-started/pingdirectory/','');">
-    <img style="height: 30px; width: 80%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
+    <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
 </div>
 
 ## Resources
