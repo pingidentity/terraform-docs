@@ -30,11 +30,10 @@ The following environment variables should be set prior to running the example. 
 ## Setting Variables
 The following variables can be set prior to running the example:
 
-| Variable name                        | Required | Data Type | Default Value | Example Value                      | Description                                                                                                                                                  |
-|--------------------------------------|----------|-----------|---------------|------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `pingone_license_id`                 | Yes      | String    | *no default*  |                                    | A valid license UUID to apply to the new environment.                                                                                                        |
-| `pingone_admin_email`                | Yes      | String    | *no default*  |                                    | The email address of an administrator in the current Administors environment. Required due to a role assignment limitation in P1Creds Early Acess Release.   |
-| `pingone_admin_env`                  | Yes      | String    | *no default*  |                                    | The environment UUID associated with the administor defined in `pingone_admin_email`. Step will not be required once P1Creds is GA.                          |
+| Variable name                        | Required | Data Type | Default Value | Example Value                      | Description                                                                                        |
+|--------------------------------------|----------|-----------|---------------|------------------------------------|----------------------------------------------------------------------------------------------------|
+| `pingone_license_id`                 | Yes      | String    | *no default*  |                                    | A valid license UUID to apply to the new environment.                                              |
+
 
 
 See [Finding Required IDs](https://terraform.pingidentity.com/getting-started/pingone/#license-id-organization-id-and-organization-name) for instructions on how to retrieve the `pingone_license_id` value from the PingOne console.

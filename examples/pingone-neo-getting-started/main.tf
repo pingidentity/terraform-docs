@@ -141,31 +141,6 @@ resource "pingone_verify_policy" "verify_device_policy" {
 #
 ######################################################################################
 
-## assign an administrator from parent environment Identity_Data_Admin role in the
-## new environment due to P1Creds service role assignment limitation
-data "pingone_role" "identity_data_admin" {
-  name = "Identity Data Admin"
-}
-
-data "pingone_environment" "primary_admin_env" {
-  environment_id = var.pingone_admin_env
-}
-
-data "pingone_user" "primary_admin_user" {
-  environment_id = data.pingone_environment.primary_admin_env.environment_id
-  email          = var.pingone_admin_email
-}
-
-resource "pingone_role_assignment_user" "primary_admin_role_assignment" {
-  environment_id = data.pingone_environment.primary_admin_env.id
-  user_id        = data.pingone_user.primary_admin_user.id
-  role_id        = data.pingone_role.identity_data_admin.id
-
-  scope_environment_id = pingone_environment.my_environment.id
-
-  depends_on = [pingone_environment.my_environment]
-}
-
 ## Set the name of the Credential Issuer
 resource "pingone_credential_issuer_profile" "my_credential_issuer" {
   name           = "PingOne Credentials Getting Started Issuer"
@@ -174,7 +149,7 @@ resource "pingone_credential_issuer_profile" "my_credential_issuer" {
 
 ## Setup Digital Wallet Application (pre-requisite is a native application)
 
-# prereq native app configuration
+# prereq native app configuration used by the sample digital wallet application
 resource "pingone_application" "my_native_app" {
   environment_id = pingone_environment.my_environment.id
   name           = "PingOne Credentials Sample Wallet App"
@@ -187,7 +162,7 @@ resource "pingone_application" "my_native_app" {
     pkce_enforcement            = "S256_REQUIRED"
     token_endpoint_authn_method = "NONE"
     redirect_uris = [
-      "https://www.example.com/app/callback",
+      "https://shocard.pingone.com/callback",
     ]
 
     mobile_app {
