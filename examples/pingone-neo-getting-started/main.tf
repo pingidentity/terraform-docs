@@ -234,7 +234,7 @@ resource "pingone_credential_type" "gettingstarted_credential" {
 
     # ensure images have content-type prefix defined and are base64 encoded
     background_image = "data:image/png;base64,${filebase64("./images/gettingstarted_background.png")}"
-    logo_image       = "data:image/png;base64,${file("./images/gettingstarted_logo.png")}"
+    logo_image       = "data:image/png;base64,${filebase64("./images/gettingstarted_logo.png")}"
 
     card_color = "#69747d"
     text_color = "#ffffff"
@@ -341,8 +341,8 @@ resource "pingone_credential_type" "verifiedemployee" {
     description        = "Demo Proof of Employment"
     bg_opacity_percent = 100
 
-    background_image = "data:image/png;base64,${file("./images/verifiedemployee_background.png")}"
-    logo_image       = "data:image/png;base64,${file("./images/verifiedemployee_logo.png")}"
+    background_image = "data:image/png;base64,${filebase64("./images/verifiedemployee_background.png")}"
+    logo_image       = "data:image/png;base64,${filebase64("./images/verifiedemployee_logo.png")}"
 
     card_color = "#ffffff"
     text_color = "#000000"
