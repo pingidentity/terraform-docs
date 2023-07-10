@@ -1,5 +1,4 @@
 # Configuring PingOne Neo
-
 The following example:
 1. Creates a demo PingOne environment named **Terraform Example - Getting Started with PingOne Neo**.
 2. Configures two PingOne Verify policy examples.
@@ -8,13 +7,11 @@ The following example:
 5. Configures a PingOne Credentials verifiable credential using a population-based issuance rule.
 
 ## Before you begin
-
 You must have:
 
 * A PingOne account configured for Terraform access.  For more information, see [Getting Started - PingOne](https://terraform.pingidentity.com/getting-started/pingone/)
 
 For additional information, including demonstration flows and how to obtain the sample wallet, refer to the [PingOne Neo Playground](https://www.neoidentity.com/playground)
-
 
 ## Setting Connection Details
 The following environment variables should be set prior to running the example.  For more information, see the registry documentation for each provider.
@@ -37,6 +34,20 @@ The following variables can be set prior to running the example:
 
 
 See [Finding Required IDs](https://terraform.pingidentity.com/getting-started/pingone/#license-id-organization-id-and-organization-name) for instructions on how to retrieve the `pingone_license_id` value from the PingOne console.
+
+## Enable Administrator Access
+An existing admin user will need the following roles to be able to view and manage PingOne Credentials:
+
+* **Environment Admin**
+* **Identity Data Admin**
+
+These roles are scoped to individual environments.  The admin user will need the environment level permission assigned after the new environment has been created.
+
+!!! warning "Role grant restrictions"
+    Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role.
+
+!!! note "Assigning Environment Permissions with Terraform"
+    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
 
 ## Running the Example
 Use the following to run the example:
