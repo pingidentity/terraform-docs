@@ -128,9 +128,11 @@ The following steps describe how to connect Terraform to your PingOne instance:
 
 When creating new environments, either through the PingOne Administration Console or through the [PingOne Terraform provider](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment), role permissions must be set on the DaVinci administration user created above.
 
-The DaVinci administration user must have the following roles:
+The DaVinci administration user must have the following role:
 
-* **Environment Admin**, scoped to the organization (to capture all new created environments), or scoped to each new environment that the DaVinci Terraform provider should manage.
-* **Identity Data Admin**, scoped to each new environment that the DaVinci Terraform provider should manage.
+* **DaVinci Admin**, scoped to the organization (to capture all new created environments), or scoped to each new environment that the DaVinci Terraform provider should manage.
+
+!!! warning "Role Combination Change"
+    As of 15th August 2023, the existing role combination of **Environment Admin** and **Identity Data Admin** to manage DaVinci configuration was replaced with the **DaVinci Admin** role.  See [Frequently Asked Questions - DaVinci](https://terraform.pingidentity.com/faq/davinci/#ive-enabled-davinci-on-my-environment-with-terraform-but-the-environment-isnt-listed-in-the-davinci-admin-console) for more information.
 
 See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
