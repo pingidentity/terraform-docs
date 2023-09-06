@@ -7,6 +7,7 @@ The following provides a list of examples of how to use Terraform to integrate P
 ### PingOne
 
 * [PingOne Role Permission Assignment](./pingone/role-assignment)
+* [Configuring the PingOne Self-Service Application](./pingone/configuring-the-pingone-self-service-application)
 
 ## "Ready to run" Github Examples
 
