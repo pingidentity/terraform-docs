@@ -1,3 +1,11 @@
+module "pingone_utils" {
+  source  = "pingidentity/utils/pingone"
+  version = "0.0.7"
+
+  region         = pingone_environment.my_environment.region
+  environment_id = pingone_environment.my_environment.id
+}
+
 resource "pingone_system_application" "pingone_self_service" {
   environment_id = pingone_environment.my_environment.id
 
@@ -13,42 +21,32 @@ resource "pingone_application_resource_grant" "pingone_self_service_grants" {
   environment_id = pingone_environment.my_environment.id
   application_id = pingone_system_application.pingone_self_service.id
 
-  resource_name = "PingOne API"
+  resource_name = module.pingone_utils.pingone_resource_name_pingone_api
 
-  scope_names = [
+  # Grant the relevant scopes using the Utilities helper module (https://registry.terraform.io/modules/pingidentity/utils/pingone/latest)
+  scope_names = concat(
     # Manage Profile
-    "p1:read:user",
-    "p1:update:user",
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_profile,
 
     # Manage Authentication
-    "p1:create:device",
-    "p1:create:pairingKey",
-    "p1:delete:device",
-    "p1:read:device",
-    "p1:read:pairingKey",
-    "p1:update:device",
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_authentication,
 
     # Enable or Disable MFA
-    "p1:update:userMfaEnabled",
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_mfa,
 
     # Change Password
-    "p1:read:userPassword",
-    "p1:reset:userPassword",
-    "p1:validate:userPassword",
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_password,
 
     # Manage Linked Accounts
-    "p1:delete:userLinkedAccounts",
-    "p1:read:userLinkedAccounts",
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_linked_accounts,
 
     # Manage Sessions
-    "p1:delete:sessions",
-    "p1:read:sessions",
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_sessions,
 
     # View Agreements
-    "p1:read:userConsent",
+    module.pingone_utils.pingone_self_service_capability_scopes_view_agreements,
 
     # Manage OAuth Consents
-    "p1:read:oauthConsent",
-    "p1:update:oauthConsent",
-  ]
+    module.pingone_utils.pingone_self_service_capability_scopes_manage_oauth_consents
+  )
 }
