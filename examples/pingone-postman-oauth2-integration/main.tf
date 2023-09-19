@@ -36,9 +36,3 @@ resource "pingone_application" "postman" {
     refresh_token_rolling_grace_period_duration = 0
   }
 }
-
-resource "pingone_image" "postman_logo" {
-  environment_id = pingone_environment.my_environment.id
-
-  image_file_base64 = filebase64("./postman-logo.png")
-}
