@@ -1,20 +1,24 @@
 terraform {
+  required_version = ">= 1.2.0"
+
   required_providers {
     pingdirectory = {
       source  = "pingidentity/pingdirectory"
-      version = "~> 0.4.0"
+      version = ">= 1.0.0, < 2.0.0"
     }
     pingone = {
       source  = "pingidentity/pingone"
-      version = "~> 0.13.0"
+      version = ">= 0.21.0, < 1.0.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = ">= 0.9.1, < 1.0.0"
     }
   }
 }
 
-provider "pingdirectory" {
-  # Configuration options
-}
+provider "pingdirectory" {}
 
-provider "pingone" {
-  # Configuration options
-}
+provider "pingone" {}
+
+provider "time" {}

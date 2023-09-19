@@ -6,29 +6,23 @@
 ###########################################
 
 locals {
-  pingdirectory_login_path = var.pingdirectory_ldap_host != null && var.pingdirectory_ldap_host != "" && var.pingdirectory_ldap_port != null ? format("?ldap-hostname=%s&ldaps-port=%s", var.pingdirectory_ldap_host, var.pingdirectory_ldap_port) : format("/login")
+  pingdirectory_login_path = var.pingdirectory_ldaps_port != null && var.pingdirectory_ldaps_port != "" && var.pingdirectory_ldap_port != null ? format("?ldap-hostname=%s&ldaps-port=%s", var.pingdirectory_ldaps_port, var.pingdirectory_ldap_port) : format("/login")
 }
 
 # Create the environment
-# Ref: https://docs.pingidentity.com/r/en-us/pingone/pd_ds_set_up_sso_pingdir_pingone Step 1
+# Ref: https://docs.pingidentity.com/r/en-us/pingone/pingone_t_create_pingone_environment
+# Ref: https://docs.pingidentity.com/r/en-us/pingone/pingone_add_pingdirectory_to_the_environment
+# Ref: https://docs.pingidentity.com/r/en-us/pingone/pingone_link_pingone_to_pingdirectory
 resource "pingone_environment" "my_environment" {
-  name        = "Terraform Example - Setting up SSO to PingDirectory from PingOne"
+  name        = local.pingone_environment_name
   description = "This environment was created by Terraform as an example of how to set up SSO to PingDirectory from PingOne."
   type        = "SANDBOX"
-  solution    = "CUSTOMER"
-  license_id  = var.license_id
+  license_id  = var.pingone_environment_license_id
 
-  default_population {
-    name        = "My Default Population"
-    description = "My new population for users"
-  }
+  default_population {}
 
   service {
     type = "SSO"
-  }
-
-  service {
-    type = "MFA"
   }
 
   service {
@@ -43,9 +37,8 @@ resource "pingone_population" "pingdirectory_admins" {
   name = "PingDirectory Demo Admins"
 }
 
-
 # Create a demo user and map it to the PingDirectory root DN user
-# Ref: https://docs.pingidentity.com/r/en-us/pingone/pd_ds_set_up_sso_pingdir_pingone Step 2
+# Ref: https://docs.pingidentity.com/r/en-us/pingone/pingone_configure_matching_administrator_accounts
 resource "pingone_user" "demo_admin" {
   environment_id = pingone_environment.my_environment.id
 
@@ -53,12 +46,18 @@ resource "pingone_user" "demo_admin" {
 
   username = "demouser1"
   email    = "foouser@pingidentity.com"
+
+  name = {
+    family = "User1"
+    given  = "Demo"
+  }
 }
 
 resource "pingdirectory_root_dn_user" "demo_admin" {
-  id            = pingone_user.demo_admin.username
-  user_id       = pingone_user.demo_admin.username
+  name          = pingone_user.demo_admin.username
   email_address = pingone_user.demo_admin.email
+  first_name    = pingone_user.demo_admin.name.given
+  last_name     = pingone_user.demo_admin.name.family
 
   inherit_default_root_privileges = true
   search_result_entry_limit       = 0
@@ -71,7 +70,7 @@ resource "pingdirectory_root_dn_user" "demo_admin" {
 }
 
 # Create an application for the PingDirectory Administrative Console
-# Ref: https://docs.pingidentity.com/r/en-us/pingone/pd_ds_set_up_sso_pingdir_pingone Steps 3, 4, 5 and 6
+# Ref: https://docs.pingidentity.com/r/en-us/pingone/pingone_add_the_oidc_application
 resource "pingone_application" "pingdirectory_admin_console" {
   environment_id = pingone_environment.my_environment.id
   name           = "PingDirectory Administrative Console"
@@ -96,4 +95,21 @@ resource "pingone_application_attribute_mapping" "username_mapping" {
 }
 
 # Configure the PingDirectory administrator console with PingOne details
-# Ref: https://docs.pingidentity.com/r/en-us/pingone/pd_ds_set_up_sso_pingdir_pingone Steps 9, 10 and 11
+# Ref: https://docs.pingidentity.com/r/en-us/pingone/pingone_configure_the_application_in_pingdirectory
+resource "pingdirectory_id_token_validator" "pingone_token_validator" {
+  name                   = "PingOne ID Token Validator"
+  type                   = "ping-one"
+  issuer_url             = module.pingone_utils.pingone_environment_issuer
+  enabled                = true
+  identity_mapper        = "All Admin Users"
+  evaluation_order_index = 1
+}
+
+resource "pingdirectory_default_web_application_extension" "console_web_application_extension" {
+  name = "Console"
+
+  sso_enabled        = true
+  oidc_client_id     = pingone_application.pingdirectory_admin_console.oidc_options[0].client_id
+  oidc_client_secret = pingone_application.pingdirectory_admin_console.oidc_options[0].client_secret
+  oidc_issuer_url    = module.pingone_utils.pingone_environment_issuer
+}
