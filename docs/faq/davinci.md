@@ -16,16 +16,28 @@ Where the Terraform provider has successfully applied changes that include one o
 
 Check the admin user's role permissions.  The admin user will need any of the following roles to see it in the list of environments in both the PingOne and DaVinci admin consoles:
 
-* **Environment Admin**
-* **Identity Data Admin**
-
-The **Identity Data Admin** role is scoped to individual environments, and optionally individual populations within environments.  If the environment has been newly created, then the admin users will need to have the **Identity Data Admin** role assigned.
+* **DaVinci Admin**
+* **DaVinci Admin Read Only**
 
 !!! warning "Role grant restrictions"
-    Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role.
+    Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins may not be able to grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role.
 
 !!! note "Assigning Environment Permissions with Terraform"
     Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
+
+!!! note "Read more about PingOne Roles"
+    More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles)
+
+## I've previously used the "Environment Admin" and "Identity Data Admin" roles to manage DaVinci, but this combination no longer works / I cannot manage DaVinci configuration on creation of new environments
+
+As of 15th August 2023, the existing role combination of **Environment Admin** and **Identity Data Admin** to manage DaVinci configuration was replaced with the **DaVinci Admin** role.
+
+Role assignments should be reviewed from the perspective of [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege#), where:
+
+1. Role assignments in scripts are changed so they no longer grant **Environment Admin** and **Identity Data Admin** for DaVinci admin access, but grant just the **DaVinci Admin** role instead.
+2. Admin users that previously had the **Environment Admin** and **Identity Data Admin** role combination have now also been granted **DaVinci Admin**.  These admin user's role assignments should be reviewed such that:
+    1. **Environment Admin** and **Identity Data Admin** are revoked if they provide too much administrative access to the wider PingOne tenant
+    2. **DaVinci Admin** is revoked if it is not relevant to the admin user's function
 
 !!! note "Read more about PingOne Roles"
     More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles)
