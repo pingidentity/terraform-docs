@@ -46,7 +46,7 @@ resource "pingone_application_resource_grant" "pingone_self_service_grants" {
 
     # View Agreements
     "p1:read:userConsent",
-    
+
     # Manage OAuth Consents
     "p1:read:oauthConsent",
     "p1:update:oauthConsent",
