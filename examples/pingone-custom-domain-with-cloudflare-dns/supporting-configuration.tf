@@ -21,7 +21,7 @@ module "pingone_utils" {
 
   region         = pingone_environment.my_environment.region
   environment_id = pingone_environment.my_environment.id
-  
+
   custom_domain = pingone_custom_domain.my_custom_domain.domain_name
 }
 
