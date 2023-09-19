@@ -29,11 +29,18 @@ The following variables can be set prior to running the example:
 
 | Variable name                        | Required | Data Type | Default Value | Example Value                      | Description                                                                                        |
 |--------------------------------------|----------|-----------|---------------|------------------------------------|----------------------------------------------------------------------------------------------------|
-| `pingone_license_id`                 | Yes      | String    | *no default*  |                                    | A valid license UUID to apply to the new environment.                                              |
+| `pingone_environment_license_id`     | Yes      | String    | *no default*  |                                    | A valid license UUID to apply to the new environment. See [Finding Required IDs](https://terraform.pingidentity.com/getting-started/pingone/#license-id-organization-id-and-organization-name) for instructions on how to retrieve the `pingone_license_id` value from the PingOne console. |
+| `pingone_environment_name`           | No       | String    | `Terraform Example - Getting Started with PingOne Neo` | `My Environment` | A string that represents the name of the PingOne customer environment to create and manage with Terraform. |
+| `append_date_to_environment_name`    | No       | Boolean   | `true`  | `true`                             | A boolean that determines whether to append the current date to the pingone_environment_name value.
 
 
+## Outputs
+The following outputs are returned from the example:
 
-See [Finding Required IDs](https://terraform.pingidentity.com/getting-started/pingone/#license-id-organization-id-and-organization-name) for instructions on how to retrieve the `pingone_license_id` value from the PingOne console.
+| Variable name                                             | Data Type | Sensitive Value | Description                                                                                                      |
+|-----------------------------------------------------------|-----------|-----------------|------------------------------------------------------------------------------------------------------------------|
+| `pingone_environment_name`          | String    | No             | The environment name created by the example          |
+
 
 ## Enable Administrator Access
 An existing admin user will need the following roles to be able to view and manage PingOne Credentials:
@@ -58,4 +65,11 @@ terraform plan -out infra.tfout
 
 ```shell
 terraform apply "infra.tfout"
+```
+
+## Clean up resources
+Use the following to clean up the environment:
+
+```shell
+terraform destroy
 ```
