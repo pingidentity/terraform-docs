@@ -32,14 +32,23 @@ The following variables can be set prior to running the example:
 
 | Variable name                        | Required | Data Type | Default Value | Example Value                      | Description                                                                                                                                 |
 |--------------------------------------|----------|-----------|---------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| `pingone_license_id`                 | Yes      | String    | *no default*  |                                    | A valid license UUID to apply to the new environment.                                                                                       |
+| `pingone_environment_license_id`                 | Yes      | String    | *no default*  |                                    | A valid license UUID to apply to the new environment. See [Finding Required IDs](https://terraform.pingidentity.com/getting-started/pingone/#license-id-organization-id-and-organization-name) for instructions on how to retrieve the `pingone_environment_license_id` value from the PingOne console. |
 | `cloudflare_domain_zone`             | Yes      | String    | *no default*  | `example.com`                      | The domain zone to be configured in the Cloudflare account.                                                                                 |
 | `custom_domain_cname`                | Yes      | String    | *no default*  | `auth`                             | The CNAME to configure in PingOne and Cloudflare.  This is prefixed to the domain zone value to create the full domain, `auth.example.com`. |
 | `certificate_pem_file`               | Yes      | String    | *no default*  | `-----BEGIN CERTIFICATE-----\n...` | A valid PEM encoded public certificate to apply for the custom domain in the PingOne environment.                                           |
 | `intermediate_certificates_pem_file` | Yes      | String    | *no default*  | `-----BEGIN CERTIFICATE-----\n...` | A valid PEM encoded concatenated CA and intermediate certificates that form the chain of trust for the `certificate_pem_file`.              |
 | `private_key_pem_file`               | Yes      | String    | *no default*  | `-----BEGIN PRIVATE KEY-----\n...` | A valid PEM encoded private key to apply to the PingOne environment, to initiate TLS on the custom domain.                                  |
+| `pingone_environment_name`           | No       | String    | `Terraform Example - Custom Domain with Cloudflare DNS` | `My Environment` | A string that represents the name of the PingOne customer environment to create and manage with Terraform. |
+| `append_date_to_environment_name`    | No       | Boolean   | `true`  | `true`                             | A boolean that determines whether to append the current date to the pingone_environment_name value.
 
-See [Finding Required IDs](https://terraform.pingidentity.com/getting-started/pingone/#license-id-organization-id-and-organization-name) for instructions on how to retrieve the `pingone_license_id` value from the PingOne console.
+## Outputs
+The following outputs are returned from the example:
+
+| Variable name                                             | Data Type | Sensitive Value | Description                                                                                                      |
+|-----------------------------------------------------------|-----------|-----------------|------------------------------------------------------------------------------------------------------------------|
+| `pingone_self_service_endpoint`      | String    | No              | The PingOne self-service endpoint for the environment.  The PingOne Self-Service application will use the custom domain if configured correctly.                |
+| `pingone_oidc_well_known_endpoint`              | String    | No              | The PingOne OIDC well-known endpoint for the environment.  This endpoint will use the custom domain if configured correctly.              |
+| `pingone_environment_name`          | String    | No             | The environment name created by the example          |
 
 ## Running the Example
 Use the following to run the example:
@@ -50,4 +59,11 @@ terraform plan -out infra.tfout
 
 ```shell
 terraform apply "infra.tfout"
+```
+
+## Clean up resources
+Use the following to clean up the environment:
+
+```shell
+terraform destroy
 ```
