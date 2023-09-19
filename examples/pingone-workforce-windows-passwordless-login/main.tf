@@ -5,22 +5,6 @@
 # Reference: https://docs.pingidentity.com/r/en-us/solution-guides/gjd1662482065453
 ###########################################
 
-locals {
-  # Translate the Region to a Domain suffix
-  environment_region = data.pingone_environment.workforce_environment.region
-
-  north_america  = local.environment_region == "NorthAmerica" ? "com" : ""
-  europe         = local.environment_region == "Europe" ? "eu" : ""
-  canada         = local.environment_region == "Canada" ? "ca" : ""
-  asia_pacific   = local.environment_region == "AsiaPacific" ? "asia" : ""
-  pingone_domain = coalesce(local.north_america, local.europe, local.canada, local.asia_pacific)
-}
-
-# Get the PingOne Workforce Environment from the variable.
-data "pingone_environment" "workforce_environment" {
-  environment_id = var.workforce_environment_id
-}
-
 # Create an issuance CA Certificate for Windows Login Passwordless.
 # Ref: https://docs.pingidentity.com/r/en-us/solution-guides/dcw1662482012419
 resource "pingone_key" "ad_issuance_certificate" {
@@ -46,15 +30,8 @@ data "pingone_certificate_export" "ad_issuance_certificate" {
 
 # Create a supporting attribute for the ObjectSID, that must have unique values.
 # Ref: https://docs.pingidentity.com/r/en-us/solution-guides/tog1662482040395
-data "pingone_schema" "users" {
-  environment_id = data.pingone_environment.workforce_environment.id
-
-  name = "User"
-}
-
 resource "pingone_schema_attribute" "objectsid" {
   environment_id = data.pingone_environment.workforce_environment.id
-  schema_id      = data.pingone_schema.users.id
 
   name         = "objectSID"
   display_name = "ObjectSID"

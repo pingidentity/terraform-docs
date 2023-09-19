@@ -7,30 +7,7 @@
 #
 # Reference: https://neoidentity.com
 ######################################################################################
-resource "pingone_environment" "my_environment" {
-  name        = "Terraform Example - Getting Started with PingOne Neo"
-  description = "This environment was created by Terraform as an example of how to set up a PingOne Verify policy and PingOne Credentials verifiable credentials configuration."
-  type        = "SANDBOX"
-  license_id  = var.pingone_license_id
 
-  default_population {
-    name        = "My Default Population"
-    description = "My new population for users"
-  }
-
-  service {
-    type = "SSO"
-  }
-  service {
-    type = "MFA"
-  }
-  service {
-    type = "Verify"
-  }
-  service {
-    type = "Credentials"
-  }
-}
 
 ######################################################################################
 #
@@ -184,7 +161,7 @@ resource "pingone_digital_wallet_application" "digital_wallet" {
 ## Create "Getting Started" Example Credential
 
 # configure credential type
-resource "pingone_credential_type" "gettingstarted_credential" {
+resource "pingone_credential_type" "getting_started_credential" {
   environment_id = pingone_environment.my_environment.id
   title          = "Neo Demonstration"
   description    = "Getting Started Demo Credential"
@@ -208,8 +185,8 @@ resource "pingone_credential_type" "gettingstarted_credential" {
     bg_opacity_percent = 30
 
     # ensure images have content-type prefix defined and are base64 encoded
-    background_image = "data:image/png;base64,${filebase64("./images/gettingstarted_background.png")}"
-    logo_image       = "data:image/png;base64,${filebase64("./images/gettingstarted_logo.png")}"
+    background_image = pingone_image.credentials_card_getting_started_background_image.uploaded_image[0].href
+    logo_image       = pingone_image.credentials_card_getting_started_logo_image.uploaded_image[0].href
 
     card_color = "#69747d"
     text_color = "#ffffff"
@@ -250,22 +227,15 @@ resource "pingone_credential_type" "gettingstarted_credential" {
 }
 
 # configure issuance rule
-# example uses a group for credential assignment
-resource "pingone_group" "gettingstarted_assignment_group" {
-  environment_id = pingone_environment.my_environment.id
-
-  name = "Example group for Getting Started credential assignment"
-}
-
-resource "pingone_credential_issuance_rule" "gettingstarted_credential_issuance_rule" {
+resource "pingone_credential_issuance_rule" "getting_started_credential_issuance_rule" {
   environment_id                = pingone_environment.my_environment.id
-  credential_type_id            = pingone_credential_type.gettingstarted_credential.id
+  credential_type_id            = pingone_credential_type.getting_started_credential.id
   digital_wallet_application_id = pingone_digital_wallet_application.digital_wallet.id
   status                        = "ACTIVE"
 
   # users added to the group will be issued the credential after they pair their digital wallet
   filter = {
-    group_ids = [pingone_group.gettingstarted_assignment_group.id]
+    group_ids = [pingone_group.getting_started_assignment_group.id]
   }
 
   automation = {
@@ -283,15 +253,8 @@ resource "pingone_credential_issuance_rule" "gettingstarted_credential_issuance_
 ## See: https://identity.foundation/jwt-vc-presentation-profile/#credential-type-verifiedemployee
 
 # create displayName attribute used by VerifiedEmployee
-data "pingone_schema" "users" {
-  environment_id = pingone_environment.my_environment.id
-
-  name = "User"
-
-}
 resource "pingone_schema_attribute" "display_name" {
   environment_id = pingone_environment.my_environment.id
-  schema_id      = data.pingone_schema.users.id
 
   name         = "displayName"
   display_name = "Display Name"
@@ -316,8 +279,8 @@ resource "pingone_credential_type" "verifiedemployee" {
     description        = "Demo Proof of Employment"
     bg_opacity_percent = 100
 
-    background_image = "data:image/png;base64,${filebase64("./images/verifiedemployee_background.png")}"
-    logo_image       = "data:image/png;base64,${filebase64("./images/verifiedemployee_logo.png")}"
+    background_image = pingone_image.credentials_card_verified_employee_background_image.uploaded_image[0].href
+    logo_image       = pingone_image.credentials_card_verified_employee_logo_image.uploaded_image[0].href
 
     card_color = "#ffffff"
     text_color = "#000000"
@@ -370,14 +333,6 @@ resource "pingone_credential_type" "verifiedemployee" {
 }
 
 # configure issuance rule
-# example uses a population for credential assignment - an existing default or other population could be used
-resource "pingone_population" "demo_population" {
-  environment_id = pingone_environment.my_environment.id
-
-  name        = "Demo User Population"
-  description = "Demo User Population"
-}
-
 resource "pingone_credential_issuance_rule" "verified_employee_issuance_rule" {
   environment_id                = pingone_environment.my_environment.id
   credential_type_id            = pingone_credential_type.verifiedemployee.id

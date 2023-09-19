@@ -53,3 +53,10 @@ terraform plan -out infra.tfout
 ```shell
 terraform apply "infra.tfout"
 ```
+
+## Clean up resources
+Use the following to clean up the environment:
+
+```shell
+terraform destroy
+```

@@ -32,6 +32,16 @@ The following variables can be set prior to running the example:
 | `pingone_environment_name`           | No       | String    | `Terraform Example - Postman OAuth 2.0 authorization type integration` | `My Environment` | A string that represents the name of the PingOne customer environment to create and manage with Terraform. |
 | `append_date_to_environment_name`    | No       | Boolean   | `true`  | `true`                             | A boolean that determines whether to append the current date to the pingone_environment_name value.                                         |
 
+## Outputs
+The following outputs are returned from the example:
+
+| Variable name                                             | Data Type | Sensitive Value | Description                                                                                                      |
+|-----------------------------------------------------------|-----------|-----------------|------------------------------------------------------------------------------------------------------------------|
+| `pingone_environment_name`          | String    | No             | The environment name created by the example          |
+| `postman_application_client_id`      | String    | No              | The client ID used for the Postman OAuth 2.0 authorization type integration.  As the application is configured to use PKCE, the client secret is not required. |
+| `postman_application_authorization_endpoint`              | String    | No              | The environment's authorization endpoint used for the Postman OAuth 2.0 authorization type integration. |
+| `postman_application_token_endpoint`              | String    | No              | The environment's token endpoint used for the Postman OAuth 2.0 authorization type integration. |
+
 ## Running the Example
 Use the following to run the Terraform example:
 

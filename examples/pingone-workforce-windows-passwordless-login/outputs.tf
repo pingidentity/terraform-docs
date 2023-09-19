@@ -17,5 +17,5 @@ output "windows_login_passwordless_agent_client_secret" {
 
 output "windows_login_passwordless_agent_discovery_endpoint_url" {
   description = "The OIDC Discovery Endpoint URL to use when installing the Windows Login Passwordless Desktop Agent application."
-  value       = format("https://auth.pingone.%s/%s/as/.well-known/openid-configuration", local.pingone_domain, var.workforce_environment_id)
+  value       = module.pingone_utils.pingone_environment_oidc_discovery_endpoint
 }
