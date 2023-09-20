@@ -6,7 +6,7 @@
 ###########################################
 
 locals {
-  pingdirectory_login_path = var.pingdirectory_ldap_host != null && var.pingdirectory_ldap_host != "" && var.pingdirectory_ldap_port != null ? format("?ldap-hostname=%s&ldaps-port=%s", var.pingdirectory_ldap_host, var.pingdirectory_ldap_port) : format("/login")
+  pingdirectory_login_path = var.pingdirectory_ldap_host != null && var.pingdirectory_ldap_host != "" && var.pingdirectory_ldaps_port != null ? format("?ldap-hostname=%s&ldaps-port=%s", var.pingdirectory_ldap_host, var.pingdirectory_ldaps_port) : format("/login")
 }
 
 # Create the environment
