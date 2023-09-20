@@ -7,6 +7,7 @@
 
 locals {
   pingdirectory_login_path = var.pingdirectory_ldap_host != null && var.pingdirectory_ldap_host != "" && var.pingdirectory_ldaps_port != null ? format("?ldap-hostname=%s&ldaps-port=%s", var.pingdirectory_ldap_host, var.pingdirectory_ldaps_port) : format("/login")
+  pingdirectory_console_url = format("%s/console%s", var.pingdirectory_console_base_url, local.pingdirectory_login_path)
 }
 
 # Create the environment
@@ -27,7 +28,7 @@ resource "pingone_environment" "my_environment" {
 
   service {
     type        = "PingDirectory"
-    console_url = format("%s/console%s", var.pingdirectory_console_base_url, local.pingdirectory_login_path)
+    console_url = local.pingdirectory_console_url
   }
 }
 
@@ -55,9 +56,9 @@ resource "pingone_user" "demo_admin" {
 
 resource "pingdirectory_root_dn_user" "demo_admin" {
   name          = pingone_user.demo_admin.username
-  email_address = pingone_user.demo_admin.email
-  first_name    = pingone_user.demo_admin.name.given
-  last_name     = pingone_user.demo_admin.name.family
+  email_address = [pingone_user.demo_admin.email]
+  first_name    = [pingone_user.demo_admin.name.given]
+  last_name     = [pingone_user.demo_admin.name.family]
 
   inherit_default_root_privileges = true
   search_result_entry_limit       = 0
@@ -92,6 +93,8 @@ resource "pingone_application_attribute_mapping" "username_mapping" {
 
   name  = "sub"
   value = "$${user.username}"
+
+  required = true
 }
 
 # Configure the PingDirectory administrator console with PingOne details
@@ -105,8 +108,24 @@ resource "pingdirectory_id_token_validator" "pingone_token_validator" {
   evaluation_order_index = 1
 }
 
+resource "pingdirectory_sasl_mechanism_handler" "oauth_bearer_sasl_mechanism_handler" {
+  name            = "OAUTHBEARER"
+  type            = "oauth-bearer"
+  enabled         = true
+
+  id_token_validator = [pingdirectory_id_token_validator.pingone_token_validator.name]
+  require_both_access_token_and_id_token = false
+}
+
 resource "pingdirectory_default_web_application_extension" "console_web_application_extension" {
   name = "Console"
+  description = "The Administrative Console"
+  base_context_path = "/console"
+  war_file = "webapps/console.war"
+
+  ldap_server = "ldaps://0d7334259c96:1636"
+  log_file = "logs/webapps/console.log"
+  complexity = "advanced"
 
   sso_enabled        = true
   oidc_client_id     = pingone_application.pingdirectory_admin_console.oidc_options[0].client_id

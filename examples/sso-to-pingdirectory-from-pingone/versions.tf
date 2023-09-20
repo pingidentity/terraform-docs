@@ -17,7 +17,9 @@ terraform {
   }
 }
 
-provider "pingdirectory" {}
+provider "pingdirectory" {
+  product_version = "9.3.0.0"
+}
 
 provider "pingone" {}
 
