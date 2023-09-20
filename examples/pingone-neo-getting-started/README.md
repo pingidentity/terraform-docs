@@ -60,6 +60,10 @@ These roles are scoped to individual environments.  The admin user will need the
 Use the following to run the example:
 
 ```shell
+terraform init
+```
+
+```shell
 terraform plan -out infra.tfout
 ```
 

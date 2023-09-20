@@ -54,6 +54,10 @@ The following outputs are returned from the example:
 Use the following to run the example:
 
 ```shell
+terraform init
+```
+
+```shell
 terraform plan -out infra.tfout
 ```
 
