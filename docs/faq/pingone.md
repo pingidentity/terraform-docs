@@ -1,5 +1,9 @@
 # Frequently Asked Questions - PingOne
 
+## I can't create a workforce enabled environment / where can I Terraform creation of a PingID enabled environment?
+
+The PingOne provider does not yet support creation of a PingID enabled workforce environment.  You may track the list of known issues and provider limitations [on the project's Github](https://github.com/pingidentity/terraform-provider-pingone/issues/451).
+
 ## I've created a new environment with Terraform, but my admins can't see it
 
 Check the admin user's role permissions.  The admin user will need any of the following roles to see it in the list of environments:
