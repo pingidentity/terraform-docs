@@ -1,5 +1,9 @@
 # Frequently Asked Questions - DaVinci
 
+## When I create a DaVinci connection using `davinci_connection`, how do I know what connector ID and field set to use?
+
+The full set of connection definitions have been published on the Terraform Registry, in the `davinci_connection`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/connection#davinci-connection-definitions" target="_blank">:octicons-link-external-16:</a> resource documentation.
+
 ## I've published my flows with Terraform, but I can't see them in the DaVinci admin console
 
 Where the Terraform provider has successfully applied changes that include one or more DaVinci flows, follow the below steps:
