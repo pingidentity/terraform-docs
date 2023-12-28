@@ -42,7 +42,3 @@ The documentation aims to cover best practices and secure deployment guidance, w
         <a class="assetlinks" href="https://docs.pingidentity.com/" target=”_blank”>Documentation</a>
     </span>
 </div>
-
-## Prerequisites
-
-* Terraform CLI 1.1+

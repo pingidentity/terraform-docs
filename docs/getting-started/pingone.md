@@ -9,7 +9,7 @@
 
 ## Requirements
 
-* Terraform CLI 1.1+
+* Terraform CLI 1.3+
 * A licensed or trial PingOne cloud subscription - [Try Ping here](https://www.pingidentity.com/en/try-ping.html)
 * Administrator access to the [PingOne Administration Console](https://docs.pingidentity.com/r/en-us/pingone/p1_access_admin_console)
 
