@@ -3,11 +3,11 @@
 Automating configuration promotion brings efficiency, reliability, and risk mitigation into the deployment process. By automating the promotion of Ping solution configuration through various environments, organizations can ensure consistency and repeatability in their deployment practices. When delivered via a Continuous Integration and Continuous Deployment (CI/CD) pipeline, this process not only accelerates the delivery of new features but also minimizes the potential for human error, a common source of configuration issues. 
 
 
-!! "Ping Solutions" as a term represents all forms of software and services that Ping Identity offers
+> "Ping Solutions" as a term represents all forms of software and services that Ping Identity offers
 
 > "Environments" as a term represents deployment environments such as: development, test, pre-production, production
 
-> Mentions of terraform are relevant to Ping offerings that have an available [terraform provier](https://registry.terraform.io/namespaces/pingidentity).
+> Mentions of terraform are relevant to Ping offerings that have an available [terraform provider](https://registry.terraform.io/namespaces/pingidentity).
 
 This document intends to raise considerations and provide suggestions to help build a strong foundation for automating configuration promotion as it relates to Ping Identity solutions. **As such, guidance is provided generically and details of pipeline implementation are left to the implementor.** Examples provided in this guide are intended only to serve as a common foundation.
 
