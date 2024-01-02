@@ -5,7 +5,7 @@ data "pingone_environment" "workforce_environment" {
 
 module "pingone_utils" {
   source  = "pingidentity/utils/pingone"
-  version = "0.0.7"
+  version = "0.0.8"
 
   region         = data.pingone_environment.workforce_environment.region
   environment_id = data.pingone_environment.workforce_environment.id
