@@ -6,7 +6,40 @@ These guidelines do not intend to educate on the use of Terraform, nor are they 
 
 ## Platform Secrets
 
-### Regularly Rotate Application Secrets
+### Regularly Rotate Worker Application Secrets
+
+In PingOne, administration management functions against the API can be performed by "worker" applications with admin roles assigned (as described in [online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_t_configurerolesforworkerapplication)).  To use these worker applications, there may be a need to generate an application secret and use that secret in downstream applications and services.  It is recommended to rotate these secrets on a regular basis to help mitigate against unauthorised platform changes.
+
+Rotation can be controlled by a secrets engine that can update with the relevant API, as described in the [API documentation](https://apidocs.pingidentity.com/pingone/platform/v1/api/#post-update-application-secret), but can also be rotated through the Terraform process.
+
+For example, the following Terraform code will rotate an application secret for the application "My Awesome App" every 30 days:
+```terraform
+resource "pingone_application" "my_application" {
+  name = "My Awesome App"
+  enabled        = true
+
+  oidc_options {
+    type                        = "WORKER"
+    grant_types                 = ["CLIENT_CREDENTIALS"]
+    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
+  }
+
+  # ... other configuration parameters
+}
+
+resource "time_rotating" "application_secret_rotation" {
+  rotation_days = 30
+}
+
+resource "pingone_application_secret" "foo" {
+  environment_id = pingone_environment.my_environment.id
+  application_id = pingone_application.my_application.id
+
+  regenerate_trigger_values = {
+    "rotation_rfc3339" : time_rotating.application_secret_rotation.rotation_rfc3339,
+  }
+}
+```
 
 ## Protect Service Configuration and Data
 
