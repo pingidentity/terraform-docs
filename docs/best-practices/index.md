@@ -8,6 +8,10 @@ These guidelines do not intend to educate on the use of Terraform, nor are they 
 
 ### `plan` First
 
+Running `terraform plan` before `terraform apply` is a crucial practice for Terraform users as it provides a proactive approach to infrastructure management. The `plan` command generates an execution plan, detailing the changes that Terraform intends to make to the infrastructure. By reviewing this plan, administrators will gain insight into the potential modifications, additions, or deletions of configured resources.
+
+This preview allows administrators to assess the impact of the proposed changes, identify any unexpected alterations, and verify that the configuration aligns with their intentions. This preventive step helps in avoiding unintended consequences and costly mistakes, ensuring a smoother and more controlled deployment process. Skipping the `plan` phase and directly executing `apply` may lead to inadvertent alterations, risking the stability and integrity of the infrastructure. Therefore, incorporating `terraform plan` as an integral part of the workflow, potentially as an automation in the "Pull Request" stage of a GitOps process, promotes responsible and informed infrastructure management practices.
+
 ### Use `--auto-approve` with Caution
 
 ### Store State Securely
@@ -126,5 +130,8 @@ resource "pingone_schema_attribute" "my_attribute" {
 
 ### Check the `.terraform.lock.hcl` File into Source Control
 
+Including the `.terraform.lock.hcl` file in source control is a recommended best practice for Terraform users, providing several benefits to the infrastructure-as-code (IaC) workflow.
 
+This file serves as a version lock file that records the specific versions of the provider plugins and modules (and their hashes) used in a Terraform configuration.  By checking it into source control, teams ensure consistent and reproducible deployments across different environments.  The lock file acts as a snapshot of the dependencies, guaranteeing that everyone working on the project has the same set of provider and module versions.  This practice enhances collaboration, reduces the likelihood of version mismatches, and mitigates the risk of unexpected changes or disruptions during deployments.  Moreover, it facilitates version tracking and simplifies the process of recreating the infrastructure at a later time.  Overall, checking the `.terraform.lock.hcl` file into source control contributes to the reliability and maintainability of Terraform configurations within a collaborative development environment.
 
+When used with a GitOps process that includes dependency scanning tools (such as Github's Dependabot), automations can be configured to generate automatic pull requests of provider/module version updates that might include bug fixes, enhancements and security patches.  The automated pull requests (and associated checks) can help streamline a CICD workflow, leading to higher productivity and reduced human error.

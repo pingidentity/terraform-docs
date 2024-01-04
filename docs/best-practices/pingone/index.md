@@ -45,6 +45,10 @@ resource "pingone_application_secret" "foo" {
 
 ### Review the `force_delete_production_type` Provider Parameter
 
+The PingOne Terraform provider has a provider-level parameter named `force_delete_production_type`.  For more details review the [registry documentation](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#force_delete_production_type) of this parameter.
+
+The purpose of the parameter is to override the API level restriction of not being able to destroy environments of type "PRODUCTION".  The default value of this parameter is `false`, meaning that environments will not be force-deleted if the `pingone_environment` resource has a destroy plan when run in the `terraform apply` phase.  The parameter is designed to help facilitate development and testing and should be set to `false` for environments that carry production data.  Misuse of the parameter may lead to unintended data loss and must be used with caution.
+
 ### Protect Configuration and Data with the `lifecycle.prevent_destroy` Meta Argument
 
 While some resources are safe to remove and replace, there are some resources that, if removed, can result in data loss.
