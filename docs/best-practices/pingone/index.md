@@ -80,6 +80,12 @@ The following resources, if destroyed, put data at risk within a PingOne environ
 
 ### Use "On-Demand" Sandbox Environments
 
+PingOne customer tenants have a "tenant-in-tenant" architecture, whereby a PingOne tenant organisation can contain many individual environments.  These individual environments can be purposed for development, test, pre-production and production purposes.  This allows for easy maintenance of multiple development and test instances.
+
+The recommended approach for multi-team development, when using a GitOps CICD promotion process, is to spin up "on-demand" development and test environments, specific to new features or to individual teams, to allow for development and integration testing that doesn't conflict with other team's development and test activities.  The Terraform provider allows administrators to use CICD automation to provision new environments as required, and remove them once the project activity no longer needs them.
+
+In a GitOps CICD promotion pipeline, configuration can be translated to Terraform config-as-code and then merged (with Pull Requests) with common test environments, where automated tests can be run.  This then allows the activities in the "on-demand" environments to be merged into a common promotion pipeline to production environments.
+
 ## User Administrator Role Assignment
 
 ### Use Group Role Assignments Over Terraform Managed User Role Assignments
