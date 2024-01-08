@@ -89,3 +89,9 @@ In a GitOps CICD promotion pipeline, configuration can be translated to Terrafor
 ## User Administrator Role Assignment
 
 ### Use Group Role Assignments Over Terraform Managed User Role Assignments
+
+As of 24th October 2023, the PingOne platform supports assigning administrator roles groups, such that members of the group get the administrator roles assigned.
+
+Ping recommends that groups with admin role assignments are controlled by the Joiner/Mover/Leaver Identity Governance processes, separate to the Terraform CICD process that configures applications, policies, domain verification and so on.  It may be that the groups with thier role assignments are initially seeded by a Terraform.  In this case, it should still be a separate Terraform process to the process that controls platform configuration, and the user group assignments should still happen in the Joiner/Mover/Leaver Identity Governance process.
+
+Terraform can be used to assign administrator roles to individuals directly, however this is not recommended best practice except in development (or generally non-production) environments.  Ping recommends though that role assignment processes in non-production environments align as close as possible to role assignment processes in production environments.
