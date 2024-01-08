@@ -63,7 +63,7 @@ nav:
           - PingOne Provider: "getting-started/pingone.md"
           - DaVinci Provider: "getting-started/davinci.md"
           - PingDirectory Provider: "getting-started/pingdirectory.md"
-  - Configuration Promotion: "configuration-promotion/configuration-promotion.md"
+  - Configuration Promotion: "configuration-promotion/index.md"
   - Examples:
       - Home: "examples/index.md"
       - PingOne:
