@@ -16,6 +16,10 @@ The documentation aims to cover best practices and secure deployment guidance, w
     <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
 </div>
 
+<div class="banner" style="padding: 6px 5px" onclick="window.open('getting-started/configuration-promotion/','');">
+    <p style="font-family:Verdana; color:#071624; font-size: 15px; width: 100%; margin: 0px 0px;"  >Configuration Promotion</p>
+</div>
+
 ## Resources
 
 <div class="banner" onclick="window.open('https://registry.terraform.io/namespaces/pingidentity','');">
