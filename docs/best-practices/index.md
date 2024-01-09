@@ -1,6 +1,6 @@
 # Terraform Writing Best Practices
 
-The following provides a set of best practices to apply when writing Terraform with Ping Identity providers and modules.
+The following provides a set of best practices to apply when writing Terraform with Ping Identity providers and modules in general.  This guide is intended to be used alongside provider and service specific best practices.
 
 These guidelines do not intend to educate on the use of Terraform, nor are they a getting started guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with Ping Identity Terraform providers, visit the online [Getting Started](./../index.md) guides.
 
@@ -13,6 +13,16 @@ Running `terraform plan` before `terraform apply` is a crucial practice for Terr
 This preview allows administrators to assess the impact of the proposed changes, identify any unexpected alterations, and verify that the configuration aligns with their intentions. This preventive step helps in avoiding unintended consequences and costly mistakes, ensuring a smoother and more controlled deployment process. Skipping the `plan` phase and directly executing `apply` may lead to inadvertent alterations, risking the stability and integrity of the infrastructure. Therefore, incorporating `terraform plan` as an integral part of the workflow, potentially as an automation in the "Pull Request" stage of a GitOps process, promotes responsible and informed infrastructure management practices.
 
 ### Use `--auto-approve` with Caution
+
+Use of the `--auto-approve` feature in Terraform can lead to unintended and potentially destructive changes in your infrastructure. When running Terraform commands, such as `terraform apply`, without the `--auto-approve` flag, Terraform will provide a plan of the changes it intends to make and ask for confirmation before applying those changes.
+
+By using `--auto-approve`, the process of reviewing planned changes to configuration and infrastructure is skipped, and Terraform immediately applies the changes. This can be risky for several reasons:
+
+* **Accidental Changes**: Without reviewing the plan, unintended changes may inadvertently be applied to the environment.  This is especially dangerous in production environments where mistakes can have significant consequences, such as causing breaking changes causing outage or use case failure.
+* **Destructive Changes**: Terraform may plan to destroy resources as part of the update.  Without manual confirmation, unintentional removal of critical configuration or infrastructure may occur.  This applies to both `terraform apply` and `terraform destroy` commands.
+* **Security Implications**: Auto-approving changes without verification increases the risk of security vulnerabilities. For example, sensitive data may unintentionally be exposed, or access policies may be negated or weakened.
+
+To minimize the risks associated with `--auto-approve`, Ping recommends to review the Terraform plan before applying changes.  This ensures that admins have a clear understanding of what modifications Terraform intends to make to live service configuration and infrastructure.
 
 ### Store State Securely
 
@@ -45,6 +55,15 @@ terraform {
 }
 ```
 
+Another example that limits to a specific minor version:
+```terraform
+terraform {
+  required_version = "~> 1.6"
+
+  # ... other configuration parameters
+}
+```
+
 [Terraform Documentation Reference](https://developer.hashicorp.com/terraform/tutorials/configuration-language/versions)
 
 ### Use Provider Version Control
@@ -71,6 +90,24 @@ terraform {
 }
 ```
 
+Other examples that limit the providers to specified minor versions:
+```terraform
+terraform {
+  required_version = "~> 1.6"
+
+  required_providers {
+    pingone = {
+      source  = "pingidentity/pingone"
+      version = "~> 0.25"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.9"
+    }
+  }
+}
+```
+
 [Terraform Documentation Reference](https://developer.hashicorp.com/terraform/tutorials/configuration-language/versions)
 
 ### Use Module Version Control
@@ -84,6 +121,16 @@ For example:
 module "utils" {
   source  = "pingidentity/utils/pingone"
   version = ">= 0.1.0, < 1.0.0"
+
+  # ... other configuration parameters
+}
+```
+
+Another example that limits the module to a specific minor version:
+```terraform
+module "utils" {
+  source  = "pingidentity/utils/pingone"
+  version = "~> 0.1"
 
   # ... other configuration parameters
 }
