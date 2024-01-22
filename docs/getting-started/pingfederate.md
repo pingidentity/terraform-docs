@@ -7,17 +7,13 @@
     </span>
 </div>
 
-## MINIMUM VIABLE PRODUCT (MVP) Release
-
-As of late January 2024, the PingFederate Terraform provider is an MVP release. **This status indicates that the provider is in active development and is subject to breaking changes. While available in the Terraform Registry, use of this provider is not recommended for production use at this time.**
-
 ## Requirements
 
 * Terraform CLI 1.4+
 * A running PingFederate server accessible over HTTPS, or Docker CLI to start one
 * If using Docker to start a PingFederate server, a DevOps license is required - [Register for the DevOps program here](https://devops.pingidentity.com/how-to/devopsRegistration/)
 
-## Start a PingFederate Docker image to be configured
+## (Optional) Start a PingFederate Docker image to be configured
 
 !!! warning "Using an Existing PingFederate Server"
     If you already have a running PingFederate server that you can reach over HTTPS, you can skip this step. The provider can be used with any PingFederate server.
@@ -48,18 +44,18 @@ PingFederate is up
 
 ## Accessing the PingFederate API
 
-Gaining access to the API depends on where your PingFederate instance is running.  In order to work with the API, you need to authenticate just as you would for performing
-administrative tasks.  To interact directly with the API in the browser and view the documentation, typically you would browse to the following URL:
+Gaining access to the API depends on where your PingFederate instance is running.  In order to work with the API, you need to authenticate just as you would for performing administrative tasks.  To interact directly with the API in the browser and view the documentation, typically you would browse to the following URL:
 
 `https://<pf_host>:9999/pf-admin-api/api-docs/`
 
 where **<pf_host\>** is the network address of your PingFederate server. This target can be an IP address, a host name, or a fully qualified domain name. It must be reachable from your computer.
 
-If using OIDC, see the [OIDC Authentication](https://docs.pingidentity.com/r/en-us/pingfederate-110/pf_enabling_oidc_based_auth) page for more information on how to connect.
+If using OIDC, see the [OIDC Authentication](https://docs.pingidentity.com/r/en-us/pingfederate-110/pf_enabling_oidc_based_auth) page for more information on how to connect.  
 
-When using a local container as shown above, the port mappings result in PingFederate being available at `https://localhost:9999/pingfederate/app#/` by default.
-The provider supports an attribute `admin_api_path` which defaults to **/pf-admin-api/v1**.  If your environment has a load balancer or other network configuration that
-requires a different path to the API, you can configure the provider to use it.
+!!! note "Web console only"
+    OIDC  is only available for web console access and is not supported by the provider.
+
+When using a local container as shown above, the port mappings result in PingFederate being available at `https://localhost:9999/pingfederate/app#/` by default.  The provider supports an attribute `admin_api_path` which defaults to **/pf-admin-api/v1**.  If your environment has a load balancer or other network configuration that requires a different path to the API, you can configure the provider to use it.
 
 The PingFederate Terraform provider applies configuration at the API endpoints using the specified port (`9999`) over HTTPS when accessing the product locally under Docker.
 
@@ -129,7 +125,7 @@ terraform {
   required_version = ">=1.4"
   required_providers {
     pingfederate = {
-      version = "~> 0.0.1"
+      version = ">= 0.1.0, < 1.0.0"
       source = "pingidentity/pingfederate"
     }
   }
