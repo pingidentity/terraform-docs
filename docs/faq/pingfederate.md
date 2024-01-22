@@ -2,7 +2,7 @@
 
 ## What versions of PingFederate are supported?
 
-The PingFederate provider supports versions `11.2` through `12.0` of PingFederate.
+See the [latest provider documentation](https://registry.terraform.io/providers/pingidentity/pingfederate/latest/docs#pingfederate-version-support) for the list of supported versions.
 
 ## How do I configure trust for connecting over HTTPS?
 

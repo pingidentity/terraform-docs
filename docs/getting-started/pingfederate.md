@@ -7,9 +7,9 @@
     </span>
 </div>
 
-## EARLY ACCESS
+## MINIMUM VIABLE PRODUCT (MVP) Release
 
-As of January 2024, the PingFederate Terraform provider is an early access release. **This status indicates that the provider is in active development and is subject to breaking changes. While available in the Terraform Registry, use of this provider is not recommended for production use at this time.**
+As of late January 2024, the PingFederate Terraform provider is an MVP release. **This status indicates that the provider is in active development and is subject to breaking changes. While available in the Terraform Registry, use of this provider is not recommended for production use at this time.**
 
 ## Requirements
 
@@ -22,7 +22,7 @@ As of January 2024, the PingFederate Terraform provider is an early access relea
 !!! warning "Using an Existing PingFederate Server"
     If you already have a running PingFederate server that you can reach over HTTPS, you can skip this step. The provider can be used with any PingFederate server.
 
-First, start a PingFederate server using Docker. Your DevOps credentials will be read from the `${HOME}/.pingidentity/config` file. The HTTPS port (default `9999`) must be exposed.
+First, start a PingFederate server using Docker. Your DevOps credentials will be read from the `${HOME}/.pingidentity/config` file. The HTTPS port (default `9999`) must be exposed.  This example starts the product with the `getting-started/pingfederate` server profile, running the latest version of PingFederate from Docker Hub.
 
 ```shell
 docker run --name pingfederate_terraform_provider_container \
@@ -30,9 +30,8 @@ docker run --name pingfederate_terraform_provider_container \
   -d -p 9999:9999 \
   --env-file "${HOME}/.pingidentity/config" \
   -e SERVER_PROFILE_URL=https://github.com/pingidentity/pingidentity-server-profiles.git \
-  -e SERVER_PROFILE_BRANCH=terraform-provider-pingfederate-1125 \
-  -e SERVER_PROFILE_PATH=terraform-provider-pingfederate/pingfederate \
-  pingidentity/pingfederate:$${PINGFEDERATE_PROVIDER_PRODUCT_VERSION:-12.0.0}-latest
+  -e SERVER_PROFILE_PATH=getting-started/pingfederate
+  pingidentity/pingfederate:latest
 ```
 
 After starting the container, follow the logs until the server becomes available.
@@ -49,17 +48,26 @@ PingFederate is up
 
 ## Accessing the PingFederate API
 
-Using the port mappings from the example above, PingFederate will be available at `https://localhost:9999/pingfederate/app#/`.
+Gaining access to the API depends on where your PingFederate instance is running.  In order to work with the API, you need to authenticate just as you would for performing
+administrative tasks.  To interact directly with the API in the browser and view the documentation, typically you would browse to the following URL:
 
-If you want to access the API documentation, it is available at `https://localhost:9999/pf-admin-api/api-docs/#/`.
+`https://<pf_host>:9999/pf-admin-api/api-docs/`
 
-The PingFederate Terraform provider applies configuration at the API endpoints using the `9999` port over HTTPS when accessing the product locally under Docker.
+where **<pf_host\>** is the network address of your PingFederate server. This target can be an IP address, a host name, or a fully qualified domain name. It must be reachable from your computer.
+
+If using OIDC, see the [OIDC Authentication](https://docs.pingidentity.com/r/en-us/pingfederate-110/pf_enabling_oidc_based_auth) page for more information on how to connect.
+
+When using a local container as shown above, the port mappings result in PingFederate being available at `https://localhost:9999/pingfederate/app#/` by default.
+The provider supports an attribute `admin_api_path` which defaults to **/pf-admin-api/v1**.  If your environment has a load balancer or other network configuration that
+requires a different path to the API, you can configure the provider to use it.
+
+The PingFederate Terraform provider applies configuration at the API endpoints using the specified port (`9999`) over HTTPS when accessing the product locally under Docker.
 
 ## Determine credentials that are able to configure the server
 
-The configuration API connection established by the provider uses basic authentication. The provider will need the username and password of a user that has permissions to manage server configuration.
+The configuration API connection established by the provider uses basic authentication. The provider will need the username and password of a user with permission to manage server configuration.
 
-In the PingFederate Docker image, the default administrative user has the username `administrator` with password `2FederateM0re`.
+In the PingFederate Docker image, the administrative user defaults to the username `administrator` with password `2FederateM0re`.
 
 ## Determine what version of PingFederate you are running
 
@@ -82,15 +90,12 @@ provider "pingfederate" {
 export PING_PRODUCT_VERSION=12.0.0
 ```
 
-You can view the product version using by running a shell in the container and searching for the appropriate environment variable:
+If using the container, you can view the product version using by running a shell in the container and searching for the appropriate environment variable:
 
 ```shell
 docker container exec -it pingfederate_terraform_provider_container /bin/sh
-```
 
-Then, run:
-
-```shell
+# In the container shell, get the version
 env | grep PING_PRODUCT_VERSION
 ```
 
@@ -101,11 +106,16 @@ If neither is set, the provider will throw an error.
 
 ## Trusting PingFederate certificates
 
-PingFederate generates a self-signed certificate by default, which is presented by the server when connecting. The default self-signed certificate can also be replaced with a custom certificate. The provider has a few ways of configuring trust for the HTTPS connection with the server.
+PingFederate generates a self-signed certificate by default, which is presented by the server when connecting.
+The default self-signed certificate can also be replaced with a custom certificate. The provider has a few ways of configuring trust for the HTTPS connection with the server.
 
 By default, the provider will trust the host's default root CA set when connecting to the server.
 
-The provider also supports an `insecure_trust_all_tls` boolean attribute that enables it to trust all certificates when connecting to the server.
+If you need to provide CA certificates for the provider to trust, you can use the `ca_certificate_pem_files` attribute. This attribute supports providing a set of paths to files containing PEM-encoded CA certificates to be trusted.
+
+The `PINGFEDERATE_PROVIDER_CA_CERTIFICATE_PEM_FILES` environment variable can also be used, with commas to delimit multiple PEM file paths if necessary.
+
+Finally, the provider supports an `insecure_trust_all_tls` boolean attribute that enables it to trust all certificates when connecting to the server.
 
 !!! warning "Insecure Trust All TLS"
     The `insecure_trust_all_tls` flag, when set to `true`, is insecure and is intended for development and testing only.  You should not enable this option for production use.
@@ -131,7 +141,9 @@ provider "pingfederate" {
   username = "administrator"
   password = "2FederateM0re"
   https_host = "https://localhost:9999"
-  # Warning: 'insecure_trust_all_tls' configures the provider to trust any certificate presented by the PingFederate server.
+  admin_api_path = "/pf-admin-api/v1"
+  # Warning: 'insecure_trust_all_tls' configures the provider to trust any certificate
+  # presented by the PingFederate server.
   insecure_trust_all_tls = true
   product_version = "12.0.0"
 }
