@@ -32,6 +32,93 @@ To minimize the risks associated with `--auto-approve`, Ping recommends to revie
 
 ### Use Terraform Formatting Tools
 
+### Using `count` and `for_each` with resource iteration
+
+When writing Terraform HCL, there are considerations around when to use `count` and when to use `for_each`, especially when iterating over resources.  Using the incorrect iteration method may result in accidental or unnecessary destruction/re-creation of resources as the data to iterate over changes.
+
+Consider the following example, where a number of populations are being created from an array variable:
+```terraform
+locals {
+  populations = [
+    "Retail Customers",
+    "Business Customers",
+    "Business Partners",
+  ]
+}
+
+resource "pingone_population" "my_populations" {
+  count = length(local.populations)
+  
+  environment_id = pingone_environment.my_environment.id
+  name           = local.populations[count.index]
+}
+```
+
+The HCL will create the populations successfully, but we will run into problems when the order of the array changes (for example, if it's sorted alphabetically in the code):
+
+```terraform
+locals {
+  populations = [
+    "Business Customers",
+    "Business Partners",
+    "Retail Customers",
+  ]
+}
+
+resource "pingone_population" "my_populations" {
+  count = length(local.populations)
+  
+  environment_id = pingone_environment.my_environment.id
+  name           = local.populations[count.index]
+}
+```
+
+```
+Terraform will perform the following actions:
+
+  # pingone_population.my_populations[0] will be updated in-place
+  ~ resource "pingone_population" "my_populations" {
+        id             = "91ffa912-e24e-4fa7-a0f3-7fb48539f756"
+      ~ name           = "Retail Customers" -> "Business Customers"
+        # (1 unchanged attribute hidden)
+    }
+
+  # pingone_population.my_populations[1] will be updated in-place
+  ~ resource "pingone_population" "my_populations" {
+        id             = "f2df301c-c2a1-436b-afaf-33eb189fe7d6"
+      ~ name           = "Business Customers" -> "Business Partners"
+        # (1 unchanged attribute hidden)
+    }
+
+  # pingone_population.my_populations[2] will be updated in-place
+  ~ resource "pingone_population" "my_populations" {
+        id             = "f2df828e-cfd6-4ecb-815d-5bd33c566fa8"
+      ~ name           = "Business Partners" -> "Retail Customers"
+        # (1 unchanged attribute hidden)
+    }
+```
+
+In the above situation, user's are inadvertently being moved from one population to another based on the names of the populations.  Any downstream application that requires a hardcoded UUID for "Retail Customers" (for example) will instead return "Business Partners" identities.
+
+The problem is compounded if adding and removing elements to/from the array.  This is an example of when to use `for_each` instead of `count`, as `for_each` will identify and store each resource with a unique key.  Including guidance from the [Use maps with static keys when using `for_each` on resources](#use-maps-with-static-keys-when-using-for-each-on-resources) best practice, the following HCL is the recommended way to perform the same iteration:
+
+```terraform
+locals {
+  populations = {
+    "business_customers" = "Business Customers",
+    "retail_customers"   = "Retail Customers",
+    "business_partners"  = "Business Partners",
+  }
+}
+
+resource "pingone_population" "my_populations" {
+  for_each = local.populations
+  
+  environment_id = pingone_environment.my_environment.id
+  name           = each.value
+}
+```
+
 ### Use maps with static keys when using `for_each` on resources
 
 When writing Terraform HCL, there are considerations around the use of `for_each` when iterating over objects/maps to manage resources.  Using a variable key may result in accidental or unnecessary destruction/re-creation of resources as the data to iterate over changes.  Ping recommends using static keys and maps of objects when using `for_each` to control resource creation.
