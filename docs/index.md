@@ -21,7 +21,11 @@ The documentation aims to cover best practices and secure deployment guidance, w
         <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
     </a>
 </div>
-
+<div class="banner">
+    <a href="getting-started/pingfederate/">
+        <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingfederate-logo.svg" alt="PingFederate logo" />
+    </a>
+</div>
 <div class="banner" style="padding: 6px 5px">
     <a href="getting-started/configuration-promotion/">
         <p style="font-family:Verdana; color:#071624; font-size: 15px; width: 100%; margin: 0px 0px;"  >Configuration Promotion</p>
