@@ -330,6 +330,14 @@ resource "pingone_schema_attribute" "my_attribute" {
 
 ### Use "On-Demand" Development Environments
 
+The recommended approach for multi-team development, when using a GitOps CICD promotion process, is to spin up "on-demand" development and test environments (where possible), specific to new features or to individual teams, to allow for development and integration testing that doesn't conflict with other team's development and test activities.  The Terraform provider allows administrators to use CICD automation to provision new environments as required, and remove them once the project activity no longer needs them.
+
+In a GitOps CICD promotion pipeline, configuration can be translated to Terraform config-as-code and then merged (with Pull Requests) with common test environments, where automated tests can be run.  This then allows the activities in the "on-demand" environments to be merged into a common promotion pipeline to production environments.
+
+In some cases there may be a lack of available integrated systems that cannot be spun up easily or cannot be integrated with.  For example, this may apply to integrated HR systems, or systems that have been installed onto "bare metal" infrastructure.  In these cases, where possible, connected and unrelated systems can be "stubbed" in the spin-up process, and tested during the "Integration test" phase of the project when changes have been merged into a common promotion pipeline.
+
+In some cases it may not be practical to spin up on-demand development or test environments due to impact on project costs, commercial limitations or limitations in the CI/CD processes.  In this case, it is recommended to create static development environments that are ultimately shared between teams/projects and process introduced to mitigate conflicts.  Ideally these development environments (that doesn't impact project work) have their configuration periodically refreshed and aligned with that of common test environments further down the CI/CD promotion pipeline.  Ensure this activity is appropriately scheduled with the project teams involved to avoid wiping configuration that is still in active development.
+
 ## Continuous Integration / Continuous Delivery (CI/CD)
 
 ### Use Terraform Linting Tools
