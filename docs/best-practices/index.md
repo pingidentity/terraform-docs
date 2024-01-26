@@ -229,29 +229,29 @@ terraform {
 
 ### Use Provider Version Control
 
-Ping Identity (and other vendors) release changes to providers on a regular basis that can include new features and bug fixes.  Major version changes can introduce breaking changes to written code as older deprecated resources, data sources, parameters and attributes are removed.  Ping Identity follows guidance issued by Hashicorp on [Deprecations, Removals and Renames](https://developer.hashicorp.com/terraform/plugin/framework/deprecations).
+Ping Identity (and other vendors) release changes to providers on a regular basis that can include new features and bug fixes.  Major version changes can introduce breaking changes to written code as older deprecated resources, data sources, parameters and attributes are removed.  Provider versions that are `< 1.0.0` may also include breaking changes to written code.  Ping Identity follows guidance issued by Hashicorp on [Deprecations, Removals and Renames](https://developer.hashicorp.com/terraform/plugin/framework/deprecations).
 
 To ensure that Terraform HCL is run with a consistent results between runs, it's recommended to restrict the version of each provider in the `terraform.required_providers` parameter with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
 
-For example:
+For example, the following syntax for the `hashicorp/kubernetes` and `pingidentity/pingdirectory` providers is recommended for provider versions `>= 1.0.0`:
 ```terraform
 terraform {
   required_version = ">= 1.3.0, < 2.0.0"
 
   required_providers {
-    pingone = {
-      source  = "pingidentity/pingone"
-      version = ">= 0.21.0, < 1.0.0"
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.25.2, < 3.0.0"
     }
-    time = {
-      source  = "hashicorp/time"
-      version = ">= 0.9.1, < 1.0.0"
+    pingdirectory = {
+      source  = "pingidentity/pingdirectory"
+      version = ">= 1.0.2, < 2.0.0"
     }
   }
 }
 ```
 
-Other examples that limit the providers to specified minor versions:
+The following example syntax for the `pingidentity/pingone` and `hashicorp/time` providers shows the recommended version pinning for provider versions `< 1.0.0` that may incur breaking changes during initial development, though it may also be used for provider versions `>= 1.0.0`:
 ```terraform
 terraform {
   required_version = "~> 1.6"
@@ -277,17 +277,17 @@ Ping Identity (and other vendors) release changes to modules on a regular basis 
 
 To ensure that Terraform HCL is run with a consistent results between runs, it's recommended to restrict the version of each module with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
 
-For example:
+For example, the following syntax for the `terraform-aws-modules/vpc/aws` module is recommended for module versions `>= 1.0.0`:
 ```terraform
-module "utils" {
-  source  = "pingidentity/utils/pingone"
-  version = ">= 0.1.0, < 1.0.0"
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = ">= 5.5.1, < 6.0.0"
 
   # ... other configuration parameters
 }
 ```
 
-Another example that limits the module to a specific minor version:
+The following example syntax for the `pingidentity/utils/pingone` module shows the recommended version pinning for module versions `< 1.0.0` that may incur breaking changes during initial development, though it may also be used for module versions `>= 1.0.0`:
 ```terraform
 module "utils" {
   source  = "pingidentity/utils/pingone"
