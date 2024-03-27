@@ -26,11 +26,58 @@ To minimize the risks associated with `--auto-approve`, Ping recommends to revie
 
 ### Store State Securely
 
+When operating production infrastructure with Terraform, the secure storage of Terraform state files is of paramount importance. These files serve as the foundational blueprint of your infrastructure, detailing configurations, credentials, and the current state of resources. Given their critical role, these files inherently contain sensitive information that, if exposed, could be used to gain unauthorized access to user data and manipulation of deployed infrastructure.
+
+To safeguard against these threats, it is vital that robust security measures are implemented around state file storage. This includes:
+- Encrypting the state files to protect their contents during transit and at rest
+- Employing stringent access controls to ensure only authorized personnel can retrieve or alter the state.  If cloud blob storage is used (such as AWS S3), ensure public access is disabled.
+- Leveraging secure storage solutions that offer features like versioning and backups
+
+Hashicorp themselves offer Terraform Cloud that provides secure storage of state out of the box.
+
+Such practices are crucial in maintaining the confidentiality, integrity, and availability of your infrastructure.
+
+For more information about state management when using Terraform, refer to [Hashicorp's online documentation](https://developer.hashicorp.com/terraform/language/state).
+
 ### Don't Modify State Directly
 
-## HCL Recommendations
+Directly modifying Terraform state files is strongly discouraged due to the critical role they play in Terraform's management of infrastructure resources.
+
+The state file acts as a single source of truth for both the configuration and the real-world resources it manages, which is critical when Terraform calculates the differences between "intended" and "actual" configuration when running `terraform plan`.
+
+Manual edits can lead to inconsistencies between the actual state of your infrastructure and Terraform's record, potentially causing unresolvable conflicts in the plan phase, or may result in errors when the provider is reading/writing the state of a resource. Such actions undermine the integrity of your infrastructure management, leading to difficult-to-diagnose issues, resource drift, and potentially the loss or corruption of critical infrastructure.
+
+Instead of directly editing state files, it is best practice to use Terraform's built-in commands such as `terraform state rm` or `terraform import` to safely make changes. This approach ensures that Terraform can accurately track and manage the state of provisioned infrastructure, maintaining the reliability and predictability of your infrastructure as code environment.
+
+For more information about state management when using Terraform, refer to [Hashicorp's online documentation](https://developer.hashicorp.com/terraform/language/state).
+
+### Ensure Provider Warnings are Captured and Reviewed
+
+Terraform providers can produce warnings as a result of operations such as `terraform validate`, `terraform plan` and `terraform apply`.  When these operations are run using the CLI, the warnings are directed to the command line output and when these operations are run in cloud services such as Terraform Cloud, these warnings are shown in the UI.
+
+Ping Identity's Terraform providers can show warnings that need to be captured and reviewed.  For example, the PingOne Terraform provider will produce warnings when specific configuration is used that remove guardrails to prevent accidental deletion of data.
+
+It is highly recommended that warnings shown on the `terraform plan` stage especially are captured reviewed before the `terraform apply` stage is run, as the messages could be alerting the administrator to potential undesired results of the `terraform apply` stage.
+
+## HCL Writing Recommendations
 
 ### Use Terraform Formatting Tools
+
+When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjusts the Terraform code to a standard style, which helps keep the codebase tidy and consistent.  Typically, this means maintaining consistent indentation, spacing and alignment of code.
+
+This consistency makes your code easier to read and understand for anyone who might work on the project. It's akin to keeping a clean, organised workspace in a physical job — everything is where you expect it to be, reducing confusion and making it easier to spot mistakes.
+
+It's recommended to include `terraform fmt` into the development workflows as it has a big impact on the maintainability and clarity of your infrastructure code. It’s a small effort for a significant gain in code quality and team collaboration.
+
+Additionally, it's recommended to include `terraform fmt` as a CI/CD validation check, to ensure developers are applying consistent development practices when committing configuration-as-code to a common CI/CD pipeline code repository.
+
+### Validate Terraform HCL before Plan and Apply
+
+When writing Terraform HCL, it's recommended to use `terraform validate` before running `terraform plan` and `terraform apply`.
+
+This command serves as a preliminary check, verifying that Terraform HCL configurations are syntactically valid and internally consistent without actually applying any changes.  There are some resources in Ping's Terraform providers that have specific validation logic to ensure that configuration is valid before any platform API is called, which reduces the "time-to-error", if an error exists.
+
+As a specific example, `davinci_flow`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow" target="_blank">:octicons-link-external-16:</a> resources validate the `flow_json`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow#flow_json" target="_blank">:octicons-link-external-16:</a> input and the specified `connection_link`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow#connection_link" target="_blank">:octicons-link-external-16:</a> blocks to make sure re-mapped connections are valid.
 
 ### Using `count` and `for_each` with resource iteration
 
@@ -259,7 +306,7 @@ terraform {
   required_providers {
     pingone = {
       source  = "pingidentity/pingone"
-      version = "~> 0.25"
+      version = "~> 0.27"
     }
     time = {
       source  = "hashicorp/time"
@@ -325,8 +372,6 @@ resource "pingone_schema_attribute" "my_attribute" {
 ### Don't Commit Secrets to Source Control
 
 ## Multi-team Development
-
-### Use Separate Config-as-Code Repositories for Different Teams
 
 ### Use "On-Demand" Development Environments
 

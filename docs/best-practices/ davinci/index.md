@@ -131,6 +131,16 @@ resource "davinci_flow" "test-flow-1" {
 
 When following best practices in this section, there may be occasions where example / bootstrapped configuration is present within the environment but is not actively used to fulfil any use cases.  This "orphaned configuration" should be removed and use-cases retested so the configuration does not confuse any audit activities, and to prevent it's accidental use at a later date.
 
+## HCL Writing Recommendations
+
+### Validate `davinci_flow`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow" target="_blank">:octicons-link-external-16:</a> Terraform HCL before Plan and Apply
+
+When writing Terraform HCL, it's recommended to use `terraform validate` before running `terraform plan` and `terraform apply` when the HCL includes `davinci_flow`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow" target="_blank">:octicons-link-external-16:</a> resources.
+
+This command serves as a preliminary check, verifying that Terraform HCL configurations are syntactically valid and internally consistent without actually applying any changes.  There are some resources in Ping's Terraform providers that have specific validation logic to ensure that configuration is valid before any platform API is called, which reduces the "time-to-error", if an error exists.
+
+In this example, `davinci_flow`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow" target="_blank">:octicons-link-external-16:</a> resources validate the `flow_json`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow#flow_json" target="_blank">:octicons-link-external-16:</a> input and the specified `connection_link`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow#connection_link" target="_blank">:octicons-link-external-16:</a> and `subflow_link`<a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs/resources/flow#subflow_link" target="_blank">:octicons-link-external-16:</a> blocks to make sure re-mapped connections and subflows are valid.
+
 ## Multi-team Development
 
 ### Use "On-Demand" Sandbox Environments
