@@ -4,6 +4,139 @@ The following provides a set of best practices to apply when writing Terraform w
 
 These guidelines do not intend to educate on the use of Terraform, nor are they a getting started guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with Ping Identity Terraform providers, visit the online [Getting Started](./../index.md) guides.
 
+## Develop in the Admin Console, Promote using Configuration-As-Code
+
+Ping recommends that use case development activities are performed in the PingOne web admin console wherever possible.  This is due to the complex nature of Workforce IAM and Customer IAM deployments that includes policy definition, user experience design and associated testing/validation of designed use cases.
+
+Once developed in the web admin console, configuration can be extracted as configuration-as-code to be stored in source control (such as a Git code repository) and linked with CI/CD tooling to automate the delivery of use cases into test and production environments.
+
+For professionals experienced in DevOps development, configuration may be created and altered outside of the web admin console, but care must be taken when modifying complex configuration such Authorize, MFA, Protect or SSO sign-on policies.
+
+## Example / Bootstrapped Configuration Dependencies
+
+### Deploy to "Clean" Environments, without Example / Bootstrapped Configuration
+
+Example / bootstrapped configuration is deployed automatically by the PingOne service when an environment is created (or new services are provisioned to an existing environment).  This is the default behaviour of the web admin console, and the API.
+
+Example / bootstrapped configuration may be useful as a starting point when initially creating use cases with the service (in the development phase), but will create conflicts when migrating the configuration through to test and production environments.
+
+The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore an environment created today may not be the same as an environment created a year from now.
+
+It is best practice therefore to, when creating new environments other than the initial development environment, create them as "clean" environments, without example / bootstrapped configuration.  Currently, example / bootstrapped configuration must be manually removed from an environment.
+
+Notable examples include:
+
+#### Platform
+- The default branding theme
+- Optional directory schema attributes (which can be disabled if not used)
+  - `accountId`
+  - `address`
+  - `email`
+  - `externalId`
+  - `locale`
+  - `mobilePhone`
+  - `name`
+  - `nickname`
+  - `photo`
+  - `preferredLanguage`
+  - `primaryPhone`
+  - `timezone`
+  - `title`
+  - `type`
+- The default Keys and Certificates
+- The default notification policies
+- The default `Single_Factor` sign-on policy
+- The example password policies
+- The `PingOne Application Portal` (which can be disabled if not used)
+
+#### DaVinci service
+- Example Forms
+
+#### MFA service
+- The default MFA Device Policy
+- The default FIDO2 policies
+- The `Multi_Factor` sign-on policy
+
+#### Verify service
+- The default verify policy
+
+### Define All Configuration Dependencies in Terraform (or elsewhere in the Pipeline)
+
+Example / bootstrapped configuration is deployed automatically by the PingOne service when an environment is created (or new services are provisioned to an existing environment).  This is the default behaviour of the web admin console, and the API.
+
+Example / bootstrapped configuration may be useful as a starting point when initially creating use cases with the service (in the development phase), but will create conflicts when migrating the configuration through to test and production environments.
+
+The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore an environment created today may not be the same as an environment created a year from now.
+
+It is best practice therefore to, after developing flows for use cases, to explicitly define all configuration dependencies in Terraform (or as a prior step in the CICD pipeline).  Most notably, this includes defining the policies (e.g. sign-on, MFA Device, FIDO2, Protect policies) that applications will use in HCL, rather than using the example / bootstrapped environment examples.
+
+#### Not best practice
+
+The below `pingone_population`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/population" target="_blank">:octicons-link-external-16:</a> definition is not best practice, as it depends on the "Passphrase" password policy that is deployed by default when the environment was created.  In this case, there is an assumption that this password policy will always exist and have a consistent definition on every environment creation.  This assumption is not correct, as the password policy may change over time.
+
+```hcl
+data "pingone_password_policy" "ootb_passphrase" {
+  environment_id = pingone_environment.my_environment.id
+
+  name = "Passphrase"
+}
+
+resource "pingone_population" "my_population" {
+  environment_id = pingone_environment.my_environment.id
+
+  name        = "My awesome population"
+  description = "My new population for awesome people"
+
+  password_policy_id = data.pingone_password_policy.ootb_passphrase.id
+
+  lifecycle {
+    # change the `prevent_destroy` parameter value to `true` to prevent this data carrying resource from being destroyed
+    prevent_destroy = false
+  }
+}
+```
+
+#### Best practice
+
+The below `pingone_population`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/population" target="_blank">:octicons-link-external-16:</a> definition is best practice as the password policy that it depends on is explicitly defined using the `pingone_password_policy`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/password_policy" target="_blank">:octicons-link-external-16:</a> resource.  This will ensure that environments are built and configured consistently between development, test and production.
+
+```hcl
+resource "pingone_password_policy" "my_password_policy" {
+  environment_id = pingone_environment.my_environment.id
+
+  name        = "My awesome password policy"
+  
+  exclude_commonly_used_passwords = true
+  exclude_profile_data            = true
+  not_similar_to_current          = true
+
+  password_history {
+    prior_password_count = 6
+    retention_days       = 365
+  }
+
+  # ... other configuration parameters
+}
+
+resource "pingone_population" "my_population" {
+  environment_id = pingone_environment.my_environment.id
+
+  name        = "My awesome population"
+  description = "My new population for awesome people"
+
+  password_policy_id = pingone_password_policy.my_password_policy.id
+
+  lifecycle {
+    # change the `prevent_destroy` parameter value to `true` to prevent this data carrying resource from being destroyed
+    prevent_destroy = false
+  }
+}
+```
+
+### Remove Example / Bootstrapped Configuration From Existing Environments
+
+When following best practices in this section, there may be occasions where example / bootstrapped configuration is present within the environment but is not actively used to fulfil any use cases.  This "orphaned configuration" should be removed and use-cases retested so the configuration does not confuse any audit activities, and to prevent it's accidental use at a later date.
+
 ## Platform Secrets
 
 ### Regularly Rotate Worker Application Secrets
@@ -43,11 +176,29 @@ resource "pingone_application_secret" "foo" {
 
 ## Protect Service Configuration and Data
 
-### Review the `force_delete_production_type` Provider Parameter
+The following sections detail best practices to apply to ensure protection of production data when using the PingOne Terraform provider.
 
-The PingOne Terraform provider has a provider-level parameter named `force_delete_production_type`.  For more details review the [registry documentation](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#force_delete_production_type) of this parameter.
+## Review use of API "force-delete" Provider Overrides
 
-The purpose of the parameter is to override the API level restriction of not being able to destroy environments of type "PRODUCTION".  The default value of this parameter is `false`, meaning that environments will not be force-deleted if the `pingone_environment` resource has a destroy plan when run in the `terraform apply` phase.  The parameter is designed to help facilitate development and testing and should be set to `false` for environments that carry production data.  Misuse of the parameter may lead to unintended data loss and must be used with caution.
+The PingOne Terraform provider has a provider-level parameter named `global_options`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#nestedblock--global_options" target="_blank">:octicons-link-external-16:</a>, that allows administrators to override API behaviours for development/test and demo purposes.  For more details review the [registry documentation](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#global-options) of this parameter.
+
+There are two parameters that allow force-deletion of configuration, which could result in loss of data if not correctly used.
+
+### `environment.production_type_force_delete`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#production_type_force_delete" target="_blank">:octicons-link-external-16:</a>
+
+The purpose of the parameter is to override the API level restriction of not being able to destroy environments of type "PRODUCTION".  The default value of this parameter is `false`, meaning that environments will not be force-deleted if a `pingone_environment`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment" target="_blank">:octicons-link-external-16:</a> resource that has a `type` value of `PRODUCTION` has a destroy plan when run in the `terraform apply` phase.  Use of this parameter is designed to help facilitate development, testing or demonstration purposes and should be set to `false` (or left undefined) for environments that carry production data.
+
+The implementation of this option is that the environment type will be changed from `PRODUCTION` to `SANDBOX` before a delete API request is issued.  Consider instead changing the type to `SANDBOX` manually before running a plan that destroys an environment, instead of using this parameter.
+
+Misuse of the parameter may lead to unintended data loss and must be used with caution.
+
+### `population.contains_users_force_delete`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#contains_users_force_delete" target="_blank">:octicons-link-external-16:</a>
+
+The purpose of the parameter is to override the API level restriction of not being able to destroy populations that contain user data.  The default value of this parameter is `false`, meaning that populations that contain user data will not be force-deleted if a `pingone_population`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/population" target="_blank">:octicons-link-external-16:</a> resource has a destroy plan when run in the `terraform apply` phase.  Use of this parameter is designed to help facilitate development, testing or demonstration purposes where non-production user data is created and can be safely discarded.  The parameter should be set to `false` (or left undefined) for environments that carry production data.
+
+The implementation of this option is that the provider will find and delete all users assigned to the population being destroyed, before a delete API request is issued to the population.  Consider instead removing non-production data manually before running a plan that destroys a population, instead of using this parameter.
+
+Misuse of the parameter may lead to unintended data loss and must be used with caution.
 
 ### Protect Configuration and Data with the `lifecycle.prevent_destroy` Meta Argument
 
