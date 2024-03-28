@@ -6,7 +6,7 @@ These guidelines do not intend to educate on the use of Terraform, nor are they 
 
 ## General Use
 
-### `plan` First
+### `plan` First Before `apply`
 
 Running `terraform plan` before `terraform apply` is a crucial practice for Terraform users as it provides a proactive approach to infrastructure management. The `plan` command generates an execution plan, detailing the changes that Terraform intends to make to the infrastructure. By reviewing this plan, administrators will gain insight into the potential modifications, additions, or deletions of configured resources.
 
@@ -246,6 +246,12 @@ Notice also, that if the order of the key/object pairs changes in the map, Terra
 
 ### Write and Publish Re-usable Modules
 
+When writing Terraform HCL, there are often times when collections of resources and data sources are commonly used together, or used frequently with the same, or very similar structure.  These collections of resources and data sources can be grouped together into a Terraform module.  Writing and publishing Terraform modules embodies a best practice within infrastructure as code (IaC) paradigms for several compelling reasons.
+
+Firstly, modules encapsulate and abstract complex sets of resources and configurations, promoting reusability and reducing redundancy across your infrastructure setups. This modular approach enables teams to define standardized and vetted building blocks, ensuring consistency, compliance, and reliability across deployments. Moreover, publishing these modules, either internally within an organization or publicly in the Terraform Registry, fosters collaboration and knowledge sharing. It allows others to benefit from proven infrastructure patterns, contribute improvements, and stay aligned with the latest best practices. This culture of sharing and collaboration not only accelerates development cycles but also elevates the quality of infrastructure provisioning by leveraging the collective expertise and experience of the Terraform community.
+
+Therefore, writing and publishing Terraform modules is not just about code efficiency; it's about building a foundation for a more innovative, resilient, and collaborative infrastructure management practice.
+
 ## Versioning
 
 ### Use Terraform Version Control
@@ -369,7 +375,19 @@ resource "pingone_schema_attribute" "my_attribute" {
 }
 ```
 
-### Don't Commit Secrets to Source Control
+### Don't Commit Secrets to Source Control - Use Terraform Variables and Secrets Management
+
+When writing Terraform HCL, it may be tempting to write values that are sensitive (such as OpenID Connect Client Secrets, TLS private key data, service passwords) directly into the code.  There is a significant risk that these secrets are then committed to source control, where they are able to be viewed by anyone who can access that code.  Even more so when the source control is a public Git repository hosted on sites such as Github or Gitlab.
+
+Committing secrets, such as passwords, API keys, and tokens, directly into Terraform configurations and subsequently into source control, poses significant security risks that can have far-reaching consequences. This practice exposes sensitive information to anyone who has access to the repository, including potential unauthorized users, thereby compromising the security of your infrastructure. Once secrets are committed to a repository, removing them requires extensive effort and does not guarantee that they haven't been copied or logged elsewhere.
+
+Moreover, version control systems are designed to track and preserve history, making it challenging to completely erase secrets once they are committed. This persistence in history means that even if the secrets are later removed from the codebase, they remain accessible in the commit history. Additionally, repositories, especially public or shared ones, are often cloned, forked, or integrated with third-party services, further increasing the exposure of secrets.
+
+Ultimately the safest way to recover from secrets that have been leaked is to rotate them in the source system, which can be an impactful activity if other systems or individuals depend on that credential.
+
+To mitigate these risks, it's recommended to use secure secrets management tools and practices. Terraform supports various mechanisms for securely managing secrets, including environment variables, encrypted state files, and integration with dedicated secrets management systems like AWS Secrets Manager, Azure Key Vault, or HashiCorp Vault. These tools provide controlled access to secrets, audit trails, and the ability to rotate secrets periodically or in response to a breach.
+
+By keeping secrets out of source control and employing robust secrets management strategies, users can significantly enhance the security posture of their infrastructure deployments. This approach not only protects sensitive information but also aligns with compliance requirements and best practices for secure infrastructure management.
 
 ## Multi-team Development
 
@@ -387,7 +405,29 @@ In some cases it may not be practical to spin up on-demand development or test e
 
 ### Use Terraform Linting Tools
 
+Ping recommend using linting tools in the development process, as these tools significantly enhance code quality, maintainability, and consistency across projects.
+
+Linters are static code analysis tools designed to inspect code for potential errors, stylistic discrepancies, and deviations from established coding standards and best practices. By integrating linting tools into the development workflow, developers are proactively alerted to issues such as syntax errors, potential bugs, and security vulnerabilities before the code is even executed or deployed. This immediate feedback loop not only saves time and resources by catching issues early but also facilitates a learning environment where developers can gradually adopt best coding practices and improve their skills.
+
+Furthermore, linting tools play a pivotal role in maintaining codebase consistency, especially in collaborative environments where multiple developers contribute to the same project. They enforce a uniform coding style and standards, reducing the cognitive load on developers who need to understand and work with each other’s code. This standardization is vital for code readability, reducing the complexity of code reviews, and easing the onboarding of new team members.
+
+Moreover, integrating linting tools into continuous integration/continuous deployment (CI/CD) pipelines automates the process of code quality checks, ensuring that only code that meets the defined quality criteria is advanced through the stages of development, testing, and deployment. This automation not only streamlines the development process but also aligns with agile practices and DevOps methodologies, promoting faster, more reliable, and higher-quality software releases.
+
+One of the most common and full featured linting tools is [TFLint](https://github.com/terraform-linters/tflint).
+
 ### Use Terraform Security Scanning Tools
+
+Ping recommend that users incorporate Terraform security scanning tools into the development and deployment workflow to help with security and compliance of infrastructure as code (IaC) configurations.
+
+Terraform, while powerful, manages highly sensitive and critical components of cloud infrastructure, making any misconfigurations or vulnerabilities potentially disastrous in terms of security breaches, data leaks, and compliance violations. Security scanning tools are designed to automatically inspect Terraform code for such issues before the infrastructure is provisioned or updated, highlighting practices that could lead to security weaknesses, such as overly permissive access controls, unencrypted data storage, or exposure of sensitive information.
+
+By leveraging these tools, developers can preemptively identify and rectify security vulnerabilities within their infrastructure code, significantly reducing the risk of attacks and breaches. This proactive approach to security is aligned with the principles of DevSecOps, which advocates for "shifting left" on security - that is, integrating security practices early in the software development lifecycle. It ensures that security considerations are embedded in the development process, rather than being an afterthought.
+
+Furthermore, Terraform security scanning tools often provide compliance checks against common regulatory standards and best practices, such as the CIS benchmarks, making it easier for organizations to adhere to industry regulations and avoid penalties. These tools also promote a culture of security awareness among developers, educating them on secure coding practices and the importance of infrastructure security.
+
+Overall, the use of Terraform security scanning tools enhances the security posture of cloud environments, protects against the financial and reputational damage associated with security incidents, and ensures continuous compliance with evolving regulatory requirements. This makes them an indispensable asset in the toolkit of any team working with Terraform and cloud infrastructure.
+
+Example tools for security scanning include [Trivy](https://github.com/aquasecurity/trivy), [Terrascan](https://runterrascan.io/docs/) and [checkov](https://www.checkov.io/)
 
 ### Check the `.terraform.lock.hcl` File into Source Control
 
