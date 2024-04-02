@@ -1,14 +1,14 @@
 # Terraform Writing Best Practices - PingOne
 
-The following provides a set of best practices to apply when writing Terraform with the PingOne Terraform provider and associated modules.
+The following sections provide a set of best practices to apply when writing Terraform with the PingOne Terraform provider and associated modules.
 
-These guidelines do not intend to educate on the use of Terraform, nor are they a getting started guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with Ping Identity Terraform providers, visit the online [Getting Started](./../index.md) guides.
+These guidelines do not intend to educate on the use of Terraform, nor are they a "Getting Started" guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with the PingOne Terraform provider, visit the online [PingOne provider Getting Started](./../../getting-started/pingone/) guide.
 
 ## Develop in the Admin Console, Promote using Configuration-As-Code
 
-Ping recommends that use case development activities are performed in the PingOne web admin console wherever possible.  This is due to the complex nature of Workforce IAM and Customer IAM deployments that includes policy definition, user experience design and associated testing/validation of designed use cases.
+Ping recommends that use case development activities are performed in the PingOne web admin console wherever possible.  This recommendation is due to the complex nature of Workforce IAM and Customer IAM deployments that includes policy definition, user experience design and associated testing/validation of designed use cases.
 
-Once developed in the web admin console, configuration can be extracted as configuration-as-code to be stored in source control (such as a Git code repository) and linked with CI/CD tooling to automate the delivery of use cases into test and production environments.
+After having been developed in the web admin console, configuration can be extracted as configuration-as-code to be stored in source control (such as a Git code repository) and linked with CI/CD tooling to automate the delivery of use cases into test and production environments.
 
 For professionals experienced in DevOps development, configuration may be created and altered outside of the web admin console, but care must be taken when modifying complex configuration such Authorize, MFA, Protect or SSO sign-on policies.
 
@@ -16,15 +16,15 @@ For professionals experienced in DevOps development, configuration may be create
 
 ### Deploy to "Clean" Environments, without Example / Bootstrapped Configuration
 
-Example / bootstrapped configuration is deployed automatically by the PingOne service when an environment is created (or new services are provisioned to an existing environment).  This is the default behaviour of the web admin console, and the API.
+Example / bootstrapped configuration is deployed automatically by the PingOne service when an environment is created (or new services are provisioned to an existing environment).  This behaviour is the default of the web admin console, and the API.
 
 Example / bootstrapped configuration may be useful as a starting point when initially creating use cases with the service (in the development phase), but will create conflicts when migrating the configuration through to test and production environments.
 
-The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore an environment created today may not be the same as an environment created a year from now.
+The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore, an environment created today may not be the same as an environment created a year from now.
 
-It is best practice therefore to, when creating new environments other than the initial development environment, create them as "clean" environments, without example / bootstrapped configuration.  Currently, example / bootstrapped configuration must be manually removed from an environment.
+As a result, it is best practice to create a new environment as a "clean" (without example or bootstrapped configuration) environment for those environments outside of the initial development one.
 
-Notable examples include:
+Currently, example / bootstrapped configuration must be manually removed from an environment.  Notable examples of demo configuration include:
 
 #### Platform
 - The default branding theme
@@ -62,13 +62,13 @@ Notable examples include:
 
 ### Define All Configuration Dependencies in Terraform (or elsewhere in the Pipeline)
 
-Example / bootstrapped configuration is deployed automatically by the PingOne service when an environment is created (or new services are provisioned to an existing environment).  This is the default behaviour of the web admin console, and the API.
+Example / bootstrapped configuration is deployed automatically by the PingOne service when an environment is created (or new services are provisioned to an existing environment).  This behaviour is the default of the web admin console, and the API.
 
 Example / bootstrapped configuration may be useful as a starting point when initially creating use cases with the service (in the development phase), but will create conflicts when migrating the configuration through to test and production environments.
 
-The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore an environment created today may not be the same as an environment created a year from now.
+The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore, an environment created today may not be the same as an environment created a year from now.
 
-It is best practice therefore to, after developing flows for use cases, to explicitly define all configuration dependencies in Terraform (or as a prior step in the CICD pipeline).  Most notably, this includes defining the policies (e.g. sign-on, MFA Device, FIDO2, Protect policies) that applications will use in HCL, rather than using the example / bootstrapped environment examples.
+Therefore, it is best practice to explicitly define all configuration dependencies in Terraform (or as a prior step in the CICD pipeline) after developing flows for use cases.  Most notably, this practice includes defining the policies (e.g. sign-on, MFA Device, FIDO2, Protect policies) that applications will use in HCL, rather than using the example / bootstrapped environment examples.
 
 #### Not best practice
 
@@ -135,7 +135,7 @@ resource "pingone_population" "my_population" {
 
 ### Remove Example / Bootstrapped Configuration From Existing Environments
 
-When following best practices in this section, there may be occasions where example / bootstrapped configuration is present within the environment but is not actively used to fulfil any use cases.  This "orphaned configuration" should be removed and use-cases retested so the configuration does not confuse any audit activities, and to prevent it's accidental use at a later date.
+When following best practices in this section, there may be occasions where example / bootstrapped configuration is present within the environment but is not actively used to fulfil any use cases.  This "orphaned configuration" should be removed and use-cases retested so the configuration does not confuse any audit activities, and to prevent its accidental use at a later date.
 
 ## Platform Secrets
 
@@ -231,11 +231,11 @@ The following resources, if destroyed, put data at risk within a PingOne environ
 
 ### Use "On-Demand" Sandbox Environments
 
-PingOne customer tenants have a "tenant-in-tenant" architecture, whereby a PingOne tenant organisation can contain many individual environments.  These individual environments can be purposed for development, test, pre-production and production purposes.  This allows for easy maintenance of multiple development and test instances.
+PingOne customer tenants have a "tenant-in-tenant" architecture, whereby a PingOne tenant organisation can contain many individual environments.  These individual environments can be purposed for development, test, pre-production and production purposes.  These separate environments allow for easy maintenance of multiple development and test instances.
 
-The recommended approach for multi-team development, when using a GitOps CICD promotion process, is to spin up "on-demand" development and test environments, specific to new features or to individual teams, to allow for development and integration testing that doesn't conflict with other team's development and test activities.  The Terraform provider allows administrators to use CICD automation to provision new environments as required, and remove them once the project activity no longer needs them.
+The recommended approach for multi-team development, when using a GitOps CICD promotion process, is to spin up "on-demand" development and test environments, specific to new features or to individual teams, to allow for development and integration testing that does not conflict with other team's development and test activities.  The Terraform provider allows administrators to use CICD automation to provision new environments as required, and remove them after the project activity no longer needs them.
 
-In a GitOps CICD promotion pipeline, configuration can be translated to Terraform config-as-code and then merged (with Pull Requests) with common test environments, where automated tests can be run.  This then allows the activities in the "on-demand" environments to be merged into a common promotion pipeline to production environments.
+In a GitOps CICD promotion pipeline, configuration can be translated to Terraform config-as-code and then merged (with Pull Requests) with common test environments, where automated tests can be run.  This flow allows the activities in the "on-demand" environments to be merged into a common promotion pipeline to production environments.
 
 ## User Administrator Role Assignment
 
@@ -243,6 +243,6 @@ In a GitOps CICD promotion pipeline, configuration can be translated to Terrafor
 
 As of 24th October 2023, the PingOne platform supports assigning administrator roles groups, such that members of the group get the administrator roles assigned.
 
-Ping recommends that groups with admin role assignments are controlled by the Joiner/Mover/Leaver Identity Governance processes, separate to the Terraform CICD process that configures applications, policies, domain verification and so on.  It may be that the groups with thier role assignments are initially seeded by a Terraform.  In this case, it should still be a separate Terraform process to the process that controls platform configuration, and the user group assignments should still happen in the Joiner/Mover/Leaver Identity Governance process.
+Ping recommends that groups with admin role assignments are controlled by the Joiner/Mover/Leaver Identity Governance processes, separate to the Terraform CICD process that configures applications, policies, domain verification and so on.  It may be that the groups with their role assignments are initially seeded by a Terraform.  In this case, it should still be a separate Terraform process to the process that controls platform configuration, and the user group assignments should still happen in the Joiner/Mover/Leaver Identity Governance process.
 
 Terraform can be used to assign administrator roles to individuals directly, however this is not recommended best practice except in development (or generally non-production) environments.  Ping recommends though that role assignment processes in non-production environments align as close as possible to role assignment processes in production environments.
