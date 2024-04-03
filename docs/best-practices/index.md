@@ -168,7 +168,7 @@ resource "pingone_population" "my_populations" {
 
 ### Use maps with static keys when using `for_each` on resources
 
-When writing Terraform HCL, there are considerations around the use of `for_each` when iterating over objects/maps to manage resources.  Using a variable key may result in accidental or unnecessary destruction/re-creation of resources as the data to iterate over changes.  Ping recommends using static keys and maps of objects when using `for_each` rather than lists of objects to control resource creation.
+When writing Terraform HCL, there are considerations around the use of `for_each` when iterating over objects/maps to manage resources.  Using a variable key may result in accidental or unnecessary destruction/re-creation of resources as the data to iterate over changes.  Ping recommends using static keys and maps of objects when using `for_each` rather than a list or array of objects to control resource creation.
 
 When Terraform creates and stores resources in state, iterated resources must be stored with a defined "key" value, that uniquely identifies the resource against others.  
 
@@ -181,11 +181,11 @@ variable "populations" {
   }))
 
   default = {
-    "first_population" = {
+    "first_population" = { # "first_population" is a static key for this object
       name        = "My awesome population"
       description = "My awesome population for awesome people"
     },
-    "second_population" = {
+    "second_population" = { # "second_population" is a static key for this object
       name = "My awesome second population"
     }
   }
@@ -203,14 +203,14 @@ resource "pingone_population" "my_awesome_population_map_of_objects" {
 
 The above results in creation of two unique resources:
 
-* `pingone_population.my_awesome_population_list_of_objects["first_population"]`
-* `pingone_population.my_awesome_population_list_of_objects["second_population"]`
+* `pingone_population.my_awesome_population_map_of_objects["first_population"]`
+* `pingone_population.my_awesome_population_map_of_objects["second_population"]`
 
 In this case, if the `name` or `description` of any population changes, Terraform will correctly update the impacted resource, rather than potentially forcing a re-creation.
 
 Additionally, if the order of the key/object pairs changes in the map, Terraform correctly calculates that there are no changes to the data with the objects themselves, because the relation of object to map key hasn't changed.  This has similar advantages to using `for_each` over `count`, where changing the order of items does impact the plan that Terraform calculates, because the counted index related to the data has changed.
 
-Consider the following example of creating multiple populations using `for_each` over a list of objects, where the objects are maintained as a list in the `for_each` expression using the `name` parameter as the key:
+Consider the following example of creating multiple populations using `for_each` over a _list_ of objects, where the objects are maintained as a list in the `for_each` expression using the `name` parameter as the key:
 ```terraform
 variable "populations" {
   type = list(object({
@@ -219,11 +219,11 @@ variable "populations" {
   }))
 
   default = [
-    {
-      name        = "My awesome population"
+    { # this is the first item in a list
+      name        = "My awesome population" 
       description = "My awesome population for awesome people"
     },
-    {
+    { # this is the first item in a list
       name = "My awesome second population"
     }
   ]
