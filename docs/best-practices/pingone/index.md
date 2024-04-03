@@ -98,7 +98,7 @@ resource "pingone_population" "my_population" {
 
 #### Best practice
 
-The below `pingone_population`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/population" target="_blank">:octicons-link-external-16:</a> definition is best practice as the password policy that it depends on is explicitly defined using the `pingone_password_policy`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/password_policy" target="_blank">:octicons-link-external-16:</a> resource.  This will ensure that environments are built and configured consistently between development, test and production.
+The below `pingone_population`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/population" target="_blank">:octicons-link-external-16:</a> definition is best practice as the password policy that it depends on is explicitly defined using the `pingone_password_policy`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/password_policy" target="_blank">:octicons-link-external-16:</a> resource.  This explicit definition will ensure that environments are built and configured consistently between development, test and production.
 
 ```hcl
 resource "pingone_password_policy" "my_password_policy" {
@@ -204,7 +204,7 @@ Misuse of the parameter may lead to unintended data loss and must be used with c
 
 While some resources are safe to remove and replace, there are some resources that, if removed, can result in data loss.
 
-It's recommended to use the `lifecycle.prevent_destroy` meta argument to protect against accidental destroy plans that might cause data to be lost.  You may also want to use the meta argument to prevent accidental removal of access policies and applications if dependent applications cannot be updated with Terraform in case of replacement.
+It is recommended to use the `lifecycle.prevent_destroy` meta argument to protect against accidental destroy plans that might cause data to be lost.  You may also want to use the meta argument to prevent accidental removal of access policies and applications if dependent applications cannot be updated with Terraform in case of replacement.
 
 For example:
 ```terraform
@@ -245,4 +245,4 @@ As of 24th October 2023, the PingOne platform supports assigning administrator r
 
 Ping recommends that groups with admin role assignments are controlled by the Joiner/Mover/Leaver Identity Governance processes, separate to the Terraform CICD process that configures applications, policies, domain verification and so on.  It may be that the groups with their role assignments are initially seeded by a Terraform.  In this case, it should still be a separate Terraform process to the process that controls platform configuration, and the user group assignments should still happen in the Joiner/Mover/Leaver Identity Governance process.
 
-Terraform can be used to assign administrator roles to individuals directly, however this is not recommended best practice except in development (or generally non-production) environments.  Ping recommends though that role assignment processes in non-production environments align as close as possible to role assignment processes in production environments.
+Terraform can be used to assign administrator roles to individuals directly, however this is not recommended best practice except in development (or generally non-production) environments.  Ping recommends that role assignment processes in non-production environments align as close as possible to role assignment processes in production environments.
