@@ -248,9 +248,10 @@ However, in this case, if the name of `My awesome population` is changed to `My 
 
 ### Write and Publish Re-usable Modules
 
-When writing Terraform HCL, there are often times when collections of resources and data sources are commonly used together, or used frequently with the same, or very similar structure.  These collections of resources and data sources can be grouped together into a Terraform module.  Writing and publishing Terraform modules embodies a best practice within infrastructure as code (IaC) paradigms for several compelling reasons.
+When writing Terraform HCL, there are often times when collections of resources and data sources are commonly used together, or used frequently with the same, or very similar structure.  These collections of resources and data sources can be grouped together into a Terraform module.  Writing and publishing Terraform modules embodies a best practice within infrastructure as code (IaC) paradigms for several compelling reasons:
 
-Firstly, modules encapsulate and abstract complex sets of resources and configurations, promoting reusability and reducing redundancy across your infrastructure setups. This modular approach enables teams to define standardized and vetted building blocks, ensuring consistency, compliance, and reliability across deployments. Moreover, publishing these modules, either internally within an organization or publicly in the Terraform Registry, fosters collaboration and knowledge sharing. It allows others to benefit from proven infrastructure patterns, contribute improvements, and stay aligned with the latest best practices. This culture of sharing and collaboration not only accelerates development cycles but also elevates the quality of infrastructure provisioning by leveraging the collective expertise and experience of the Terraform community.
+- **Abstract complexity** - modules encapsulate and abstract complex sets of resources and configurations, promoting reusability and reducing redundancy across your infrastructure setups. This modular approach enables teams to define standardized and vetted building blocks, ensuring consistency, compliance, and reliability across deployments.
+- **Foster collaboration** - publishing these modules, either internally within an organization or publicly in the Terraform Registry, fosters collaboration and knowledge sharing. It allows others to benefit from proven infrastructure patterns, contribute improvements, and stay aligned with the latest best practices. This culture of sharing and collaboration not only accelerates development cycles but also elevates the quality of infrastructure provisioning by leveraging the collective expertise and experience of the Terraform community.
 
 Therefore, writing and publishing Terraform modules is not just about code efficiency; it's about building a foundation for a more innovative, resilient, and collaborative infrastructure management practice.
 
@@ -377,6 +378,8 @@ resource "pingone_schema_attribute" "my_attribute" {
 }
 ```
 
+[Terraform Prevent Destroy Documentation](https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion)
+
 ### Don't Commit Secrets to Source Control - Use Terraform Variables and Secrets Management
 
 When writing Terraform HCL, it may be tempting to write values that are sensitive (such as OpenID Connect Client Secrets, TLS private key data, service passwords) directly into the code.  There is a significant risk that these secrets are then committed to source control, where they are able to be viewed by anyone who can access that code.  Even more so when the source control is a public Git repository hosted on sites such as Github or Gitlab.
@@ -387,7 +390,7 @@ Moreover, version control systems are designed to track and preserve history, ma
 
 Ultimately the safest way to recover from secrets that have been leaked is to rotate them in the source system, which can be an impactful activity if other systems or individuals depend on that credential.
 
-To mitigate these risks, it's recommended to use secure secrets management tools and practices. Terraform supports various mechanisms for securely managing secrets, including environment variables, encrypted state files, and integration with dedicated secrets management systems like AWS Secrets Manager, Azure Key Vault, or HashiCorp Vault. These tools provide controlled access to secrets, audit trails, and the ability to rotate secrets periodically or in response to a breach.
+To mitigate these risks, it is recommended to use secure secrets management tools and practices. Terraform supports various mechanisms for securely managing secrets, including environment variables, encrypted state files, and integration with dedicated secrets management systems like AWS Secrets Manager, Azure Key Vault, or HashiCorp Vault. These tools provide controlled access to secrets, audit trails, and the ability to rotate secrets periodically or in response to a breach.
 
 By keeping secrets out of source control and employing robust secrets management strategies, users can significantly enhance the security posture of their infrastructure deployments. This approach not only protects sensitive information but also aligns with compliance requirements and best practices for secure infrastructure management.
 
@@ -411,9 +414,9 @@ Ping recommend using linting tools in the development process, as these tools si
 
 Linters are static code analysis tools designed to inspect code for potential errors, stylistic discrepancies, and deviations from established coding standards and best practices. By integrating linting tools into the development workflow, developers are proactively alerted to issues such as syntax errors, potential bugs, and security vulnerabilities before the code is even executed or deployed. This immediate feedback loop not only saves time and resources by catching issues early but also facilitates a learning environment where developers can gradually adopt best coding practices and improve their skills.
 
-Furthermore, linting tools play a pivotal role in maintaining codebase consistency, especially in collaborative environments where multiple developers contribute to the same project. They enforce a uniform coding style and standards, reducing the cognitive load on developers who need to understand and work with each other’s code. This standardization is vital for code readability, reducing the complexity of code reviews, and easing the onboarding of new team members.
+Moreover, linting tools play a pivotal role in maintaining codebase consistency, especially in collaborative environments where multiple developers contribute to the same project. They enforce a uniform coding style and standards, reducing the cognitive load on developers who need to understand and work with each other’s code. This standardization is vital for code readability, reducing the complexity of code reviews, and easing the onboarding of new team members.
 
-Moreover, integrating linting tools into continuous integration/continuous deployment (CI/CD) pipelines automates the process of code quality checks, ensuring that only code that meets the defined quality criteria is advanced through the stages of development, testing, and deployment. This automation not only streamlines the development process but also aligns with agile practices and DevOps methodologies, promoting faster, more reliable, and higher-quality software releases.
+Furthermore, integrating linting tools into continuous integration/continuous deployment (CI/CD) pipelines automates the process of code quality checks, ensuring that only code that meets the defined quality criteria is advanced through the stages of development, testing, and deployment. This automation not only streamlines the development process but also aligns with agile practices and DevOps methodologies, promoting faster, more reliable, and higher-quality software releases.
 
 One of the most common and full featured linting tools is [TFLint](https://github.com/terraform-linters/tflint).
 
