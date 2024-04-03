@@ -63,7 +63,7 @@ It is highly recommended that warnings shown on the `terraform plan` stage espec
 
 ### Use Terraform Formatting Tools
 
-When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjusts the Terraform code to a standard style, which helps keep the codebase tidy and consistent.  Typically, this means maintaining consistent indentation, spacing and alignment of code.
+When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjusts the Terraform code to a standard style, which helps keep the codebase tidy and consistent.  Typically, this means maintaining consistent indentation, spacing and alignment of code. If developing in Visual Studio Code, installing the "Hashicorp Terraform" extension will run `terraform fmt` automatically as you write and save configuration.
 
 This consistency makes your code easier to read and understand for anyone who might work on the project. It's akin to keeping a clean, organised workspace in a physical job — everything is where you expect it to be, reducing confusion and making it easier to spot mistakes.
 
@@ -168,45 +168,11 @@ resource "pingone_population" "my_populations" {
 
 ### Use maps with static keys when using `for_each` on resources
 
-When writing Terraform HCL, there are considerations around the use of `for_each` when iterating over objects/maps to manage resources.  Using a variable key may result in accidental or unnecessary destruction/re-creation of resources as the data to iterate over changes.  Ping recommends using static keys and maps of objects when using `for_each` to control resource creation.
+When writing Terraform HCL, there are considerations around the use of `for_each` when iterating over objects/maps to manage resources.  Using a variable key may result in accidental or unnecessary destruction/re-creation of resources as the data to iterate over changes.  Ping recommends using static keys and maps of objects when using `for_each` rather than lists of objects to control resource creation.
 
-When Terraform creates and stores resources in state, iterated resources must be stored with a defined "key" value, that uniquely identifies the resource against others.  Consider the following example of creating multiple populations using `for_each` over a list of objects, where the objects are converted to a map in the `for_each` expression using the `name` parameter as the key:
-```terraform
-variable "populations" {
-  type = list(object({
-    name        = string
-    description = optional(string)
-  }))
+When Terraform creates and stores resources in state, iterated resources must be stored with a defined "key" value, that uniquely identifies the resource against others.  
 
-  default = [
-    {
-      name        = "My awesome population"
-      description = "My awesome population for awesome people"
-    },
-    {
-      name = "My awesome second population"
-    }
-  ]
-}
-
-resource "pingone_population" "my_awesome_population_list_of_objects" {
-  environment_id = pingone_environment.my_environment.id
-
-  for_each = { for population in var.populations : population.name => population }
-
-  name        = each.key
-  description = each.value.description
-}
-```
-
-The above results in creation of two unique resources:
-
-* `pingone_population.my_awesome_population_list_of_objects["My awesome population"]`
-* `pingone_population.my_awesome_population_list_of_objects["My awesome second population"]`
-
-Notice that, if the name of `My awesome population` is changed to `My awesome first population` in the variable, Terraform wants to destroy that population and re-create it with it's new index value.  While this is an unnecessary way to change the population name, destruction of populations may put user data at risk.
-
-It would be better practice therefore to use a map of objects, where there is a static key:
+Therefore it is a best practice to use a map of objects, where there is a static key:
 ```terraform
 variable "populations" {
   type = map(object({
@@ -242,7 +208,43 @@ The above results in creation of two unique resources:
 
 In this case, if the `name` or `description` of any population changes, Terraform will correctly update the impacted resource, rather than potentially forcing a re-creation.
 
-Notice also, that if the order of the key/object pairs changes in the map, Terraform correctly calculates that there are no changes to the data with the objects themselves, because the relation of object to map key hasn't changed.  This is advantage of using `for_each` over `count`, where changing the order of items does impact the plan that Terraform calculates, because the counted index related to the data has changed.
+Additionally, if the order of the key/object pairs changes in the map, Terraform correctly calculates that there are no changes to the data with the objects themselves, because the relation of object to map key hasn't changed.  This has similar advantages to using `for_each` over `count`, where changing the order of items does impact the plan that Terraform calculates, because the counted index related to the data has changed.
+
+Consider the following example of creating multiple populations using `for_each` over a list of objects, where the objects are maintained as a list in the `for_each` expression using the `name` parameter as the key:
+```terraform
+variable "populations" {
+  type = list(object({
+    name        = string
+    description = optional(string)
+  }))
+
+  default = [
+    {
+      name        = "My awesome population"
+      description = "My awesome population for awesome people"
+    },
+    {
+      name = "My awesome second population"
+    }
+  ]
+}
+
+resource "pingone_population" "my_awesome_population_list_of_objects" {
+  environment_id = pingone_environment.my_environment.id
+
+  for_each = { for population in var.populations : population.name => population }
+
+  name        = each.key
+  description = each.value.description
+}
+```
+
+The above results in creation of two unique resources:
+
+* `pingone_population.my_awesome_population_list_of_objects["My awesome population"]`
+* `pingone_population.my_awesome_population_list_of_objects["My awesome second population"]`
+
+However, in this case, if the name of `My awesome population` is changed to `My awesome first population` in the variable, Terraform will destroy that population and re-create it with it's new index value.  This is an unnecessary and dangerous way to change the population name as destruction of populations will put user data at risk.
 
 ### Write and Publish Re-usable Modules
 
