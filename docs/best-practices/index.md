@@ -380,7 +380,9 @@ resource "pingone_schema_attribute" "my_attribute" {
 
 [Terraform Prevent Destroy Documentation](https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion)
 
-### Don't Commit Secrets to Source Control - Use Terraform Variables and Secrets Management
+### Secrets Management
+
+**Don't commit secrets to source control! Use Terraform variables and secrets management**
 
 When writing Terraform HCL, it may be tempting to write values that are sensitive (such as OpenID Connect Client Secrets, TLS private key data, service passwords) directly into the code.  There is a significant risk that these secrets are then committed to source control, where they are able to be viewed by anyone who can access that code.  Even more so when the source control is a public Git repository hosted on sites such as Github or Gitlab.
 
