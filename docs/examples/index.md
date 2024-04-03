@@ -26,3 +26,9 @@ The following links show how to use Terraform to integrate with your own apps an
 The **BXRetail Sample App Package** Github repository provides a sample app that uses [Ping Identity's OAuth/OIDC client SDK](https://github.com/pingidentity-developers-experience/ping-oidc-client-sdk), deployed and integrated with PingOne with Terraform.
 
 The application is delivered in Ping Identity's demo branding for retail, called **BXRetail**.
+
+### Developer Experience Example Packages
+
+* [Ping Integration Example Packages](https://github.com/pingidentity-developers-experience/ping-integration-example-packages)
+
+This Github repository contains various experiences where PingOne services are integrated with sample client apps. Each example is deployed and integrated with Terraform and is community supported. 
