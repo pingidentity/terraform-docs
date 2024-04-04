@@ -250,8 +250,6 @@ When writing Terraform HCL, there are many cases when collections of resources a
 
 First, modules encapsulate and abstract complex sets of resources and configurations, promoting reusability and reducing redundancy across your infrastructure setups. This modular approach enables teams to define standardized and vetted building blocks, ensuring consistency, compliance, and reliability across deployments. Moreover, publishing these modules, either internally within an organization or publicly in the Terraform Registry, fosters collaboration and knowledge sharing. It allows others to benefit from proven infrastructure patterns, contribute improvements, and stay aligned with the latest best practices.
 
-Therefore, writing and publishing Terraform modules is not just about code efficiency; it is about building a foundation for a more innovative, resilient, and collaborative infrastructure management practice.
-
 ## Versioning
 
 ### Use Terraform Version Control
