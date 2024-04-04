@@ -16,26 +16,26 @@ This preview allows administrators to assess the impact of the proposed changes,
 
 Use of the `--auto-approve` feature in Terraform can lead to unintended and potentially destructive changes in your infrastructure. When running Terraform commands, such as `terraform apply`, without the `--auto-approve` flag, Terraform will provide a plan of the changes it intends to make and ask for confirmation before applying those changes.
 
-By using `--auto-approve`, the process of reviewing planned changes to configuration and infrastructure is skipped, and Terraform immediately applies the changes. This can be risky for several reasons:
+By using `--auto-approve`, the process of reviewing planned changes to configuration and infrastructure is skipped, and Terraform immediately applies the changes. Using this flag is risky for several reasons:
 
-* **Accidental Changes**: Without reviewing the plan, unintended changes may inadvertently be applied to the environment.  This is especially dangerous in production environments where mistakes can have significant consequences, such as causing breaking changes causing outage or use case failure.
-* **Destructive Changes**: Terraform may plan to destroy resources as part of the update.  Without manual confirmation, unintentional removal of critical configuration or infrastructure may occur.  This applies to both `terraform apply` and `terraform destroy` commands.
+* **Accidental Changes**: Without reviewing the plan, unintended changes may inadvertently be applied to the environment.  The lack of review is particularly dangerous in production environments where mistakes can have significant consequences, such as causing breaking changes creating an outage or use case failure.
+* **Destructive Changes**: Similar to accidental changes, Terraform may also destroy resources as part of the update.  Without manual confirmation, unintentional removal of critical configuration or infrastructure may occur.  This removal of resources applies to both `terraform apply` and `terraform destroy` commands.
 * **Security Implications**: Auto-approving changes without verification increases the risk of security vulnerabilities. For example, sensitive data may unintentionally be exposed, or access policies may be negated or weakened.
 
-To minimize the risks associated with `--auto-approve`, Ping recommends to review the Terraform plan before applying changes.  This ensures that admins have a clear understanding of what modifications Terraform intends to make to live service configuration and infrastructure.
+To minimize the risks associated with `--auto-approve`, Ping recommends to review the Terraform plan before applying changes.  This review ensures that admins have a clear understanding of what modifications Terraform intends to make to live service configuration and infrastructure.
 
 ### Store State Securely
 
-When operating production infrastructure with Terraform, the secure storage of Terraform state files is of paramount importance. These files serve as the foundational blueprint of your infrastructure, detailing configurations, credentials, and the current state of resources. Given their critical role, these files inherently contain sensitive information that, if exposed, could be used to gain unauthorized access to user data and manipulation of deployed infrastructure.
+When operating production infrastructure with Terraform, the secure storage of Terraform state files is critical. These files serve as the foundational blueprint of your infrastructure, containing detailed configurations, credentials, and the current state of resources. As they contain sensitive information, exposure of these files could be used to gain unauthorized access to user data and allow manipulation of deployed infrastructure.
 
-To safeguard against these threats, it is vital that robust security measures are implemented around state file storage. This includes:
+To safeguard against these threats, it is vital that robust security measures are implemented around state file storage. Such measures include:
 - Encrypting the state files to protect their contents during transit and at rest
 - Employing stringent access controls to ensure only authorized personnel can retrieve or alter the state.  If cloud blob storage is used (such as AWS S3), ensure public access is disabled.
 - Leveraging secure storage solutions that offer features like versioning and backups
 
-Hashicorp themselves offer Terraform Cloud that provides secure storage of state out of the box.
+One option is to use Terraform Cloud from Hashicorp, which provides secure state storage as part of the service.
 
-Such practices are crucial in maintaining the confidentiality, integrity, and availability of your infrastructure.
+Regardless of your method of storing the state information, these practices are crucial in maintaining the confidentiality, integrity, and availability of your infrastructure.
 
 For more information about state management when using Terraform, refer to [Hashicorp's online documentation](https://developer.hashicorp.com/terraform/language/state).
 
@@ -57,23 +57,23 @@ Terraform providers can produce warnings as a result of operations such as `terr
 
 Ping Identity's Terraform providers can show warnings that need to be captured and reviewed.  For example, the PingOne Terraform provider will produce warnings when specific configuration is used that remove guardrails to prevent accidental deletion of data.
 
-It is highly recommended that warnings shown on the `terraform plan` stage especially are captured reviewed before the `terraform apply` stage is run, as the messages could be alerting the administrator to potential undesired results of the `terraform apply` stage.
+It is highly recommended that warnings shown on the `terraform plan` stage especially are captured and reviewed before the `terraform apply` stage is run, as the messages might alert the administrator to potential undesired results of the `terraform apply` stage.
 
 ## HCL Writing Recommendations
 
 ### Use Terraform Formatting Tools
 
-When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjusts the Terraform code to a standard style, which helps keep the codebase tidy and consistent.  Typically, this means maintaining consistent indentation, spacing and alignment of code. If developing in Visual Studio Code, installing the "Hashicorp Terraform" extension will run `terraform fmt` automatically as you write and save configuration.
+When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjusts the Terraform code to a standard style, keeping the codebase tidy and consistent.  Typically, this means maintaining consistent indentation, spacing and alignment of code. If developing in Visual Studio Code, the "Hashicorp Terraform" extension can be set to run `terraform fmt` automatically as you write and save configuration.
 
-This consistency makes your code easier to read and understand for anyone who might work on the project. It's akin to keeping a clean, organised workspace in a physical job — everything is where you expect it to be, reducing confusion and making it easier to spot mistakes.
+This consistency makes your code easier to read and understand for anyone who might work on the project. Having consistent formatting reduces confusion and makes it easier to spot mistakes.
 
-It's recommended to include `terraform fmt` into the development workflows as it has a big impact on the maintainability and clarity of your infrastructure code. It’s a small effort for a significant gain in code quality and team collaboration.
+It is recommended to include `terraform fmt` into the development workflows as it has a big impact on the maintainability and clarity of your infrastructure code. The benefits in code quality and collaboration outweigh the minimal effort required to format everything consistently.
 
-Additionally, it's recommended to include `terraform fmt` as a CI/CD validation check, to ensure developers are applying consistent development practices when committing configuration-as-code to a common CI/CD pipeline code repository.
+Additionally, it is recommended to include `terraform fmt` as a CI/CD validation check, to ensure developers are applying consistent development practices when committing configuration-as-code to a common CI/CD pipeline code repository.
 
 ### Validate Terraform HCL before Plan and Apply
 
-When writing Terraform HCL, it's recommended to use `terraform validate` before running `terraform plan` and `terraform apply`.
+When writing Terraform HCL, it is recommended to use `terraform validate` before running `terraform plan` and `terraform apply`.
 
 This command serves as a preliminary check, verifying that Terraform HCL configurations are syntactically valid and internally consistent without actually applying any changes.  There are some resources in Ping's Terraform providers that have specific validation logic to ensure that configuration is valid before any platform API is called, which reduces the "time-to-error", if an error exists.
 
@@ -101,7 +101,7 @@ resource "pingone_population" "my_populations" {
 }
 ```
 
-The HCL will create the populations successfully, but we will run into problems when the order of the array changes (for example, if it's sorted alphabetically in the code):
+The HCL will create the populations successfully, but we will run into problems when the order of the array changes (for example, if it is sorted alphabetically in the code):
 
 ```terraform
 locals {
@@ -147,7 +147,7 @@ Terraform will perform the following actions:
 
 In the above situation, user's are inadvertently being moved from one population to another based on the names of the populations.  Any downstream application that requires a hardcoded UUID for "Retail Customers" (for example) will instead return "Business Partners" identities.
 
-The problem is compounded if adding and removing elements to/from the array.  This is an example of when to use `for_each` instead of `count`, as `for_each` will identify and store each resource with a unique key.  Including guidance from the [Use maps with static keys when using `for_each` on resources](#use-maps-with-static-keys-when-using-for-each-on-resources) best practice, the following HCL is the recommended way to perform the same iteration:
+The problem is compounded when adding and removing elements to/from the array.  This scenario is an example of when to use `for_each` instead of `count`, as `for_each` will identify and store each resource with a unique key.  Including guidance from the [Use maps with static keys when using `for_each` on resources](#use-maps-with-static-keys-when-using-for-each-on-resources) best practice, the following HCL is the recommended way to perform the same iteration:
 
 ```terraform
 locals {
@@ -261,7 +261,7 @@ Therefore, writing and publishing Terraform modules is not just about code effic
 
 Terraform releases change over time, which can include new features and bug fixes.  Major version changes can introduce breaking changes to written code.
 
-To ensure that Terraform HCL is run with consistent results between runs, it's recommended to restrict the version of Terraform in the `terraform {}` block with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
+To ensure that Terraform HCL is run with consistent results between runs, it is recommended to restrict the version of Terraform in the `terraform {}` block with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
 
 For example:
 ```terraform
@@ -287,7 +287,7 @@ terraform {
 
 Ping Identity (and other vendors) release changes to providers on a regular basis that can include new features and bug fixes.  Major version changes can introduce breaking changes to written code as older deprecated resources, data sources, parameters and attributes are removed.  Provider versions that are `< 1.0.0` may also include breaking changes to written code.  Ping Identity follows guidance issued by Hashicorp on [Deprecations, Removals and Renames](https://developer.hashicorp.com/terraform/plugin/framework/deprecations).
 
-To ensure that Terraform HCL is run with a consistent results between runs, it's recommended to restrict the version of each provider in the `terraform.required_providers` parameter with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
+To ensure consistent results between iterations, it is recommended to restrict the version of each provider in the `terraform.required_providers` parameter with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
 
 For example, the following syntax for the `hashicorp/kubernetes` and `pingidentity/pingdirectory` providers is recommended for provider versions `>= 1.0.0`:
 ```terraform
@@ -331,7 +331,7 @@ terraform {
 
 Ping Identity (and other vendors) release changes to modules on a regular basis that can include new features and bug fixes.  Major version changes can introduce breaking changes to written code as older deprecated resources, data sources, parameters and attributes are removed.
 
-To ensure that Terraform HCL is run with a consistent results between runs, it's recommended to restrict the version of each module with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
+To ensure consistent results between iterations, it is recommended to restrict the version of each module with a lower version limit (in case the HCL includes syntax introduced in a specific version) and an upper version limit to protect against breaking changes.
 
 For example, the following syntax for the `terraform-aws-modules/vpc/aws` module is recommended for module versions `>= 1.0.0`:
 ```terraform
@@ -361,7 +361,7 @@ module "utils" {
 
 While some resources are safe to remove and replace, there are some resources that, if removed, can result in data loss.
 
-It's recommended to use the `lifecycle.prevent_destroy` meta argument to protect against accidental destroy plans that might cause data to be lost.  You may also want to use the meta argument to prevent accidental removal of access policies and applications if dependent applications cannot be updated with Terraform in case of replacement.
+It is recommended to use the `lifecycle.prevent_destroy` meta argument to protect against accidental destroy plans that might cause data to be lost.  You may also want to use the meta argument to prevent accidental removal of access policies and applications if dependent applications cannot be updated with Terraform in case of replacement.
 
 For example:
 ```terraform
@@ -384,13 +384,11 @@ resource "pingone_schema_attribute" "my_attribute" {
 
 **Don't commit secrets to source control! Use Terraform variables and secrets management**
 
-When writing Terraform HCL, it may be tempting to write values that are sensitive (such as OpenID Connect Client Secrets, TLS private key data, service passwords) directly into the code.  There is a significant risk that these secrets are then committed to source control, where they are able to be viewed by anyone who can access that code.  Even more so when the source control is a public Git repository hosted on sites such as Github or Gitlab.
+When writing Terraform HCL, it may be tempting to write values that are sensitive (such as passwords, API keys, tokens, OpenID Connect Client Secrets, TLS private key data) directly into the code.  There is a significant risk that these secrets are then committed to source control, where they are able to be viewed by anyone who can access that code.  Even more so when the source control is a public Git repository hosted on sites such as Github or Gitlab.  After secrets are committed to a repository, removing them requires extensive effort and does not guarantee that they have not been copied or logged elsewhere.
 
-Committing secrets, such as passwords, API keys, and tokens, directly into Terraform configurations and subsequently into source control, poses significant security risks that can have far-reaching consequences. This practice exposes sensitive information to anyone who has access to the repository, including potential unauthorized users, thereby compromising the security of your infrastructure. Once secrets are committed to a repository, removing them requires extensive effort and does not guarantee that they haven't been copied or logged elsewhere.
+In addition, version control systems are designed to track and preserve history, making it challenging to completely erase secrets after they are committed. This persistence in history means that even if the secrets are later removed from the codebase, they remain accessible in the commit history. Additionally repositories are often cloned, forked, or integrated with third-party services, further increasing the exposure of secrets.
 
-Moreover, version control systems are designed to track and preserve history, making it challenging to completely erase secrets once they are committed. This persistence in history means that even if the secrets are later removed from the codebase, they remain accessible in the commit history. Additionally, repositories, especially public or shared ones, are often cloned, forked, or integrated with third-party services, further increasing the exposure of secrets.
-
-Ultimately the safest way to recover from secrets that have been leaked is to rotate them in the source system, which can be an impactful activity if other systems or individuals depend on that credential.
+In the end, if credentials have been leaked in this manner, the safest way to recover is to rotate them in the source systems, an activity which can have broad impact across systems and individuals.
 
 To mitigate these risks, it is recommended to use secure secrets management tools and practices. Terraform supports various mechanisms for securely managing secrets, including environment variables, encrypted state files, and integration with dedicated secrets management systems like AWS Secrets Manager, Azure Key Vault, or HashiCorp Vault. These tools provide controlled access to secrets, audit trails, and the ability to rotate secrets periodically or in response to a breach.
 
@@ -400,19 +398,19 @@ By keeping secrets out of source control and employing robust secrets management
 
 ### Use "On-Demand" Development Environments
 
-The recommended approach for multi-team development, when using a GitOps CICD promotion process, is to spin up "on-demand" development and test environments (where possible), specific to new features or to individual teams, to allow for development and integration testing that doesn't conflict with other team's development and test activities.  The Terraform provider allows administrators to use CICD automation to provision new environments as required, and remove them once the project activity no longer needs them.
+When using a GitOps CICD promotion process across multiple teams or individuals, a recommended approach is to spin up "on-demand" development and test environments (where possible). These environments can be specific to new features or to individual teams to allow for development and integration testing that does not conflict with other team's activities. The Terraform provider allows administrators to use CICD automation to provision new environments as required, and remove them after the project activity no longer needs them.
 
-In a GitOps CICD promotion pipeline, configuration can be translated to Terraform config-as-code and then merged (with Pull Requests) with common test environments, where automated tests can be run.  This then allows the activities in the "on-demand" environments to be merged into a common promotion pipeline to production environments.
+In a GitOps CICD promotion pipeline, configuration can be translated to Terraform config-as-code and then merged (with Pull Requests) with common test environments, where automated tests can be run.  Doing so allows the activities in the on-demand environments to be merged into a common promotion pipeline to production environments.
 
-In some cases there may be a lack of available integrated systems that cannot be spun up easily or cannot be integrated with.  For example, this may apply to integrated HR systems, or systems that have been installed onto "bare metal" infrastructure.  In these cases, where possible, connected and unrelated systems can be "stubbed" in the spin-up process, and tested during the "Integration test" phase of the project when changes have been merged into a common promotion pipeline.
+In some cases some integrated systems are not easily available for integration testing. For example, integrated HR systems or systems are installed on bare metal infrastructure. In these cases, where possible, these systems can be stubbed into the process and tested during the integration testing phase of the project when changes have been merged into a common promotion pipeline.
 
-In some cases it may not be practical to spin up on-demand development or test environments due to impact on project costs, commercial limitations or limitations in the CI/CD processes.  In this case, it is recommended to create static development environments that are ultimately shared between teams/projects and process introduced to mitigate conflicts.  Ideally these development environments (that doesn't impact project work) have their configuration periodically refreshed and aligned with that of common test environments further down the CI/CD promotion pipeline.  Ensure this activity is appropriately scheduled with the project teams involved to avoid wiping configuration that is still in active development.
+In some cases, it is not practical or possible to use on-demand environments. In these situations, one option is to create static development environments that are shared between teams/projects, along with processes to mitigate conflicts. Ideally these development environments will have their configuration periodically refreshed and aligned with that of common test environments further down the CI/CD promotion pipeline. When using a shared environment, ensure the update activity is appropriately scheduled with the project teams involved to avoid wiping configuration that is still in active development.
 
 ## Continuous Integration / Continuous Delivery (CI/CD)
 
 ### Use Terraform Linting Tools
 
-Ping recommend using linting tools in the development process, as these tools significantly enhance code quality, maintainability, and consistency across projects.
+Ping recommends using linting tools in the development process, as these tools significantly enhance code quality, maintainability, and consistency across projects.
 
 Linters are static code analysis tools designed to inspect code for potential errors, stylistic discrepancies, and deviations from established coding standards and best practices. By integrating linting tools into the development workflow, developers are proactively alerted to issues such as syntax errors, potential bugs, and security vulnerabilities before the code is even executed or deployed. This immediate feedback loop not only saves time and resources by catching issues early but also facilitates a learning environment where developers can gradually adopt best coding practices and improve their skills.
 
@@ -424,11 +422,11 @@ One of the most common and full featured linting tools is [TFLint](https://githu
 
 ### Use Terraform Security Scanning Tools
 
-Ping recommend that users incorporate Terraform security scanning tools into the development and deployment workflow to help with security and compliance of infrastructure as code (IaC) configurations.
+Ping recommends that users incorporate Terraform security scanning tools into the development and deployment workflow to help with security and compliance of infrastructure as code (IaC) configurations.
 
-Terraform, while powerful, manages highly sensitive and critical components of cloud infrastructure, making any misconfigurations or vulnerabilities potentially disastrous in terms of security breaches, data leaks, and compliance violations. Security scanning tools are designed to automatically inspect Terraform code for such issues before the infrastructure is provisioned or updated, highlighting practices that could lead to security weaknesses, such as overly permissive access controls, unencrypted data storage, or exposure of sensitive information.
+Terraform manages highly sensitive and critical components of cloud infrastructure, making any misconfigurations or vulnerabilities potentially disastrous in terms of security breaches, data leaks, and compliance violations. Security scanning tools are designed to automatically inspect Terraform code for such issues before the infrastructure is provisioned or updated, highlighting practices that could lead to security weaknesses, such as overly permissive access controls, unencrypted data storage, or exposure of sensitive information.
 
-By leveraging these tools, developers can preemptively identify and rectify security vulnerabilities within their infrastructure code, significantly reducing the risk of attacks and breaches. This proactive approach to security is aligned with the principles of DevSecOps, which advocates for "shifting left" on security - that is, integrating security practices early in the software development lifecycle. It ensures that security considerations are embedded in the development process, rather than being an afterthought.
+By leveraging these tools, developers can preemptively identify and rectify security vulnerabilities within their infrastructure code, significantly reducing the risk of attacks and breaches. This proactive approach to security is aligned with the principles of DevSecOps, which advocates for "shifting left" on security - that is, integrating security practices early in the software development lifecycle. It ensures that security considerations are embedded in the development process.
 
 Furthermore, Terraform security scanning tools often provide compliance checks against common regulatory standards and best practices, such as the CIS benchmarks, making it easier for organizations to adhere to industry regulations and avoid penalties. These tools also promote a culture of security awareness among developers, educating them on secure coding practices and the importance of infrastructure security.
 
