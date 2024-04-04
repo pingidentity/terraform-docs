@@ -210,7 +210,7 @@ In this case, if the `name` or `description` of any population changes, Terrafor
 
 Additionally, if the order of the key/object pairs changes in the map, Terraform correctly calculates that there are no changes to the data with the objects themselves, because the relation of object to map key hasn't changed.  This has similar advantages to using `for_each` over `count`, where changing the order of items does impact the plan that Terraform calculates, because the counted index related to the data has changed.
 
-Compare this to the a _less ideal_ example of creating multiple populations using `for_each` over a _list_ of objects, where the objects are maintained as a list in the `for_each` expression using the `name` parameter as the key:
+Compare this to a _less ideal_ example of creating multiple populations using `for_each` over a _list_ of objects, where the objects are maintained as a list in the `for_each` expression using the `name` parameter as the key:
 ```terraform
 variable "populations" {
   type = list(object({
