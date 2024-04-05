@@ -77,11 +77,6 @@ nav:
   #     - Integrated Solutions:
   #         - PingOne/DaVinci Flow Integration: "use-case-examples/integrated-pingone-davinci-flow.md"
   #         - PingOne Workforce with Windows Login Passwordless: "use-case-examples/integrated-pingone-workforce-windows-login.md"
-  # - Best Practices:
-  #     - Writing Terraform HCL: "best-practices/writing-terraform-hcl.md"
-  #     - PingOne:
-  #         - Protecting Data: "best-practices/pingone-protecting-data.md"
-  #         - Customer / Workforce / Custom Environments: "best-practices/pingone-environment-management.md"
   - FAQ:
       - PingOne Provider: "faq/pingone.md"
       - DaVinci Provider: "faq/davinci.md"

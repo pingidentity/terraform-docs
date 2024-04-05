@@ -63,7 +63,7 @@ It is highly recommended that warnings shown on the `terraform plan` stage espec
 
 ### Use Terraform Formatting Tools
 
-When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjusts the Terraform code to a standard style, keeping the codebase tidy and consistent.  Typically, this means maintaining consistent indentation, spacing and alignment of code. If developing in Visual Studio Code, the "Hashicorp Terraform" extension can be set to run `terraform fmt` automatically as you write and save configuration.
+When writing Terraform HCL, using `terraform fmt` is a straightforward yet powerful practice.  `terraform fmt` and equivalent formatting tools adjust the Terraform code to a standard style, keeping the codebase tidy and consistent.  Typically, this formatting deals with maintaining consistent indentation, spacing and alignment of code. If developing in Visual Studio Code, the "Hashicorp Terraform" extension can be set to run `terraform fmt` automatically as you write and save configuration.
 
 This consistency makes your code easier to read and understand for anyone who might work on the project. Having consistent formatting reduces confusion and makes it easier to spot mistakes.
 
@@ -172,7 +172,10 @@ When writing Terraform HCL, there are considerations around the use of `for_each
 
 When Terraform creates and stores resources in state, iterated resources must be stored with a defined "key" value, that uniquely identifies the resource against others.  
 
-Therefore it is a best practice to use a map of objects, where there is a static key:
+#### Best practice
+
+It is a best practice to use a map of objects, where there is a static key.  Notice that `first_population` and `second_population` are both static keys for the objects we want to create:
+
 ```terraform
 variable "populations" {
   type = map(object({
@@ -181,11 +184,11 @@ variable "populations" {
   }))
 
   default = {
-    "first_population" = { # "first_population" is a static key for this object
+    "first_population" = {
       name        = "My awesome population"
       description = "My awesome population for awesome people"
     },
-    "second_population" = { # "second_population" is a static key for this object
+    "second_population" = {
       name = "My awesome second population"
     }
   }
@@ -210,7 +213,10 @@ In this case, if the `name` or `description` of any population changes, Terrafor
 
 Additionally, if the order of the key/object pairs changes in the map, Terraform correctly calculates that there are no changes to the data with the objects themselves, because the relation of object to map key hasn't changed.  This has similar advantages to using `for_each` over `count`, where changing the order of items does impact the plan that Terraform calculates, because the counted index related to the data has changed.
 
-Compare this to a _less ideal_ example of creating multiple populations using `for_each` over a _list_ of objects, where the objects are maintained as a list in the `for_each` expression using the `name` parameter as the key:
+#### Not best practice
+
+The following is an example of not best practice where creation of multiple populations might use `for_each` over a _list_ of objects.  In this example, we might be inclined to use the `name` as the population's key, which can introduce functional issues and introduce security vulnerabilities for integrated production environments:
+
 ```terraform
 variable "populations" {
   type = list(object({
@@ -219,11 +225,11 @@ variable "populations" {
   }))
 
   default = [
-    { # this is the first item in a list
+    {
       name        = "My awesome population" 
       description = "My awesome population for awesome people"
     },
-    { # this is the first item in a list
+    {
       name = "My awesome second population"
     }
   ]
@@ -244,16 +250,14 @@ The above results in creation of two unique resources:
 * `pingone_population.my_awesome_population_list_of_objects["My awesome population"]`
 * `pingone_population.my_awesome_population_list_of_objects["My awesome second population"]`
 
-However, in this case, if the name of `My awesome population` is changed to `My awesome first population` in the variable, Terraform will destroy that population and re-create it with it's new index value.  This is an unnecessary and dangerous way to change the population name as destruction of populations will put user data at risk.
+However, in this case, if the name of `My awesome population` is changed to `My awesome first population` in the variable, Terraform will destroy that population and re-create it with a new index value.  Not only is this an unnecessary and dangerous way to change the population name as destruction of populations will put user data at risk.
 
 ### Write and Publish Re-usable Modules
 
-When writing Terraform HCL, there are often times when collections of resources and data sources are commonly used together, or used frequently with the same, or very similar structure.  These collections of resources and data sources can be grouped together into a Terraform module.  Writing and publishing Terraform modules embodies a best practice within infrastructure as code (IaC) paradigms for several compelling reasons:
+When writing Terraform HCL, there are many cases when collections of resources and data sources are commonly used together or with the same or a similar structure.  These collections of resources and data sources can be grouped together into a Terraform module.  Writing and publishing Terraform modules embodies a best practice within infrastructure as code (IaC) paradigms for several reasons:
 
 - **Abstract complexity** - modules encapsulate and abstract complex sets of resources and configurations, promoting reusability and reducing redundancy across your infrastructure setups. This modular approach enables teams to define standardized and vetted building blocks, ensuring consistency, compliance, and reliability across deployments.
 - **Foster collaboration** - publishing these modules, either internally within an organization or publicly in the Terraform Registry, fosters collaboration and knowledge sharing. It allows others to benefit from proven infrastructure patterns, contribute improvements, and stay aligned with the latest best practices. This culture of sharing and collaboration not only accelerates development cycles but also elevates the quality of infrastructure provisioning by leveraging the collective expertise and experience of the Terraform community.
-
-Therefore, writing and publishing Terraform modules is not just about code efficiency; it's about building a foundation for a more innovative, resilient, and collaborative infrastructure management practice.
 
 ## Versioning
 
@@ -380,9 +384,9 @@ resource "pingone_schema_attribute" "my_attribute" {
 
 [Terraform Prevent Destroy Documentation](https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle#prevent-resource-deletion)
 
-### Secrets Management
+## Secrets Management
 
-**Don't commit secrets to source control! Use Terraform variables and secrets management**
+### Use of Terraform Variables and Secrets Management
 
 When writing Terraform HCL, it may be tempting to write values that are sensitive (such as passwords, API keys, tokens, OpenID Connect Client Secrets, TLS private key data) directly into the code.  There is a significant risk that these secrets are then committed to source control, where they are able to be viewed by anyone who can access that code.  Even more so when the source control is a public Git repository hosted on sites such as Github or Gitlab.  After secrets are committed to a repository, removing them requires extensive effort and does not guarantee that they have not been copied or logged elsewhere.
 
