@@ -6,7 +6,7 @@ These guidelines do not intend to educate on the use of Terraform, nor are they 
 
 ## Develop in the Admin Console, Promote using Configuration-As-Code
 
-Ping recommends that use case development activities are performed in the PingOne web admin console wherever possible.  This recommendation is due to the complex nature of Workforce IAM and Customer IAM deployments that includes policy definition, user experience design and associated testing/validation of designed use cases.
+Ping recommends that use-case development activities are performed in the PingOne web admin console whenever possible.  This recommendation is due to the complex nature of Workforce IAM and Customer IAM deployments that includes policy definition, user experience design and associated testing/validation of designed use cases.
 
 After having been developed in the web admin console, configuration can be extracted as configuration-as-code to be stored in source control (such as a Git code repository) and linked with CI/CD tooling to automate the delivery of use cases into test and production environments.
 
@@ -22,9 +22,9 @@ Example / bootstrapped configuration may be useful as a starting point when init
 
 The definition of the example / bootstrapped configuration for new environment may also change over time, as new features are released and use case configuration best practices are defined.  Therefore, an environment created today may not be the same as an environment created a year from now.
 
-As a result, it is best practice to create a new environment as a "clean" (without example or bootstrapped configuration) environment for those environments outside of the initial development one.
+As a result, it is best practice to create a new environment as a "clean" (without example or bootstrapped configuration) environment for those environments outside of the initial development one. If environments are intended to be long-lasting (such as staging/prod), it may be enough to remove bootstrapped configuration manually when an environment is created. However, when working with dynamically created environments (such as dev) it is more efficient to develop a simple tool to remove example / bootstrapped configuration consistently.
 
-Currently, example / bootstrapped configuration must be manually removed from an environment.  Notable examples of demo configuration include:
+Notable examples of demo configuration include:
 
 #### Platform
 - The default branding theme
@@ -133,11 +133,9 @@ resource "pingone_population" "my_population" {
 }
 ```
 
-### Remove Example / Bootstrapped Configuration From Existing Environments
+## Protect Service Configuration and Data
 
-When following best practices in this section, there may be occasions where example / bootstrapped configuration is present within the environment but is not actively used to fulfil any use cases.  This "orphaned configuration" should be removed and use-cases retested so the configuration does not confuse any audit activities, and to prevent its accidental use at a later date.
-
-## Platform Secrets
+The following sections detail best practices to apply to ensure protection of production data (beyond what is covered in [Secrets Management](../index.md/#secrets-management) ) when using the PingOne Terraform provider.
 
 ### Regularly Rotate Worker Application Secrets
 
@@ -173,10 +171,6 @@ resource "pingone_application_secret" "foo" {
   }
 }
 ```
-
-## Protect Service Configuration and Data
-
-The following sections detail best practices to apply to ensure protection of production data when using the PingOne Terraform provider.
 
 ## Review use of API "force-delete" Provider Overrides
 
@@ -241,7 +235,7 @@ In a GitOps CICD promotion pipeline, configuration can be translated to Terrafor
 
 ### Use Group Role Assignments Over Terraform Managed User Role Assignments
 
-As of 24th October 2023, the PingOne platform supports assigning administrator roles groups, such that members of the group get the administrator roles assigned.
+As of 24th October 2023, the PingOne platform supports assigning [administrator roles to groups](https://docs.pingidentity.com/r/en-us/pingone/p1_c_groups), such that members of the group get the administrator roles assigned.
 
 Ping recommends that groups with admin role assignments are controlled by the Joiner/Mover/Leaver Identity Governance processes, separate to the Terraform CICD process that configures applications, policies, domain verification and so on.  It may be that the groups with their role assignments are initially seeded by a Terraform.  In this case, it should still be a separate Terraform process to the process that controls platform configuration, and the user group assignments should still happen in the Joiner/Mover/Leaver Identity Governance process.
 
