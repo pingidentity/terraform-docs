@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 1.2.0"
+  required_version = ">= 1.3.0"
 
   required_providers {
     pingone = {
       source  = "pingidentity/pingone"
-      version = ">= 0.21.0, < 1.0.0"
+      version = ">= 1.0.0, < 2.0.0"
     }
     time = {
       source  = "hashicorp/time"

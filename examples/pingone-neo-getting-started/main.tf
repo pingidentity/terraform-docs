@@ -132,17 +132,17 @@ resource "pingone_application" "my_native_app" {
   name           = "PingOne Credentials Sample Wallet App"
   enabled        = true
 
-  oidc_options {
-    type                        = "NATIVE_APP"
-    grant_types                 = ["AUTHORIZATION_CODE"]
-    response_types              = ["CODE"]
-    pkce_enforcement            = "S256_REQUIRED"
-    token_endpoint_authn_method = "NONE"
+  oidc_options = {
+    type                       = "NATIVE_APP"
+    grant_types                = ["AUTHORIZATION_CODE"]
+    response_types             = ["CODE"]
+    pkce_enforcement           = "S256_REQUIRED"
+    token_endpoint_auth_method = "NONE"
     redirect_uris = [
       "https://shocard.pingone.com/callback",
     ]
 
-    mobile_app {
+    mobile_app = {
       bundle_id    = "com.pingidentity.PingOneWalletSample"
       package_name = "com.pingidentity.shocard"
     }
@@ -185,8 +185,8 @@ resource "pingone_credential_type" "getting_started_credential" {
     bg_opacity_percent = 30
 
     # ensure images have content-type prefix defined and are base64 encoded
-    background_image = pingone_image.credentials_card_getting_started_background_image.uploaded_image[0].href
-    logo_image       = pingone_image.credentials_card_getting_started_logo_image.uploaded_image[0].href
+    background_image = pingone_image.credentials_card_getting_started_background_image.uploaded_image.href
+    logo_image       = pingone_image.credentials_card_getting_started_logo_image.uploaded_image.href
 
     card_color = "#69747d"
     text_color = "#ffffff"
@@ -279,8 +279,8 @@ resource "pingone_credential_type" "verifiedemployee" {
     description        = "Demo Proof of Employment"
     bg_opacity_percent = 100
 
-    background_image = pingone_image.credentials_card_verified_employee_background_image.uploaded_image[0].href
-    logo_image       = pingone_image.credentials_card_verified_employee_logo_image.uploaded_image[0].href
+    background_image = pingone_image.credentials_card_verified_employee_background_image.uploaded_image.href
+    logo_image       = pingone_image.credentials_card_verified_employee_logo_image.uploaded_image.href
 
     card_color = "#ffffff"
     text_color = "#000000"

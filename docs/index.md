@@ -6,14 +6,30 @@ The documentation aims to cover best practices and secure deployment guidance, w
 
 ## Getting Started
 
-<div class="banner" onclick="window.open('getting-started/pingone/','');">
-    <img style="height: 30px; width: 90%;" class="assets" src="img/logos/pingone-logo.svg" alt="PingOne logo" />
+<div class="banner">
+    <a href="getting-started/pingone/">
+        <img style="height: 30px; width: 90%;" class="assets" src="img/logos/pingone-logo.svg" alt="PingOne logo" />
+    </a>
 </div>
-<div class="banner" onclick="window.open('getting-started/davinci/','');">
-    <img style="height: 30px; width: 90%;" class="assets" src="img/logos/davinci-logo.svg" alt="PingOne DaVinci logo" />
+<div class="banner">
+    <a href="getting-started/davinci/">
+        <img style="height: 30px; width: 90%;" class="assets" src="img/logos/davinci-logo.svg" alt="PingOne DaVinci logo" />
+    </a>
 </div>
-<div class="banner" onclick="window.open('getting-started/pingdirectory/','');">
-    <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
+<div class="banner">
+    <a href="getting-started/pingdirectory/">
+        <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
+    </a>
+</div>
+<div class="banner">
+    <a href="getting-started/pingfederate/">
+        <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingfederate-logo.svg" alt="PingFederate logo" />
+    </a>
+</div>
+<div class="banner" style="padding: 6px 5px">
+    <a href="getting-started/configuration-promotion/">
+        <p style="font-family:Verdana; color:#071624; font-size: 15px; width: 100%; margin: 0px 0px;"  >Configuration Promotion</p>
+    </a>
 </div>
 
 ## Resources
@@ -42,7 +58,3 @@ The documentation aims to cover best practices and secure deployment guidance, w
         <a class="assetlinks" href="https://docs.pingidentity.com/" target=”_blank”>Documentation</a>
     </span>
 </div>
-
-## Prerequisites
-
-* Terraform CLI 1.1+

@@ -8,18 +8,16 @@ resource "pingone_environment" "my_environment" {
   type        = "SANDBOX"
   license_id  = var.pingone_environment_license_id
 
-  default_population {}
-
-  service {
+  services = [{
     type = "SSO"
-  }
+  }]
 }
 
 module "pingone_utils" {
   source  = "pingidentity/utils/pingone"
-  version = "0.0.7"
+  version = "0.1.0"
 
-  region         = pingone_environment.my_environment.region
+  region_code    = pingone_environment.my_environment.region
   environment_id = pingone_environment.my_environment.id
 
   custom_domain = pingone_custom_domain.my_custom_domain.domain_name

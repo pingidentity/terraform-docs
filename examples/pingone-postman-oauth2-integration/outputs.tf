@@ -5,7 +5,7 @@ output "pingone_environment_name" {
 
 output "postman_application_client_id" {
   description = "The client ID used for the Postman OAuth 2.0 authorization type integration.  As the application is configured to use PKCE, the client secret is not required."
-  value       = pingone_application.postman.oidc_options[0].client_id
+  value       = pingone_application.postman.oidc_options.client_id
 }
 
 output "postman_application_authorization_endpoint" {

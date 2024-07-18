@@ -47,20 +47,19 @@ resource "pingone_environment" "my_environment" {
   type        = "SANDBOX"
   license_id  = var.pingone_environment_license_id
 
-  default_population {}
-
-  service {
+  services = [{
     type = "SSO"
-  }
-  service {
-    type = "MFA"
-  }
-  service {
-    type = "Verify"
-  }
-  service {
-    type = "Credentials"
-  }
+    },
+    {
+      type = "MFA"
+    },
+    {
+      type = "Verify"
+    },
+    {
+      type = "Credentials"
+    }
+  ]
 }
 
 resource "time_static" "current" {}
