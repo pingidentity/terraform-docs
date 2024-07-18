@@ -17,7 +17,7 @@ The following environment variables should be set prior to running the example. 
 | `PINGONE_CLIENT_ID`                             | [PingOne - client_id](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#client_id)           | Required          |
 | `PINGONE_CLIENT_SECRET`                         | [PingOne - client_secret](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#client_secret)   | Required          |
 | `PINGONE_ENVIRONMENT_ID`                        | [PingOne - environment_id](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#environment_id) | Required          |
-| `PINGONE_REGION`                                | [PingOne - region](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#region)                 | Required          |
+| `PINGONE_REGION_CODE`                           | [PingOne - region_code](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#region_code)                 | Required          |
 
 
 ## Setting Variables

@@ -11,18 +11,16 @@ resource "pingone_system_application" "pingone_self_service" {
 
   type    = "PING_ONE_SELF_SERVICE"
   enabled = true
+
+  apply_default_theme         = true
+  enable_default_theme_footer = true
 }
 ```
 
-We then map the appropriate scopes to enable the specific self-service features we want using the `pingone_application_resource_grant`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/application_resource_grant" target="_blank">:octicons-link-external-16:</a> resource.
+We then select which self service capabilities (the scopes) we want to apply to the self service application.  The simplest way is to create a list, and select the appropriate scope data using the `pingone_resource_scope`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/data-sources/resource_scope" target="_blank">:octicons-link-external-16:</a> data source.
 ``` terraform
-resource "pingone_application_resource_grant" "pingone_self_service_grants" {
-  environment_id = pingone_environment.my_environment.id
-  application_id = pingone_system_application.pingone_self_service.id
-
-  resource_name = "PingOne API"
-
-  scope_names = [
+locals {
+  pingone_api_scopes = [
     # Manage Profile
     "p1:read:user",
     "p1:update:user",
@@ -59,6 +57,31 @@ resource "pingone_application_resource_grant" "pingone_self_service_grants" {
     "p1:update:oauthConsent",
   ]
 }
+
+data "pingone_resource_scope" "pingone_api" {
+  for_each = toset(local.pingone_api_scopes)
+
+  environment_id = pingone_environment.my_environment.id
+  resource_type  = "PINGONE_API"
+
+  name = each.key
+}
 ```
+
+We then map the appropriate scopes to enable the specific self-service features we want using the `pingone_application_resource_grant`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/application_resource_grant" target="_blank">:octicons-link-external-16:</a> resource.
+``` terraform
+resource "pingone_application_resource_grant" "my_awesome_spa_pingone_api_resource_grants" {
+  environment_id = pingone_environment.my_environment.id
+  application_id = pingone_system_application.pingone_self_service.id
+
+  resource_type = "PINGONE_API"
+
+  scopes = [
+    for scope in data.pingone_resource_scope.pingone_api : scope.id
+  ]
+}
+```
+
+The Self Service application is now configured with the required capabilities.
 
 The full runable example can be found on Github [here](https://github.com/pingidentity/terraform-docs/tree/main/examples/pingone-configuring-the-self-service-application).
