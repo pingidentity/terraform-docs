@@ -32,14 +32,15 @@ resource "pingone_environment" "my_environment" {
   type        = "SANDBOX"
   license_id  = var.license_id
 
-  service {
-    type = "SSO"
-  }
-
-  service {
-    type = "DaVinci"
-    tags = ["DAVINCI_MINIMAL"]
-  }
+  services = [
+    {
+      type = "SSO"
+    },
+    {
+      type = "DaVinci"
+      tags = ["DAVINCI_MINIMAL"]
+    }
+  ]
 }
 ```
 
