@@ -4,7 +4,7 @@ terraform {
   required_providers {
     pingone = {
       source  = "pingidentity/pingone"
-      version = ">= 0.23.0, < 1.0.0"
+      version = ">= 1.0.0, < 2.0.0"
     }
     time = {
       source  = "hashicorp/time"

@@ -77,13 +77,13 @@ resource "pingone_application" "windows_login_passwordless_app" {
   name           = "Windows Login Passwordless Desktop Agent"
   enabled        = true
 
-  oidc_options {
-    type                        = "NATIVE_APP"
-    grant_types                 = ["CLIENT_CREDENTIALS"]
-    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
-    redirect_uris               = ["winlogin.pingone.com://callbackauth"]
+  oidc_options = {
+    type                       = "NATIVE_APP"
+    grant_types                = ["CLIENT_CREDENTIALS"]
+    token_endpoint_auth_method = "CLIENT_SECRET_BASIC"
+    redirect_uris              = ["winlogin.pingone.com://callbackauth"]
 
-    certificate_based_authentication {
+    certificate_based_authentication = {
       key_id = pingone_key.ad_issuance_certificate.id
     }
   }
@@ -94,6 +94,11 @@ resource "pingone_application" "windows_login_passwordless_app" {
       error_message = "The selected environment must be a PingOne Workforce Environment.  Windows Login Passwordless cannot be configured on non-workforce enabled environments."
     }
   }
+}
+
+data "pingone_application_secret" "windows_login_passwordless_app" {
+  environment_id = data.pingone_environment.workforce_environment.id
+  application_id = pingone_application.windows_login_passwordless_app.id
 }
 
 resource "pingone_application_sign_on_policy_assignment" "windows_login_passwordless" {

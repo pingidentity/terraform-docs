@@ -15,19 +15,7 @@ Check the admin user's role permissions.  The admin user will need any of the fo
 * **Identity Data Read Only**
 * **Configuration Read Only**
 
-Some roles can be scoped to individual environments, including the **Environment Admin** role:
-
-* If the admin user has the **Environment Admin** role scoped to the organization, the admin user will automatically inherit this permission for new environments.
-* If the admin user has the **Environment Admin** role scoped to individual environments, the admin user will need the environment permission assigned after the environment has been created.
-
-!!! warning "Role grant restrictions"
-    Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role, or that has the **Environment Admin** role scoped to the entire organization.
-
-!!! note "Assigning Environment Permissions with Terraform"
-    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
-
-!!! note "Read more about PingOne Roles"
-    More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles)
+Please see the [Admin Role Management Considerations](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/guides/admin-role-management) guide on the provider's registry documentation for details on role assignment and considerations for admin role management when using Terraform.
 
 ## I've created a new environment (or population) with Terraform, but my admins can't view users, or manage group/population based configuration
 
@@ -36,18 +24,12 @@ Check the admin user's role permissions.  The admin user will need any of the fo
 * **Identity Data Admin**
 * **Identity Data Read Only**
 
-These roles are scoped to individual environments.  The admin user will need the environment level permission assigned after the new environment has been created.
+Please see the [Admin Role Management Considerations](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/guides/admin-role-management) guide on the provider's registry documentation for details on role assignment and considerations for admin role management when using Terraform.
 
-!!! warning "Role grant restrictions"
-    Admins cannot grant roles that they haven't already been granted themselves.  This can mean that admins cannot grant the appropriate role themselves, but would need to be granted through Terraform, or by another admin that has the equivalent role.
+## I get an error "Actor does not have permissions to access worker application client secrets"
 
-!!! note "Assigning Environment Permissions with Terraform"
-    Admin permissions can be assigned using Terraform after environment creation.  See [PingOne Role Permission Assignment](../../examples/pingone/role-assignment/) for an example of assigning roles using the PingOne Terraform provider.
+Admin actors (users, worker applications, connections) may not be able to view or rotate a worker application's secret when they previously have been able to as an unexpected change of behaviour.
 
-These roles may be scoped by environment, but can also be scoped to individual populations of users.  With **Identity Data Admin** as an example:
+The change in ability to manage a worker application's client secret typically occurs when the worker application is granted additional role permissions that the user, admin worker application or connection doesn't have. In effect, it means the worker application whose secret cannot be managed has a higher level of privilege to manage configuration and data within the tenant. The ability to view and change the secret is therefore restricted to mitigate privilege escalation issues where admin actors could potentially use the higher privileged worker application to make changes they are not authorised to make in the platform.
 
-* If the admin user has the **Identity Data Admin** role scoped to the environment, the admin user will automatically inherit this permission for new populations in the environment.
-* If the admin user has the **Identity Data Admin** role scoped to individual populations, the admin user will need the population level permission assigned after the population has been created.
-
-!!! note "Read more about PingOne Roles"
-    More information about role permissions can be found at the [PingOne Cloud Platform online documentation](https://docs.pingidentity.com/r/en-us/pingone/p1_c_roles)
+For more information, and guidance on how to resolve this error, see the [Admin Role Management Considerations - When Admins Cannot View or Manage a Worker Application Secret](https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/guides/admin-role-management#when-admins-cannot-view-or-manage-a-worker-application-secret) guide on the provider's registry documentation.

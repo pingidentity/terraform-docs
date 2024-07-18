@@ -35,9 +35,9 @@ Next, we fetch the required roles using the `pingidentity/utils/pingone`<a href=
 ``` terraform
 module "admin_utils" {
   source  = "pingidentity/utils/pingone"
-  version = "0.0.8"
+  version = "0.1.0"
   
-  region         = "EU" // Will be either NA, EU, CA or AP depending on your tenant region.
+  region_code    = "EU" // Will be either NA, EU, CA, AU or AP depending on your tenant region.
   environment_id = var.pingone_admin_environment_id
 }
 ```
@@ -49,9 +49,11 @@ resource "pingone_environment" "my_environment" {
   type        = "SANDBOX"
   license_id  = var.license_id
 
-  service {
-    type = "SSO"
-  }
+  services = [
+    {
+      type = "SSO"
+    }
+  ]
 }
 ```
 

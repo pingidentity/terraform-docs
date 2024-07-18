@@ -106,13 +106,13 @@ resource "pingone_password_policy" "my_password_policy" {
 
   name        = "My awesome password policy"
   
-  exclude_commonly_used_passwords = true
-  exclude_profile_data            = true
-  not_similar_to_current          = true
+  excludes_commonly_used_passwords = true
+  excludes_profile_data            = true
+  not_similar_to_current           = true
 
-  password_history {
-    prior_password_count = 6
-    retention_days       = 365
+  history = {
+    count          = 6
+    retention_days = 365
   }
 
   # ... other configuration parameters
@@ -149,10 +149,10 @@ resource "pingone_application" "my_application" {
   name = "My Awesome App"
   enabled        = true
 
-  oidc_options {
+  oidc_options = {
     type                        = "WORKER"
     grant_types                 = ["CLIENT_CREDENTIALS"]
-    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
+    token_endpoint_auth_method  = "CLIENT_SECRET_BASIC"
   }
 
   # ... other configuration parameters
@@ -178,15 +178,18 @@ The PingOne Terraform provider has a provider-level parameter named `global_opti
 
 There are two parameters that allow force-deletion of configuration, which could result in loss of data if not correctly used.
 
-### `environment.production_type_force_delete`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#production_type_force_delete" target="_blank">:octicons-link-external-16:</a>
+### `global_options.environment.production_type_force_delete`<a href="https://registry.terraform.io/providers/pingidentity/pingone/0.29.2/docs#production_type_force_delete" target="_blank">:octicons-link-external-16:</a>
 
-The purpose of the parameter is to override the API level restriction of not being able to destroy environments of type "PRODUCTION".  The default value of this parameter is `false`, meaning that environments will not be force-deleted if a `pingone_environment`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment" target="_blank">:octicons-link-external-16:</a> resource that has a `type` value of `PRODUCTION` has a destroy plan when run in the `terraform apply` phase.  Use of this parameter is designed to help facilitate development, testing or demonstration purposes and should be set to `false` (or left undefined) for environments that carry production data.
+!!! warning "Legacy Functionality"
+    The `global_options.environment.production_type_force_delete` global option was removed in the PingOne Terraform provider version `v1.0`.  This section applies to prior provider versions (`<= v0.29`).
+
+The purpose of the parameter is to override the API level restriction of not being able to destroy environments of type "PRODUCTION".  The default value of this parameter is `false`, meaning that environments will not be force-deleted if a `pingone_environment`<a href="https://registry.terraform.io/providers/pingidentity/pingone/0.29.2/docs/resources/environment" target="_blank">:octicons-link-external-16:</a> resource that has a `type` value of `PRODUCTION` has a destroy plan when run in the `terraform apply` phase.  Use of this parameter is designed to help facilitate development, testing or demonstration purposes and should be set to `false` (or left undefined) for environments that carry production data.
 
 The implementation of this option is that the environment type will be changed from `PRODUCTION` to `SANDBOX` before a delete API request is issued.  Consider instead changing the type to `SANDBOX` manually before running a plan that destroys an environment, instead of using this parameter.
 
 Misuse of the parameter may lead to unintended data loss and must be used with caution.
 
-### `population.contains_users_force_delete`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#contains_users_force_delete" target="_blank">:octicons-link-external-16:</a>
+### `global_options.population.contains_users_force_delete`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs#contains_users_force_delete" target="_blank">:octicons-link-external-16:</a>
 
 The purpose of the parameter is to override the API level restriction of not being able to destroy populations that contain user data.  The default value of this parameter is `false`, meaning that populations that contain user data will not be force-deleted if a `pingone_population`<a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/population" target="_blank">:octicons-link-external-16:</a> resource has a destroy plan when run in the `terraform apply` phase.  Use of this parameter is designed to help facilitate development, testing or demonstration purposes where non-production user data is created and can be safely discarded.  The parameter should be set to `false` (or left undefined) for environments that carry production data.
 
@@ -205,7 +208,7 @@ For example:
 resource "pingone_schema_attribute" "my_attribute" {
   environment_id = pingone_environment.my_environment.id
 
-  name         = "myAttribute"
+  name = "myAttribute"
   
   # ... other configuration parameters
 

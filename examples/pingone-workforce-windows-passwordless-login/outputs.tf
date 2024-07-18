@@ -5,13 +5,13 @@ output "windows_login_passwordless_ca_certificate_pem_file" {
 
 output "windows_login_passwordless_agent_client_id" {
   description = "The OIDC client ID to use when installing the Windows Login Passwordless Desktop Agent application."
-  value       = pingone_application.windows_login_passwordless_app.oidc_options[0].client_id
+  value       = pingone_application.windows_login_passwordless_app.oidc_options.client_id
 }
 
 
 output "windows_login_passwordless_agent_client_secret" {
   description = "The OIDC client secret to use when installing the Windows Login Passwordless Desktop Agent application."
-  value       = pingone_application.windows_login_passwordless_app.oidc_options[0].client_secret
+  value       = data.pingone_application_secret.windows_login_passwordless_app.secret
   sensitive   = true
 }
 
