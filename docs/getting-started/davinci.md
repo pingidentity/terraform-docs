@@ -106,44 +106,54 @@ The following steps describe how to connect Terraform to your PingOne instance:
         <img src="../../img/getting-started/pingone-console-edit-group-add-davinci-admin-role.png"  alt="PingOne Administration Console, Group Role Settings, Add DaVinci Admin role"/>
     </details>
 15. Save the role assignment.
-16. Navigate to the **Authentication Policies** page.
+16. The user created in step 8 must be added to the group, to inherit the admin role permissions.  On the **Users** tab, open the user list by clicking the **Add Individually** button.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-assign-individual-user-to-group.png"  alt="PingOne Administration Console, Assign user to group"/>
+    </details>
+17. Select the admin user created in step 8 and save.  The admin user that Terraform will use to manage configuration in PingOne DaVinci is now assigned to the group and has the appropriate permissions.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-individual-user-assigned-to-group.png"  alt="PingOne Administration Console, User assigned to group"/>
+    </details>
+18. Navigate to the **Authentication Policies** page.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-console-environment-home-sop.png"  alt="PingOne Administration Console, Authentication Policies Link"/>
     </details>
-17. Ensure that the **Single_Factor** policy is set as the environment default.  This policy should have **Login** as the only policy action.
+19. Ensure that the **Single_Factor** policy is set as the environment default.  This policy should have **Login** as the only policy action.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-console-sign-on-policy-single-factor.png"  alt="PingOne Administration Console, Single Factor SOP"/>
     </details>
-18. Navigate to the **Environment Properties** page.
+20. Navigate to the **Environment Properties** page.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-console-environment-home-environment.png"  alt="PingOne Administration Console, Environment Properties link"/>
     </details>
-19. Save the **Environment ID** value.  The environment ID will be used to authenticate the DaVinci Terraform provider.
+21. Save the **Environment ID** value.  The environment ID will be used to authenticate the DaVinci Terraform provider.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-console-environment-properties-ids.png"  alt="PingOne Administration Console, Add DaVinci user"/>
     </details>
-20. Open the **Self-Service URL** link in a private browser window.
+22. Open the **Self-Service URL** link in a private browser window.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-console-environment-properties-self-service.png"  alt="PingOne Administration Console, Add DaVinci user"/>
     </details>
-21. Enter the username and temporary password for the newly created user from step 8 and proceed to sign on.
+23. Enter the username and temporary password for the newly created user from step 8 and proceed to sign on.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-self-service-sign-on-form.png"  alt="PingOne Self Service, Sign on"/>
     </details>
-22. When prompted, proceed to change the password to a strong password of choice.  This new password will be used to authenticate the DaVinci Terraform provider.
-23. After successfully authenticating, retrieve the verification code sent to the created user's email inbox, and enter the verification code in the prompt.
+24. When prompted, proceed to change the password to a strong password of choice.  This new password will be used to authenticate the DaVinci Terraform provider.
+25. After successfully authenticating, retrieve the verification code sent to the created user's email inbox, and enter the verification code in the prompt.
     <details>
       <summary>Expand Screenshot</summary>
         <img src="../../img/getting-started/pingone-self-service-verification.png"  alt="PingOne Self Service, Verification"/>
     </details>
-24. On successful email verification, the account will be ready to use.  Close the Self-Service private browser window.
-25. Steps to configure the DaVinci Terraform provider using the created user's username and password values, along with the environment ID from step 14, can be found on the [Terraform Registry provider documentation](https://registry.terraform.io/providers/pingidentity/davinci/latest/docs).
+26. On successful email verification, the account will be ready to use.  Close the Self-Service private browser window.
+27. Steps to configure the DaVinci Terraform provider using the created user's username and password values, along with the environment ID from step 14, can be found on the [Terraform Registry provider documentation](https://registry.terraform.io/providers/pingidentity/davinci/latest/docs).
 
 ## Role Permissions for New Environments
 
