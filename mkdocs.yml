@@ -2,7 +2,7 @@ site_name: Terraform at Ping Identity
 repo_name: pingidentity/terraform-docs
 repo_url: https://github.com/pingidentity/terraform-docs
 site_url: https://terraform.pingidentity.cloud/
-copyright: © Copyright 2023 Ping Identity
+copyright: © Copyright 2024 Ping Identity
 extra_css:
   - mkdocs/overrides/stylesheets/extra.css
 
