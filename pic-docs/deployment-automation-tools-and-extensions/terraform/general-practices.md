@@ -3,7 +3,7 @@
 The following provides a set of best practices to apply when writing Terraform with Ping Identity providers and modules in general.  This guide is intended to be used alongside prov
 ider and service specific best practices.
 
-These guidelines do not intend to educate on the use of Terraform, nor are they a "Getting Started" guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with Ping Identity Terraform providers, visit the online [Getting Started](./../) guides.
+These guidelines do not intend to educate on the use of Terraform, nor are they a "Getting Started" guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with Ping Identity Terraform providers, visit the "getting started" guide associated with the provider(s) being used.
 
 ## General Use
 

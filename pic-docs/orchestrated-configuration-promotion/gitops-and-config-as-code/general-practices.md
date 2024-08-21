@@ -18,12 +18,12 @@ The reader is assumed to be past the discovery and exploration phase of Ping pro
 
 **With these concepts in mind, this document will explore the following areas:**
 
-  - [Export Configuration as Code](#export-configuration-as-code)
-  - [Validate Configuration](#validate-configuration)
-  - [Unit and Integration Tests](#unit-testing)
-  - [Audit and Review Changes](#audit-and-review-changes)
-  - [Promote and Deploy Configuration](#promote-and-deploy-configuration)
-  - [Verify Deployed Configuration](#continuous-deployment-configuration-verification)
+- [Export Configuration as Code](#export-configuration-as-code)
+- [Validate Configuration](#validate-configuration)
+- [Unit and Integration Tests](#unit-testing)
+- [Audit and Review Changes](#audit-and-review-changes)
+- [Promote and Deploy Configuration](#promote-and-deploy-configuration)
+- [Verify Deployed Configuration](#continuous-deployment-configuration-verification)
 
 ## Example Pipeline Diagram
 
@@ -31,7 +31,7 @@ For a common foundation on where concepts may be implemented into a pipeline, a 
 
 <details>
   <summary>Expand Image</summary>
-    <img src="../../img/configuration-promotion/generic-pipeline.png"  alt="Generic Pipeline"/>
+    <img src="../../../docs/img/configuration-promotion/generic-pipeline.png"  alt="Generic Pipeline"/>
 </details>
 
 ## Export Configuration as Code
@@ -100,9 +100,9 @@ Validating configuration as code (CaC) is an important prerequisite for building
 - static code analysis tools
 
 
-## Initial Configuration (Deployment) Validation
+## Initial Configuration Deployment Validation
 
-Configuration (deployment) validation beyond CaC validation by introspecting the environment after config deployment has taken place.  This introspection can include specific tests to ensure that the configuration has been applied successfully and consistently, and can also validate configuration that has been implicitly defined by the platform APIs on creation (such as default values for optional fields not provided during deployment configuration).
+Configuration deployment validation beyond CaC validation by introspecting the environment after config deployment has taken place.  This introspection can include specific tests to ensure that the configuration has been applied successfully and consistently, and can also validate configuration that has been implicitly defined by the platform APIs on creation (such as default values for optional fields not provided during deployment configuration).
 
 This validation step can ensure that environments are built consistently before running functional and non-functional tests against the environment.
 

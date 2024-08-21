@@ -2,7 +2,7 @@
 
 The following sections provide a set of best practices to apply when writing Terraform with the PingOne Terraform provider and associated modules.
 
-These guidelines do not intend to educate on the use of Terraform, nor are they a "Getting Started" guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with the PingOne Terraform provider, visit the online [PingOne provider Getting Started](./../../getting-started/pingone/) guide.
+These guidelines do not intend to educate on the use of Terraform, nor are they a "Getting Started" guide.  For more information about Terraform, visit [Hashicorp's Online Documentation](https://developer.hashicorp.com/terraform/docs).  To get started with the PingOne Terraform provider, visit the online [PingOne provider Getting Started](./getting-started.md) guide.
 
 ## Develop in the Admin Console, Promote using Configuration-As-Code
 
@@ -135,7 +135,7 @@ resource "pingone_population" "my_population" {
 
 ## Protect Service Configuration and Data
 
-The following sections detail best practices to apply to ensure protection of production data (beyond what is covered in [Secrets Management](../index.md/#secrets-management) ) when using the PingOne Terraform provider.
+The following sections detail best practices to apply to ensure protection of production data (beyond what is covered in [Secrets Management](../general-practices.md/#secrets-management) ) when using the PingOne Terraform provider.
 
 ### Regularly Rotate Worker Application Secrets
 
