@@ -1,0 +1,1 @@
+The documentation aims to cover best practices and secure deployment guidance, with examples of using multiple resources or providers to configure specific configurations and use cases. This documentation assumes a good working knowledge and experience in writing Terraform HCL, and of using the Terraform CLI to plan, apply and destroy resources.
