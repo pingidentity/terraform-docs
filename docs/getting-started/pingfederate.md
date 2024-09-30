@@ -58,7 +58,7 @@ The PingFederate Terraform provider applies configuration at the API endpoints u
 
 ## Determine credentials that are able to configure the server
 
-The provider supports basic authentication, Oauth2 client credentials flow authentication, and access token authentication for connection to the configuration API. In this example, basic authentication will be used.
+The provider supports basic authentication, OAuth2 client credentials flow authentication, and access token authentication for connection to the configuration API. In this example, basic authentication will be used.
 
 When using basic authentication, the provider will need the `username` and `password` of a user with permission to manage server configuration. In the PingFederate Docker image, the administrative user defaults to the username `administrator` with password `2FederateM0re`.
 
@@ -128,7 +128,7 @@ terraform {
   required_version = ">=1.4"
   required_providers {
     pingfederate = {
-      version = "~> 1.0"
+      version = ">= 1.0, < 2.0"
       source = "pingidentity/pingfederate"
     }
   }
