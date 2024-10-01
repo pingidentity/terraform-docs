@@ -50,10 +50,7 @@ Gaining access to the API depends on where your PingFederate instance is running
 
 where **<pf_host\>** is the network address of your PingFederate server. This target can be an IP address, a host name, or a fully qualified domain name. It must be reachable from your computer.
 
-If using OIDC, see the [OIDC Authentication](https://docs.pingidentity.com/r/en-us/pingfederate-110/pf_enabling_oidc_based_auth) page for more information on how to connect.  
-
-!!! note "Web console only"
-    OIDC  is only available for web console access and is not supported by the provider.
+If using OIDC, see the [OIDC Authentication](https://docs.pingidentity.com/r/en-us/pingfederate-110/pf_enabling_oidc_based_auth) page for more information on how to connect.
 
 When using a local container as shown above, the port mappings result in PingFederate being available at `https://localhost:9999/pingfederate/app#/` by default.  The provider supports an attribute `admin_api_path` which defaults to **/pf-admin-api/v1**.  If your environment has a load balancer or other network configuration that requires a different path to the API, you can configure the provider to use it.
 
@@ -61,9 +58,15 @@ The PingFederate Terraform provider applies configuration at the API endpoints u
 
 ## Determine credentials that are able to configure the server
 
-The configuration API connection established by the provider uses basic authentication. The provider will need the username and password of a user with permission to manage server configuration.
+The provider supports basic authentication, OAuth2 client credentials flow authentication, and access token authentication for connection to the configuration API. In this example, basic authentication will be used.
 
-In the PingFederate Docker image, the administrative user defaults to the username `administrator` with password `2FederateM0re`.
+When using basic authentication, the provider will need the `username` and `password` of a user with permission to manage server configuration. In the PingFederate Docker image, the administrative user defaults to the username `administrator` with password `2FederateM0re`.
+
+When using OAuth2 client credentials, the `client_id`, `client_secret`, and `token_url` attributes are required in the provider configuration, with `scopes` being optional.
+
+When using an access token, only `access_token` is required in the provider configuration.
+
+For examples of configuring other authentication methods, see the [registry documentation](https://registry.terraform.io/providers/pingidentity/pingfederate/latest/docs).
 
 ## Determine what version of PingFederate you are running
 
@@ -76,14 +79,14 @@ You can do this one of two ways:
 ```shell
 provider "pingfederate" {
   ...
-  product_version = "12.0.0"
+  product_version = "12.1"
 }
 ```
 
-* Setting the `PING_PRODUCT_VERSION` environment variable to the version of PingFederate you are running:
+* Setting the `PINGFEDERATE_PROVIDER_PRODUCT_VERSION` environment variable to the version of PingFederate you are running:
 
 ```shell
-export PING_PRODUCT_VERSION=12.0.0
+export PINGFEDERATE_PROVIDER_PRODUCT_VERSION=12.1
 ```
 
 If using the container, you can view the product version using by running a shell in the container and searching for the appropriate environment variable:
@@ -96,7 +99,7 @@ env | grep PING_PRODUCT_VERSION
 ```
 
 !!! note "Precedence"
-    The `product_version` attribute takes precedence over the `PING_PRODUCT_VERSION` environment variable.
+    The `product_version` attribute takes precedence over the `PINGFEDERATE_PROVIDER_PRODUCT_VERSION` environment variable.
 
 If neither is set, the provider will throw an error.
 
@@ -125,7 +128,7 @@ terraform {
   required_version = ">=1.4"
   required_providers {
     pingfederate = {
-      version = ">= 0.1.0, < 1.0.0"
+      version = ">= 1.0, < 2.0"
       source = "pingidentity/pingfederate"
     }
   }
@@ -141,7 +144,7 @@ provider "pingfederate" {
   # Warning: 'insecure_trust_all_tls' configures the provider to trust any certificate
   # presented by the PingFederate server.
   insecure_trust_all_tls = true
-  product_version = "12.0.0"
+  product_version = "12.1"
 }
 
 # Update the default global contact information
@@ -155,8 +158,8 @@ resource "pingfederate_server_settings" "serverSettingsExample" {
   }
 }
 
-# Update server settings general settings
-resource "pingfederate_server_settings_general_settings" "serverSettingsGeneralSettingsExample" {
+# Update general server settings
+resource "pingfederate_server_settings_general" "serverSettingsGeneralExample" {
   datastore_validation_interval_secs          = 300
   disable_automatic_connection_validation     = false
   idp_connection_transaction_logging_override = "NONE"
