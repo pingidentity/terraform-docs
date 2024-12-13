@@ -8,27 +8,32 @@ The documentation aims to cover best practices and secure deployment guidance, w
 
 <div class="banner">
     <a href="getting-started/pingone/">
-        <img style="height: 30px; width: 90%;" class="assets" src="img/logos/pingone-logo.svg" alt="PingOne logo" />
+        <p style="font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, sans-serif; color:#071624; font-size: 15px; width: 100%; top: 50%;"><strong>PingOne</strong> Services</p>
     </a>
 </div>
 <div class="banner">
     <a href="getting-started/davinci/">
-        <img style="height: 30px; width: 90%;" class="assets" src="img/logos/davinci-logo.svg" alt="PingOne DaVinci logo" />
+        <p style="font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, sans-serif; color:#071624; font-size: 15px; width: 100%; top: 50%;"><strong>PingOne</strong> DaVinci</p>
     </a>
 </div>
 <div class="banner">
-    <a href="getting-started/pingdirectory/">
-        <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingdirectory-logo.svg" alt="PingDirectory logo" />
+    <a href="getting-started/pingone-advanced-identity-cloud/">
+        <p style="font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, sans-serif; color:#071624; font-size: 15px; width: 100%; top: 50%;"><strong>PingOne</strong> Advanced Identity Cloud</p>
     </a>
 </div>
 <div class="banner">
     <a href="getting-started/pingfederate/">
-        <img style="height: 30px; width: 75%;" class="assets" src="img/logos/pingfederate-logo.svg" alt="PingFederate logo" />
+        <p style="font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, sans-serif; color:#071624; font-size: 15px; width: 100%; top: 50%;"><strong>Ping</strong>Federate</p>
+    </a>
+</div>
+<div class="banner">
+    <a href="getting-started/pingdirectory/">
+        <p style="font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, sans-serif; color:#071624; font-size: 15px; width: 100%; top: 50%;"><strong>Ping</strong>Directory</p>
     </a>
 </div>
 <div class="banner" style="padding: 6px 5px">
     <a href="getting-started/configuration-promotion/">
-        <p style="font-family:Verdana; color:#071624; font-size: 15px; width: 100%; margin: 0px 0px;"  >Configuration Promotion</p>
+        <p style="font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, sans-serif; color:#071624; font-size: 15px; width: 100%; top: 50%;">Configuration Promotion</p>
     </a>
 </div>
 
