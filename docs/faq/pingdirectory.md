@@ -1,9 +1,3 @@
-# Frequently Asked Questions - PingDirectory
+# Content Moved
 
-## What versions of PingDirectory are supported?
-
-The PingDirectory provider currently supports version `9.1.0.0` and `9.2.0.0` of PingDirectory.
-
-## How do I configure trust for connecting over HTTPS?
-
-See the [Getting Started guide](../../getting-started/pingdirectory#trusting-pingdirectory-certificates)
+This content has moved to [developer.pingidentity.com/terraform](https://developer.pingidentity.com/terraform/products/pingdirectory/faq.html)
