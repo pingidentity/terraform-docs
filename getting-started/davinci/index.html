@@ -1,0 +1,1336 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://terraform.pingidentity.com/getting-started/davinci/">
+      
+      
+        <link rel="prev" href="../pingone/">
+      
+      
+        <link rel="next" href="../pingdirectory/">
+      
+      
+      <link rel="icon" href="../../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+    
+    
+      
+        <title>DaVinci Provider - Terraform at Ping Identity</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../mkdocs/overrides/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-pingone-davinci" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Terraform at Ping Identity" class="md-header__button md-logo" aria-label="Terraform at Ping Identity" data-md-component="logo">
+      <!-- Logo -->
+
+  
+
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Terraform at Ping Identity
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DaVinci Provider
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pingidentity/terraform-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pingidentity/terraform-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Welcome
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../best-practices/" class="md-tabs__link">
+          
+  
+  
+  Best Practices
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/pingone/" class="md-tabs__link">
+          
+  
+  
+  FAQ
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Terraform at Ping Identity" class="md-nav__button md-logo" aria-label="Terraform at Ping Identity" data-md-component="logo">
+      <!-- Logo -->
+
+  
+
+
+    </a>
+    Terraform at Ping Identity
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pingidentity/terraform-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pingidentity/terraform-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Welcome
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Welcome
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pingone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingOne Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    DaVinci Provider
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    DaVinci Provider
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pingone-davinci-service-license" class="md-nav__link">
+    <span class="md-ellipsis">
+      The PingOne DaVinci Service License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-pingone-for-terraform-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure PingOne for Terraform access
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-permissions-for-new-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Role Permissions for New Environments
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pingdirectory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingDirectory Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pingfederate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingFederate Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration-promotion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration Promotion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Best Practices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Best Practices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../best-practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Writing Terraform HCL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../best-practices/pingone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingOne
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../best-practices/davinci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DaVinci
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PingOne
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            PingOne
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/pingone/role-assignment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Role Permission Assignment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            FAQ
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/pingone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingOne Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/davinci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DaVinci Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/pingdirectory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingDirectory Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/pingfederate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PingFederate Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pingone-davinci-service-license" class="md-nav__link">
+    <span class="md-ellipsis">
+      The PingOne DaVinci Service License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-pingone-for-terraform-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure PingOne for Terraform access
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-permissions-for-new-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Role Permissions for New Environments
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="getting-started-pingone-davinci">Getting Started - PingOne DaVinci<a class="headerlink" href="#getting-started-pingone-davinci" title="Permanent link"> ¶</a></h1>
+<div class="banner" onclick="window.open('https://registry.terraform.io/providers/pingidentity/davinci/latest','');">
+    <img class="assets" src="../../img/logos/tf-logo.svg" alt="Terraform logo" />
+    <span class="caption">
+        <a class="assetlinks" href="https://registry.terraform.io/providers/pingidentity/davinci/latest" target=”_blank”>Registry</a>
+    </span>
+</div>
+
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link"> ¶</a></h2>
+<ul>
+<li>Terraform CLI 1.1+</li>
+<li>A licensed or trial PingOne cloud subscription - <a href="https://www.pingidentity.com/en/try-ping.html">Try Ping here</a></li>
+<li>Administrator access to the <a href="https://docs.pingidentity.com/r/en-us/pingone/p1_access_admin_console">PingOne Administration Console</a></li>
+<li>The PingOne DaVinci service enabled in the subscription. <a href="https://pingidentity.github.io/terraform-docs/getting-started/davinci/#the-pingone-davinci-service-license">Check PingOne DaVinci is enabled</a>.</li>
+</ul>
+<h2 id="the-pingone-davinci-service-license">The PingOne DaVinci Service License<a class="headerlink" href="#the-pingone-davinci-service-license" title="Permanent link"> ¶</a></h2>
+<p>The PingOne DaVinci service is not enabled by default in the PingOne Cloud Platform trial, or with licenses that do not explicitly include the DaVinci service.  When configuring environments using the PingOne provider, the DaVinci service will not be available unless the service has been enabled.</p>
+<div class="admonition note">
+<p class="admonition-title">Enable the DaVinci service</p>
+<ul>
+<li>If you have an existing Ping Identity license and would like to try PingOne DaVinci, please contact your Ping Identity account manager.</li>
+<li>If you have registered for a trial account and would like to try PingOne DaVinci, or have questions about Ping Identity solutions, please <a href="https://www.pingidentity.com/en/company/contact-sales.html">contact sales</a>.</li>
+</ul>
+</div>
+<p>More information about PingOne solutions can be found <a href="https://docs.pingidentity.com/r/en-us/pingone/pingone_p1solutions_main">here</a>.</p>
+<p>You can check whether DaVinci is enabled through the PingOne Administration Console:</p>
+<ol>
+<li>First, log in to the <strong>PingOne Administration</strong> Console using your unique admin sign-on link.</li>
+<li>Once signed in, click <strong>Add Environment</strong>.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-admins-env.png"  alt="PingOne Administration Console, Add Environment Button"/>
+    </details></li>
+<li>Click <strong>Build your own solution</strong>.</li>
+<li>Check that <strong>PingOne DaVinci</strong> is in the list of available services.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-create-environment-davinci.png"  alt="PingOne Administration Console, Build your own solution"/>
+    </details></li>
+</ol>
+<h2 id="configure-pingone-for-terraform-access">Configure PingOne for Terraform access<a class="headerlink" href="#configure-pingone-for-terraform-access" title="Permanent link"> ¶</a></h2>
+<p>The following steps describe how to connect Terraform to your PingOne instance:</p>
+<ol>
+<li>Log in to your <strong>PingOne Administration Console</strong>. On registration for a trial, a link will be sent to your provided email address.</li>
+<li>Create a new environment for DaVinci administration users by clicking the <strong>Add Environment</strong> button.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-admins-env.png"  alt="PingOne Administration Console, New Environment Link"/>
+    </details></li>
+<li>Ensure <strong>Build your own solution</strong> is selected, and then select <strong>PingOne SSO</strong> and <strong>PingOne DaVinci</strong> services and click <strong>Next</strong>.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-org-home-new-environment-with-services.png"  alt="PingOne Administration Console, New Environment, Select Services"/>
+    </details></li>
+<li>Proceed through to the new environment form.  Enter a name, an optional description, an environment type, region and license as shown.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-org-home-new-environment-form.png"  alt="PingOne Administration Console, New Environment Form"/>
+    </details></li>
+<li>Open the newly created environment and follow the <strong>Manage Environment</strong> button link.</li>
+<li>Navigate to the <strong>Users</strong> link in the left menu, by expanding the <strong>Directory</strong> section.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-users.png"  alt="PingOne Administration Console, Users Link"/>
+    </details></li>
+<li>Add a new User with the <strong>+</strong> icon.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-users-home.png"  alt="PingOne Administration Console, Users Home"/>
+    </details></li>
+<li>Set a name, a username, email, population and a temporary password.  The email mailbox for the provided email should be accessible, as the email will need to be verified with a one time code.  The screenshot shows an optional "+terraform" notation in the email address, as supported by some email vendors.  This is not required for Terraform use.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-add-user-davinci.png"  alt="PingOne Administration Console, Add DaVinci user"/>
+    </details></li>
+<li>Enable the user with the toggle switch.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-add-user-settings.png"  alt="PingOne Administration Console, User Settings"/>
+    </details></li>
+<li>Navigate to the <strong>Groups</strong> link in the left menu, by expanding the <strong>Directory</strong> section.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-groups.png"  alt="PingOne Administration Console, Groups Link"/>
+    </details></li>
+<li>Add a new Group with the <strong>+</strong> icon.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-groups-home.png"  alt="PingOne Administration Console, Groups Home"/>
+    </details></li>
+<li>Create a group that will define role permissions for DaVinci Terraform administration.  Set a name, an optional description and an optional population assignment.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-add-group-davinci-admins.png"  alt="PingOne Administration Console, Add DaVinci Admins Group"/>
+    </details></li>
+<li>After the group has been created, select the <strong>Roles</strong> tab to manage the associated administrator roles.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-edit-group-roles.png"  alt="PingOne Administration Console, Group Role Settings"/>
+    </details></li>
+<li>Click the <strong>Grant Roles</strong> button link, and proceed to assign the <strong>DaVinci Admin</strong> role to the group.  For most customer tenants, it is best practice to scope the admin role to individual environments.  In this case, select the current environment that the group is being created in (in the screenshot example, this is the <strong>DaVinci Administrators</strong> environment).  For organization tenants that do not carry production data (such as demo/trial environments), the DaVinci role may be scoped to the organization for simplicity.  See the <a href="#role-permissions-for-new-environments">Role Permissions for New Environments</a> section for more details.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-edit-group-add-davinci-admin-role.png"  alt="PingOne Administration Console, Group Role Settings, Add DaVinci Admin role"/>
+    </details></li>
+<li>Save the role assignment.</li>
+<li>The user created in step 8 must be added to the group, to inherit the admin role permissions.  On the <strong>Users</strong> tab, open the user list by clicking the <strong>Add Individually</strong> button.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-assign-individual-user-to-group.png"  alt="PingOne Administration Console, Assign user to group"/>
+    </details></li>
+<li>Select the admin user created in step 8 and save.  The admin user that Terraform will use to manage configuration in PingOne DaVinci is now assigned to the group and has the appropriate permissions.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-individual-user-assigned-to-group.png"  alt="PingOne Administration Console, User assigned to group"/>
+    </details></li>
+<li>Navigate to the <strong>Authentication Policies</strong> page.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-sop.png"  alt="PingOne Administration Console, Authentication Policies Link"/>
+    </details></li>
+<li>Ensure that the <strong>Single_Factor</strong> policy is set as the environment default.  This policy should have <strong>Login</strong> as the only policy action.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-sign-on-policy-single-factor.png"  alt="PingOne Administration Console, Single Factor SOP"/>
+    </details></li>
+<li>Navigate to the <strong>Environment Properties</strong> page.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-home-environment.png"  alt="PingOne Administration Console, Environment Properties link"/>
+    </details></li>
+<li>Save the <strong>Environment ID</strong> value.  The environment ID will be used to authenticate the DaVinci Terraform provider.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-properties-ids.png"  alt="PingOne Administration Console, Add DaVinci user"/>
+    </details></li>
+<li>Open the <strong>Self-Service URL</strong> link in a private browser window.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-console-environment-properties-self-service.png"  alt="PingOne Administration Console, Add DaVinci user"/>
+    </details></li>
+<li>Enter the username and temporary password for the newly created user from step 8 and proceed to sign on.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-self-service-sign-on-form.png"  alt="PingOne Self Service, Sign on"/>
+    </details></li>
+<li>When prompted, proceed to change the password to a strong password of choice.  This new password will be used to authenticate the DaVinci Terraform provider.</li>
+<li>After successfully authenticating, retrieve the verification code sent to the created user's email inbox, and enter the verification code in the prompt.
+    <details>
+      <summary>Expand Screenshot</summary>
+        <img src="../../img/getting-started/pingone-self-service-verification.png"  alt="PingOne Self Service, Verification"/>
+    </details></li>
+<li>On successful email verification, the account will be ready to use.  Close the Self-Service private browser window.</li>
+<li>Steps to configure the DaVinci Terraform provider using the created user's username and password values, along with the environment ID from step 14, can be found on the <a href="https://registry.terraform.io/providers/pingidentity/davinci/latest/docs">Terraform Registry provider documentation</a>.</li>
+</ol>
+<h2 id="role-permissions-for-new-environments">Role Permissions for New Environments<a class="headerlink" href="#role-permissions-for-new-environments" title="Permanent link"> ¶</a></h2>
+<p>When creating new environments, either through the PingOne Administration Console or through the <a href="https://registry.terraform.io/providers/pingidentity/pingone/latest/docs/resources/environment">PingOne Terraform provider</a>, role permissions must be set on the DaVinci administrator group created above.</p>
+<p>The DaVinci administration user must have the following role:</p>
+<ul>
+<li><strong>DaVinci Admin</strong>, scoped to the organization (to capture all new created environments), or scoped to each new environment that the DaVinci Terraform provider should manage.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Role Combination Change</p>
+<p>As of 15th August 2023, the existing role combination of <strong>Environment Admin</strong> and <strong>Identity Data Admin</strong> to manage DaVinci configuration was replaced with the <strong>DaVinci Admin</strong> role.  See <a href="https://terraform.pingidentity.com/faq/davinci/#ive-enabled-davinci-on-my-environment-with-terraform-but-the-environment-isnt-listed-in-the-davinci-admin-console">Frequently Asked Questions - DaVinci</a> for more information.</p>
+</div>
+<p>See <a href="../../examples/pingone/role-assignment/">PingOne Role Permission Assignment</a> for an example of assigning roles using the PingOne Terraform provider.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © Copyright 2024 Ping Identity
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "instant", "navigation.top", "content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
