@@ -1,7 +1,7 @@
 site_name: Terraform at Ping Identity
 repo_name: pingidentity/terraform-docs
 repo_url: https://github.com/pingidentity/terraform-docs
-site_url: https://terraform.pingidentity.cloud/
+site_url: https://terraform.pingidentity.com/
 copyright: © Copyright 2024 Ping Identity
 extra_css:
   - mkdocs/overrides/stylesheets/extra.css
@@ -36,9 +36,6 @@ edit_uri: ""
 
 markdown_extensions:
   - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
   - admonition
   - pymdownx.highlight:
       anchor_linenums: true
@@ -53,8 +50,20 @@ markdown_extensions:
       permalink: " ¶"
 
 plugins:
-  - search:
-        separator: '[\s\-\.]+'
+  - redirects:
+      redirect_maps:
+        'best-practices/index.md': 'https://developer.pingidentity.com/terraform/best_practices.html'
+        'best-practices/pingone/index.md': 'https://developer.pingidentity.com/terraform/products/pingone/best_practices.html'
+        'examples/pingone/configuring-the-pingone-self-service-application.md': 'https://developer.pingidentity.com/terraform/products/pingone/tutorials/configuring_the_self_service_application.html'
+        'examples/pingone/role-assignment.md': 'https://developer.pingidentity.com/terraform/products/pingone/tutorials/role_assignment.html'
+        'faq/pingdirectory.md': 'https://developer.pingidentity.com/terraform/products/pingdirectory/faq.html'
+        'faq/pingfederate.md': 'https://developer.pingidentity.com/terraform/products/pingfederate/faq.html'
+        'faq/pingone.md': 'https://developer.pingidentity.com/terraform/products/pingone/faq.html'
+        'getting-started/configuration-promotion.md': 'https://developer.pingidentity.com/config-automation-promotion/concepts/overview.html'
+        'getting-started/pingdirectory.md': 'https://developer.pingidentity.com/terraform/products/pingdirectory/getting_started.html'
+        'getting-started/pingfederate.md': 'https://developer.pingidentity.com/terraform/products/pingfederate/getting_started.html'
+        'getting-started/pingone.md': 'https://developer.pingidentity.com/terraform/products/pingone/getting_started.html'
+        'index.md': 'https://developer.pingidentity.com/terraform'
 
 nav:
   - Welcome:
